@@ -5,11 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Точка опоры — самопомощь в трудных ситуациях: разбор с вопросами, цветовой тест, дневник самочувствия и практики саморегуляции.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#B8221A">
+<meta name="theme-color" content="#F2E8DA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15100E" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Точка опоры">
 <title>Точка опоры</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,171 +20,301 @@
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#EEF1F2; --surface:#FFFFFF; --ink:#1B2631; --muted:#5A6672; --line:#D3D9DE;
-  --accent:#1E4A6D; --accent-ink:#FFFFFF; --sage:#2E6A5A; --soft:#E2E9EE; --warn:#9A3B22;
+  --bg:#F2E8DA; --surface:#FBF6EE; --raised:#FFFDF9; --ink:#1B1614; --muted:#76685D; --line:#E3D5C2; --soft:#ECDFCC;
+  --accent:#B8221A; --accent-hi:#C92D23; --accent-ink:#FBF3E8; --accent-soft:#F3DDD3;
+  --shadow-sm:0 1px 2px rgba(74,38,20,.06),0 3px 10px -6px rgba(74,38,20,.16);
+  --shadow:0 1px 2px rgba(74,38,20,.05),0 16px 38px -24px rgba(74,38,20,.38);
+  --shadow-lg:0 28px 70px -30px rgba(74,38,20,.5);
+  --ease:cubic-bezier(.22,.8,.26,1); --spring:cubic-bezier(.34,1.45,.64,1);
   --serif:"Literata", Georgia, "Times New Roman", serif;
-  --sans:"Golos Text", "Segoe UI", Roboto, Arial, sans-serif;
+  --sans:"Golos Text", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#11161B; --surface:#182028; --ink:#E4E9ED; --muted:#99A5B0; --line:#2A343E;
-    --accent:#86B4DA; --accent-ink:#0E1A24; --sage:#7DBBA7; --soft:#1F2A34; --warn:#E59A7F;
+    --bg:#15100E; --surface:#1F1815; --raised:#271F1B; --ink:#F2E6D6; --muted:#A99A8B; --line:#3A2E27; --soft:#2C221D;
+    --accent:#E04A3C; --accent-hi:#EA5D4F; --accent-ink:#1A0E0B; --accent-soft:#3B201B;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow:0 18px 40px -24px rgba(0,0,0,.7); --shadow-lg:0 28px 70px -30px rgba(0,0,0,.8);
+    color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#11161B; --surface:#182028; --ink:#E4E9ED; --muted:#99A5B0; --line:#2A343E;
-  --accent:#86B4DA; --accent-ink:#0E1A24; --sage:#7DBBA7; --soft:#1F2A34; --warn:#E59A7F;
+  --bg:#15100E; --surface:#1F1815; --raised:#271F1B; --ink:#F2E6D6; --muted:#A99A8B; --line:#3A2E27; --soft:#2C221D;
+  --accent:#E04A3C; --accent-hi:#EA5D4F; --accent-ink:#1A0E0B; --accent-soft:#3B201B;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow:0 18px 40px -24px rgba(0,0,0,.7); --shadow-lg:0 28px 70px -30px rgba(0,0,0,.8);
+  color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
-html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.2;margin:0 0 .5em}
-h1{font-size:2rem} h2{font-size:1.45rem} h3{font-size:1.12rem}
+#root{height:100%}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);-webkit-tap-highlight-color:transparent}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.18;margin:0 0 .5em;letter-spacing:-.005em}
+h1{font-size:clamp(1.7rem,3.6vw,2.2rem)} h2{font-size:1.4rem} h3{font-size:1.12rem}
 p{margin:0 0 .8em}
 a{color:var(--accent)}
 button,input,textarea,select{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-img{max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+::selection{background:var(--accent-soft)}
 
 /* shell */
-.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
-.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;border-right:1px solid var(--line);padding:28px 18px;display:flex;flex-direction:column;gap:6px;background:var(--surface)}
-.brand{display:flex;align-items:center;gap:10px;margin:0 6px 26px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
-.brand b{font-family:var(--serif);font-weight:600;font-size:1.2rem;letter-spacing:.01em}
-.mark{display:grid;grid-template-columns:repeat(4,7px);grid-template-rows:repeat(2,7px);gap:2px}
-.mark i{display:block;border-radius:1.5px}
-.nav{display:flex;flex-direction:column;gap:2px}
-.nav button{all:unset;cursor:pointer;padding:10px 12px;border-radius:8px;color:var(--muted);display:flex;align-items:center;gap:10px}
-.nav button:hover{color:var(--ink);background:var(--soft)}
-.nav button[aria-current="page"]{color:var(--ink);background:var(--soft);font-weight:500}
-.nav svg{width:18px;height:18px;flex:none}
-.side .who{margin-top:auto;font-size:.88rem;color:var(--muted);padding:0 8px}
-.side .who button{all:unset;cursor:pointer;color:var(--accent);margin-top:4px}
-main{padding:40px 40px 80px;min-width:0}
-.wrap{max-width:760px;margin:0 auto}
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100%}
+.side{position:sticky;top:0;height:100vh;height:100dvh;padding:30px 18px 26px;display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;margin:0 8px 30px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-weight:600;font-size:1.18rem}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{all:unset;cursor:pointer;padding:11px 14px;border-radius:14px;color:var(--muted);display:flex;align-items:center;gap:12px;transition:background .25s var(--ease),color .25s var(--ease),transform .2s var(--spring)}
+.nav button:hover{color:var(--ink);background:color-mix(in srgb,var(--surface) 60%,transparent)}
+.nav button:active{transform:scale(.97)}
+.nav button[aria-current="page"]{color:var(--ink);background:var(--surface);box-shadow:var(--shadow-sm)}
+.nav button[aria-current="page"] svg{color:var(--accent)}
+.nav svg{width:19px;height:19px;flex:none}
+.side .who{margin-top:auto;display:flex;align-items:center;gap:10px;padding:8px;border-radius:14px;cursor:pointer;background:none;border:0;text-align:left;color:var(--ink);transition:background .25s var(--ease)}
+.side .who:hover{background:var(--surface)}
+.side .who small{display:block;color:var(--muted);font-size:.82rem}
+.ava{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--serif);font-size:1rem;flex:none}
+main{padding:52px 48px 64px;min-width:0}
+.wrap{max-width:720px;margin:0 auto}
 .tabbar{display:none}
+.topava{display:none}
 
 @media (max-width:820px){
-  .app{grid-template-columns:1fr}
+  .app{grid-template-columns:minmax(0,1fr)}
   .side{display:none}
-  main{padding:22px 18px 110px}
-  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:20;justify-content:space-around}
-  .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.7rem;color:var(--muted);padding:4px 6px;min-width:56px}
-  .tabbar button[aria-current="page"]{color:var(--accent)}
+  main{padding:22px 20px calc(100px + env(safe-area-inset-bottom,0px))}
+  .tabbar{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:20;justify-content:space-around;padding:6px;border-radius:22px;
+    background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);box-shadow:var(--shadow-lg);border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+  .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.68rem;color:var(--muted);padding:6px 4px;min-width:56px;border-radius:14px;transition:color .25s,transform .2s var(--spring),background .25s}
+  .tabbar button:active{transform:scale(.92)}
+  .tabbar button[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
   .tabbar svg{width:22px;height:22px}
-  h1{font-size:1.6rem}
+  .topava{display:grid;border:0;cursor:pointer}
 }
 
-/* elements */
-.lede{color:var(--muted);font-size:1.02rem;max-width:62ch}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;margin:0 0 16px}
-.panel.flat{background:transparent}
-.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media (max-width:620px){.grid2{grid-template-columns:1fr}}
-.btn{cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:10px 18px;border-radius:9px;font-weight:500}
-.btn:hover{filter:brightness(1.08)}
-.btn.ghost{background:transparent;color:var(--accent)}
-.btn.quiet{background:transparent;border-color:var(--line);color:var(--ink)}
-.btn.small{padding:6px 12px;font-size:.9rem}
-.btn.danger{background:transparent;border-color:var(--warn);color:var(--warn)}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
-label.f{display:block;font-weight:500;margin:14px 0 6px}
-.hint{color:var(--muted);font-size:.9rem;margin:-2px 0 8px}
-input[type=text],input[type=password],input[type=date],input[type=time],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--paper)}
-textarea{min-height:92px;resize:vertical;line-height:1.5}
-input[type=range]{width:100%;accent-color:var(--accent)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.93rem}
-.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.opts{display:flex;flex-direction:column;gap:8px}
-.opt{cursor:pointer;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px 14px}
-.opt[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
-.scale{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted)}
-.val{font-family:var(--serif);font-size:1.6rem}
-.muted{color:var(--muted)}
-.small{font-size:.88rem}
-hr{border:0;border-top:1px solid var(--line);margin:18px 0}
-.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:9px;font-size:.92rem;z-index:50;max-width:90vw}
-.empty{border:1px dashed var(--line);border-radius:12px;padding:22px;color:var(--muted);text-align:center}
+/* transitions */
+@keyframes in-fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes in-fwd{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:none}}
+@keyframes in-back{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:none}}
+.anim-fade{animation:in-fade .46s var(--ease) both}
+.anim-fwd{animation:in-fwd .44s var(--ease) both}
+.anim-back{animation:in-back .44s var(--ease) both}
+.wrap.leave-fade,.wrap.leave-fwd,.wrap.leave-back{transition:opacity .16s ease,transform .16s ease;opacity:0}
+.wrap.leave-fade{transform:translateY(-6px)}
+.wrap.leave-fwd{transform:translateX(-22px)}
+.wrap.leave-back{transform:translateX(22px)}
+.anim-fade .stagger>*{animation:in-fade .5s var(--ease) both}
+.anim-fade .stagger>*:nth-child(2){animation-delay:.05s}
+.anim-fade .stagger>*:nth-child(3){animation-delay:.1s}
+.anim-fade .stagger>*:nth-child(4){animation-delay:.15s}
+.anim-fade .stagger>*:nth-child(5){animation-delay:.2s}
+.anim-fade .stagger>*:nth-child(n+6){animation-delay:.24s}
 
-/* signature strip */
-.strip{display:flex;height:6px;border-radius:3px;overflow:hidden;margin:0 0 22px}
-.strip i{flex:1}
+/* elements */
+.lede{color:var(--muted);font-size:1.03rem;max-width:60ch}
+.panel{background:var(--surface);border:1px solid color-mix(in srgb,var(--line) 75%,transparent);border-radius:24px;padding:24px;margin:0 0 16px;box-shadow:var(--shadow)}
+.panel.flat{background:transparent;box-shadow:none;border-color:transparent;padding-left:4px;padding-right:4px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2>.panel{margin:0}
+@media (max-width:620px){.grid2{grid-template-columns:1fr}}
+.btn{cursor:pointer;border:0;background:var(--accent);color:var(--accent-ink);padding:13px 24px;border-radius:999px;font-weight:500;line-height:1.2;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 10px 22px -12px color-mix(in srgb,var(--accent) 80%,transparent);
+  transition:transform .22s var(--spring),background .25s var(--ease),box-shadow .25s var(--ease),opacity .2s}
+.btn:hover{background:var(--accent-hi)}
+.btn:active{transform:scale(.95)}
+.btn.ghost{background:var(--accent-soft);color:var(--accent);box-shadow:none}
+.btn.quiet{background:var(--raised);color:var(--ink);box-shadow:var(--shadow-sm);border:1px solid var(--line)}
+.btn.quiet:hover{background:var(--surface)}
+.btn.link{background:none;box-shadow:none;color:var(--muted);padding:10px 6px}
+.btn.link:hover{color:var(--ink)}
+.btn.small{padding:8px 16px;font-size:.9rem}
+.btn.danger{background:transparent;color:var(--accent);box-shadow:none;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+label.f{display:block;font-weight:500;margin:16px 0 8px}
+.hint{color:var(--muted);font-size:.92rem;margin:-2px 0 10px}
+input[type=text],input[type=password],textarea,select{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:16px;background:var(--raised);
+  transition:border-color .25s var(--ease),box-shadow .25s var(--ease);-webkit-appearance:none;appearance:none}
+input[type=text]:focus,input[type=password]:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+textarea{min-height:130px;resize:vertical;line-height:1.55}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 22px) 55%,calc(100% - 16px) 55%;background-size:6px 6px;background-repeat:no-repeat}
+
+/* range */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:36px;background:transparent;--p:50%}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(to right,var(--accent) var(--p),var(--soft) var(--p))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;border-radius:50%;background:var(--raised);margin-top:-11px;box-shadow:0 0 0 2px var(--accent),0 6px 14px -4px rgba(74,38,20,.4);transition:transform .2s var(--spring)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
+input[type=range]::-moz-range-track{height:8px;border-radius:4px;background:var(--soft)}
+input[type=range]::-moz-range-progress{height:8px;border-radius:4px;background:var(--accent)}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:var(--raised);box-shadow:0 0 0 2px var(--accent),0 6px 14px -4px rgba(74,38,20,.4)}
+.scale{display:flex;justify-content:space-between;font-size:.84rem;color:var(--muted)}
+.bignum{font-family:var(--serif);font-size:4.2rem;line-height:1;text-align:center;margin:18px 0 8px;font-variant-numeric:tabular-nums}
+.bignum small{font-size:1rem;color:var(--muted)}
+
+/* chips & options */
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{cursor:pointer;border:1px solid var(--line);background:var(--raised);border-radius:999px;padding:9px 16px;font-size:.95rem;
+  transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),transform .22s var(--spring)}
+.chip:hover{border-color:color-mix(in srgb,var(--ink) 30%,var(--line))}
+.chip:active{transform:scale(.93)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{cursor:pointer;display:flex;align-items:center;gap:14px;text-align:left;border:1px solid var(--line);background:var(--raised);border-radius:18px;padding:15px 18px;box-shadow:var(--shadow-sm);
+  transition:border-color .25s var(--ease),transform .22s var(--spring),background .25s var(--ease)}
+.opt::before{content:"";width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;transition:border-color .25s,background .25s}
+.opt:active{transform:scale(.98)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--surface)}
+.opt[aria-pressed="true"]::before{border-color:var(--accent);background:radial-gradient(circle,var(--accent) 0 5px,transparent 5.5px)}
+.toggle{-webkit-appearance:none;appearance:none;width:46px;height:28px;border-radius:14px;background:var(--soft);position:relative;cursor:pointer;flex:none;transition:background .25s var(--ease);border:1px solid var(--line)}
+.toggle::after{content:"";position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--raised);box-shadow:var(--shadow-sm);transition:transform .3s var(--spring)}
+.toggle:checked{background:var(--accent);border-color:var(--accent)}
+.toggle:checked::after{transform:translateX(18px)}
+.switchrow{display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer}
+
+.muted{color:var(--muted)} .small{font-size:.88rem}
+hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.empty{border:1.5px dashed var(--line);border-radius:18px;padding:24px;color:var(--muted);text-align:center}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,14px) scale(.97)}to{opacity:1;transform:translate(-50%,0)}}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-size:.93rem;z-index:90;max-width:90vw;box-shadow:var(--shadow-lg);animation:toast-in .4s var(--spring) both;transition:opacity .3s,transform .3s}
+.toast.out{opacity:0;transform:translate(-50%,8px)}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes popin{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.modal{position:fixed;inset:0;background:rgba(27,22,20,.32);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:70;padding:20px;animation:fadein .25s ease both}
+.modal .panel{max-width:440px;width:100%;margin:0;animation:popin .35s var(--spring) both;box-shadow:var(--shadow-lg)}
 
 /* home */
-.hello{margin-bottom:26px}
+.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin:0 0 28px}
+.greet{font-size:clamp(2rem,5vw,2.9rem);margin:0 0 .3em;letter-spacing:-.015em}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.stat b{display:block;font-family:var(--serif);font-size:1.7rem;font-weight:500}
+.stat{background:var(--surface);border:1px solid color-mix(in srgb,var(--line) 75%,transparent);border-radius:20px;padding:16px 18px;box-shadow:var(--shadow-sm)}
+.stat b{display:block;font-family:var(--serif);font-size:1.8rem;font-weight:500;line-height:1.2}
 .stat span{color:var(--muted);font-size:.86rem}
-.task{border-left:4px solid var(--sage)}
+.task{border-left:4px solid var(--accent)}
 .list{list-style:none;margin:0;padding:0}
 .list li{border-top:1px solid var(--line)}
 .list li:first-child{border-top:0}
-.list button{all:unset;cursor:pointer;display:flex;justify-content:space-between;gap:12px;width:100%;padding:12px 2px;box-sizing:border-box}
-.list button:hover .t{color:var(--accent)}
+.list button{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding:13px 4px;box-sizing:border-box;border-radius:12px;transition:background .25s var(--ease),padding .25s var(--ease)}
+.list button:hover{background:var(--raised);padding-left:10px;padding-right:10px}
 .list .d{color:var(--muted);font-size:.86rem;white-space:nowrap}
 .mini{display:inline-flex;gap:2px;vertical-align:middle}
-.mini i{width:10px;height:14px;border-radius:2px;display:block}
+.mini i{width:10px;height:14px;border-radius:3px;display:block}
 
 /* wizard */
-.steps{display:flex;gap:4px;margin:0 0 18px}
-.steps i{flex:1;height:4px;border-radius:2px;background:var(--line)}
-.steps i.on{background:var(--accent)}
-.stepname{color:var(--muted);font-size:.9rem;margin-bottom:4px}
-.nextbar{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
-.practice{background:var(--soft);border-radius:12px;padding:18px;margin:12px 0}
-.practice ol{margin:.4em 0 0;padding-left:1.2em}
-.practice li{margin:.3em 0}
-.tabs{display:flex;gap:6px;margin:10px 0}
+.wtop{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px}
+.wch{color:var(--muted);font-size:.92rem}
+.prog{height:5px;background:var(--soft);border-radius:3px;overflow:hidden;margin:8px 0 6px}
+.prog i{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .6s var(--ease)}
+.q{font-family:var(--serif);font-weight:500;font-size:clamp(1.65rem,3.6vw,2.25rem);line-height:1.18;margin:24px 0 12px;letter-spacing:-.01em}
+.wnext{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:28px}
+.practice{background:var(--soft);border-radius:20px;padding:20px 22px;margin:14px 0}
+.practice ol{margin:.5em 0 0;padding-left:1.2em}
+.practice li{margin:.35em 0}
+.tabs{display:flex;gap:8px;margin:14px 0 6px;flex-wrap:wrap}
+.crisis{margin-top:22px;font-size:.88rem;color:var(--muted)}
 
 /* colour test */
-.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:520px;margin:18px auto}
-.sw{aspect-ratio:1;border-radius:14px;border:0;cursor:pointer;transition:transform .12s}
-.sw:hover{transform:scale(1.03)}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:500px;margin:22px auto}
+.sw{aspect-ratio:1;border-radius:22px;border:0;cursor:pointer;box-shadow:0 14px 26px -16px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.2);
+  transition:transform .28s var(--spring),opacity .22s ease}
+.sw:hover{transform:translateY(-2px) scale(1.02)}
+.sw:active{transform:scale(.92)}
+.sw.pop{transform:scale(.55);opacity:0}
 .sw.gone{visibility:hidden}
 .picked{display:flex;gap:6px;justify-content:center;min-height:30px;margin-top:6px}
-.picked i{width:26px;height:26px;border-radius:6px;display:block}
+.picked i{width:28px;height:28px;border-radius:8px;display:block;box-shadow:var(--shadow-sm)}
+.picked i:last-child{animation:popin .35s var(--spring) both}
 .probe-count{text-align:center;color:var(--muted);font-size:.9rem}
-.order{display:flex;gap:4px;margin:8px 0}
+.order{display:flex;gap:5px;margin:10px 0}
 .order div{flex:1;text-align:center;font-size:.72rem;color:var(--muted)}
-.order div i{display:block;height:34px;border-radius:6px;margin-bottom:3px}
-.meter{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
-.meter i{display:block;height:100%;background:var(--accent)}
-.bars .b{display:grid;grid-template-columns:170px 1fr 36px;gap:10px;align-items:center;margin:7px 0;font-size:.92rem}
-@media (max-width:620px){.bars .b{grid-template-columns:110px 1fr 30px}}
-.bars .b.max .meter i{background:var(--warn)}
+.order div i{display:block;height:38px;border-radius:10px;margin-bottom:4px}
+.meter{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ink);border-radius:4px;animation:grow .9s var(--ease) both;transform-origin:left}
+@keyframes grow{from{transform:scaleX(0)}to{transform:none}}
+.val{font-family:var(--serif);font-size:1.8rem;line-height:1.3}
+.bars .b{display:grid;grid-template-columns:180px 1fr 34px;gap:12px;align-items:center;margin:9px 0;font-size:.93rem}
+@media (max-width:620px){.bars .b{grid-template-columns:110px 1fr 28px}}
+.bars .b.max .meter i{background:var(--accent)}
 table.t{width:100%;border-collapse:collapse;font-size:.92rem}
-table.t td,table.t th{padding:8px 6px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+table.t td,table.t th{padding:9px 6px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
 .scroll{overflow-x:auto}
 
 /* practices */
-details.m{border-top:1px solid var(--line);padding:12px 0}
-details.m summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.m{border-top:1px solid var(--line);padding:13px 2px}
+details.m summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
 details.m summary::-webkit-details-marker{display:none}
-details.m summary .code{color:var(--muted);font-size:.86rem;white-space:nowrap}
-details.m[open] summary{margin-bottom:8px}
-.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;font-size:.94rem}
+details.m summary::after{content:"";width:9px;height:9px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);transition:transform .3s var(--ease);flex:none;margin-left:8px}
+details.m[open] summary::after{transform:rotate(-135deg)}
+details.m summary .code{color:var(--muted);font-size:.84rem;white-space:nowrap;margin-left:auto}
+details.m[open]>:not(summary){animation:in-fade .35s var(--ease) both}
+details.m[open] summary{margin-bottom:10px}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;font-size:.95rem;margin:0}
 @media (max-width:620px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}}
 .kv dt{color:var(--muted)} .kv dd{margin:0}
-.timer{font-family:var(--serif);font-size:2.4rem;text-align:center;margin:8px 0}
+.breath{height:190px;display:grid;place-items:center}
+.ball{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--accent-hi),var(--accent));box-shadow:0 20px 40px -18px color-mix(in srgb,var(--accent) 80%,transparent);transform:scale(.55)}
+.rx-t{font-family:var(--serif);font-size:1.6rem;text-align:center;font-variant-numeric:tabular-nums}
 
-/* auth */
-.auth{max-width:440px;margin:8vh auto;padding:0 18px}
-.auth .strip{height:10px}
-.modal{position:fixed;inset:0;background:rgba(10,16,22,.45);display:flex;align-items:center;justify-content:center;z-index:60;padding:18px}
-.modal .panel{max-width:440px;width:100%;margin:0}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+/* auth, welcome */
+.auth{max-width:420px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center;padding:32px 20px}
+.auth .mark{margin-bottom:22px}
+.boot{height:100%;display:grid;place-items:center}
+.boot svg{animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(.92);opacity:.75}}
+.welcome{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;cursor:pointer;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.welcome.out{opacity:0;transform:scale(1.03);pointer-events:none}
+.welcome .mark{animation:wmark 1s var(--spring) both;margin-bottom:28px;display:inline-block}
+@keyframes wmark{from{opacity:0;transform:scale(.6) rotate(-8deg)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.welcome .g1{font-family:var(--serif);font-size:clamp(1.3rem,3.4vw,1.7rem);color:var(--muted);margin:0 0 4px;animation:rise .8s .25s var(--ease) both}
+.welcome .g2{font-size:clamp(2.6rem,8vw,4.2rem);margin:0 0 14px;animation:rise .8s .38s var(--ease) both}
+.welcome .g3{color:var(--muted);animation:rise .8s .55s var(--ease) both}
+.welcome .tap{position:absolute;bottom:calc(36px + env(safe-area-inset-bottom,0px));left:0;right:0;font-size:.86rem;color:var(--muted);animation:fadein .8s 1.4s both}
+
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;background:var(--soft);border-radius:999px;padding:4px;margin:14px 0 8px}
+.seg button{white-space:nowrap;cursor:pointer;border:0;background:transparent;border-radius:999px;padding:10px 12px;font-size:.93rem;color:var(--muted);transition:background .3s var(--ease),color .3s var(--ease),box-shadow .3s var(--ease),transform .2s var(--spring)}
+.seg button:active{transform:scale(.96)}
+.seg button[aria-pressed="true"]{background:var(--raised);color:var(--ink);box-shadow:var(--shadow-sm)}
+.grid2>.panel{display:flex;flex-direction:column}
+.grid2>.panel>.btn{margin-top:auto;align-self:flex-start}
+.ball{background:radial-gradient(circle at 35% 30%,#E0584B,var(--accent) 70%)}
+
+/* --- выравнивание 1.1.1 --- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border:1px solid transparent;text-align:center;vertical-align:middle}
+.btn.small{min-height:38px;padding:0 16px}
+.btn.quiet{border-color:var(--line)}
+.btn.link{padding:0 12px}
+.btn.danger{border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+input[type=text],input[type=password],select{min-height:48px;padding-top:0;padding-bottom:0;line-height:46px}
+select{line-height:normal}
+input[type=range]{margin:0;display:block}
+.row>input[type=text]{flex:1;min-width:0}
+.bignum .bn{position:relative;display:inline-block}
+.bignum .bn small{position:absolute;left:100%;bottom:.62em;margin-left:8px;white-space:nowrap;font-family:var(--sans);font-size:.95rem;line-height:1}
+.hint[id="a-err"]{margin:8px 0 6px;min-height:1.4em}
+.switchrow>span{flex:1}
+.list button>span:first-child{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+@media (max-width:620px){
+  .bars .b{grid-template-columns:1fr 30px;row-gap:5px;margin:12px 0}
+  .bars .b>span:first-child{grid-column:1/-1}
+  .bars .b>span:last-child{text-align:right}
+}
+@media (max-width:520px){
+  .acts{flex-direction:column;align-items:stretch}
+  .acts>.btn{width:100%}
+}
+.stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.chip{border-radius:20px;max-width:100%;text-align:left}
+@media (max-width:360px){.stats{gap:8px}.stat{padding:14px 12px}.stat span{font-size:.8rem}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
 "use strict";
-const APP_VERSION="1.0.3";
+const APP_VERSION="1.1.1";
 /* ---------- справочные данные (по материалам М. Е. Сандомирского) ---------- */
 const LUSCHER = {
   0:{name:"Серый",hex:"#8B8B8B"},
@@ -287,6 +420,7 @@ const EMO=[
 const SPHERES=["Работа, лидерство","Семья","Отношения","Здоровье","Деньги","Самореализация","Другое"];
 const RELAX=["Кисти","Предплечья","Плечи","Стопы","Голени","Бёдра","Спина","Живот","Грудь","Шея","Лицо","Челюсть","Глаза","Язык"];
 
+
 /* ---------- утилиты ---------- */
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
@@ -294,19 +428,26 @@ const DAY=864e5;
 const fmtD=t=>new Date(t).toLocaleDateString("ru-RU",{day:"numeric",month:"long"});
 const fmtDT=t=>new Date(t).toLocaleString("ru-RU",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
 const plural=(n,a,b,c)=>{const m=n%10,h=n%100;return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<10||h>=20))?b:c};
-function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2600)}
-function mini(order){return `<span class="mini" aria-hidden="true">${order.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</span>`}
-function strip(h){return `<div class="strip" aria-hidden="true"${h?` style="height:${h}px"`:""}>${STRIP.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</div>`}
-async function sha(s){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))|0;return "x"+h}}
+const reduceMotion=()=>!!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches);
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const buzz=()=>{try{if(navigator.vibrate)navigator.vibrate(8)}catch(e){}};
+function greet(){const h=new Date().getHours();return h>=5&&h<12?"Доброе утро":h>=12&&h<18?"Добрый день":"Добрый вечер"}
+function firstName(){return (S.userName||"").trim().split(/\s+/)[0]||""}
+const KEYHOLE=n=>`<svg viewBox="0 0 1024 1024" width="${n}" height="${n}" aria-hidden="true"><rect width="1024" height="1024" rx="236" fill="var(--accent)"/><path fill="#F3E6D3" d="M512 232 A160 160 0 0 1 580 537 L660 832 L364 832 L444 537 A160 160 0 0 1 512 232 Z"/></svg>`;
+function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.classList.add("out");setTimeout(()=>t.remove(),320)},2600)}
 function ask(msg,opts){opts=opts||{};return new Promise(res=>{
   const m=document.createElement("div");m.className="modal";m.setAttribute("role","dialog");m.setAttribute("aria-modal","true");
-  m.innerHTML=`<div class="panel"><p>${esc(msg)}</p>${opts.input?`<textarea id="ask-in" placeholder="${esc(opts.placeholder||"")}"></textarea>`:""}<div class="row" style="margin-top:14px;justify-content:flex-end"><button class="btn quiet" data-k="no">Отмена</button><button class="btn ${opts.danger?"danger":""}" data-k="yes">${esc(opts.ok||"Да")}</button></div></div>`;
-  const done=v=>{m.remove();res(v)};
+  m.innerHTML=`<div class="panel"><p>${esc(msg)}</p>${opts.input?`<textarea id="ask-in" placeholder="${esc(opts.placeholder||"")}"></textarea>`:""}<div class="row" style="margin-top:18px;justify-content:flex-end"><button class="btn quiet" data-k="no">Отмена</button><button class="btn" data-k="yes">${esc(opts.ok||"Да")}</button></div></div>`;
+  const done=v=>{m.style.transition="opacity .2s";m.style.opacity="0";setTimeout(()=>m.remove(),200);res(v)};
   m.addEventListener("click",e=>{e.stopPropagation();const k=e.target.dataset&&e.target.dataset.k;if(k==="yes")done(opts.input?(m.querySelector("#ask-in").value||""):true);else if(k==="no"||e.target===m)done(opts.input?null:false)});
   m.addEventListener("keydown",e=>{if(e.key==="Escape")done(opts.input?null:false)});
   document.body.appendChild(m);(m.querySelector("#ask-in")||m.querySelector('[data-k="yes"]')).focus();
 })}
-const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
+function mini(order){return `<span class="mini" aria-hidden="true">${order.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</span>`}
+async function sha(s){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))|0;return "x"+h}}
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+const SS={get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}},del(k){try{sessionStorage.removeItem(k)}catch(e){}}};
+function setP(el){const min=+el.min||0,max=+el.max||10;el.style.setProperty("--p",((+el.value-min)/(max-min)*100)+"%")}
 
 /* ---------- анализ цветового выбора ---------- */
 function analyze(order){
@@ -322,15 +463,16 @@ const soText=so=>so<=10?"эмоциональный фон ровный, бла�
 const anxText=a=>a===0?"тревога не выражена":a<=3?"небольшая тревога":a<=5?"заметная тревога":"выраженная тревога";
 const vkText=v=>v<0.9?"организм просит восстановления и покоя":v<=1.1?"баланс между активностью и отдыхом":"мобилизация, возбуждение, установка на действие";
 
-/* ---------- хранилище ---------- */
-const KINDS=["sessions","tests","notes"];
-const S={mode:null,userName:"",pid:null,db:null,uid:null,data:{sessions:[],tests:[],notes:[]},profile:{code:""},view:"home",param:null,wiz:null,ct:null,relax:null,diaryType:"episode"};
 
+/* ---------- состояние и хранилище ---------- */
+const KINDS=["sessions","tests","notes"];
+const S={mode:null,userName:"",pid:null,db:null,uid:null,data:{sessions:[],tests:[],notes:[]},profile:{code:""},view:"home",param:null,wiz:null,ct:null,relax:null,diaryType:"episode",df:null};
+const skey=()=>S.mode==="cloud"?"c-"+S.uid:S.pid;
 const Store={
+  base(){return S.db.doc(`data/users/${S.uid}/profile`)},
   async load(){
     if(S.mode==="cloud"){
-      const base=S.db.doc(`data/users/${S.uid}/profile`);
-      const [p,...cols]=await Promise.all([base.get(),...KINDS.map(k=>base.collection(k).get())]);
+      const [p,...cols]=await Promise.all([this.base().get(),...KINDS.map(k=>this.base().collection(k).get())]);
       if(p.exists)S.profile=Object.assign({code:""},p.data());
       KINDS.forEach((k,i)=>S.data[k]=cols[i].docs.map(d=>d.data()));
     }else{
@@ -338,63 +480,63 @@ const Store={
       S.profile=LS.get(`tochka:${S.pid}:profile`,{code:""});
     }
     KINDS.forEach(k=>S.data[k].sort((a,b)=>b.createdAt-a.createdAt));
+    S.wiz=LS.get(`tochka:${skey()}:draft`,null);
   },
   async put(kind,obj){
     const arr=S.data[kind];const i=arr.findIndex(x=>x.id===obj.id);
     if(i>=0)arr[i]=obj;else arr.unshift(obj);
     arr.sort((a,b)=>b.createdAt-a.createdAt);
     try{
-      if(S.mode==="cloud")await S.db.doc(`data/users/${S.uid}/profile`).collection(kind).doc(obj.id).set(obj);
+      if(S.mode==="cloud")await this.base().collection(kind).doc(obj.id).set(obj);
       else if(!LS.set(`tochka:${S.pid}:${kind}`,arr))throw new Error("ls");
     }catch(e){toast("Не удалось сохранить. Проверьте соединение и попробуйте ещё раз.")}
   },
   async del(kind,id){
     S.data[kind]=S.data[kind].filter(x=>x.id!==id);
     try{
-      if(S.mode==="cloud")await S.db.doc(`data/users/${S.uid}/profile`).collection(kind).doc(id).delete();
+      if(S.mode==="cloud")await this.base().collection(kind).doc(id).delete();
       else LS.set(`tochka:${S.pid}:${kind}`,S.data[kind]);
     }catch(e){toast("Не удалось удалить запись.")}
   },
   async saveProfile(){
-    try{
-      if(S.mode==="cloud")await S.db.doc(`data/users/${S.uid}/profile`).set(S.profile);
-      else LS.set(`tochka:${S.pid}:profile`,S.profile);
-    }catch(e){toast("Не удалось сохранить профиль.")}
+    try{if(S.mode==="cloud")await this.base().set(S.profile);else LS.set(`tochka:${S.pid}:profile`,S.profile)}
+    catch(e){toast("Не удалось сохранить профиль.")}
   },
-  async wipe(){
-    for(const k of KINDS)for(const x of [...S.data[k]])await Store.del(k,x.id);
-  }
+  async wipe(){for(const k of KINDS)for(const x of [...S.data[k]])await Store.del(k,x.id)}
 };
+let draftT=null;
+function saveDraft(){clearTimeout(draftT);draftT=setTimeout(()=>{if(S.wiz)LS.set(`tochka:${skey()}:draft`,S.wiz);else LS.del(`tochka:${skey()}:draft`)},250)}
 
 /* ---------- иконки ---------- */
 const IC={
-  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg>',
-  wiz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>',
-  color:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
-  diary:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h11a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
-  prac:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="5" r="2"/><path d="M12 7v7m0 0l-4 6m4-6l4 6M6 10l6-1 6 1"/></svg>'
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5l8-6.5 8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"/></svg>',
+  wiz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="9" r="4"/><path d="M10.2 12.6L8.5 20h7l-1.7-7.4"/></svg>',
+  color:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="2.2"/><rect x="13" y="4" width="7" height="7" rx="2.2"/><rect x="4" y="13" width="7" height="7" rx="2.2"/><rect x="13" y="13" width="7" height="7" rx="2.2"/></svg>',
+  diary:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.5 3.5h10a1.5 1.5 0 0 1 1.5 1.5v14a1.5 1.5 0 0 1-1.5 1.5h-10z"/><path d="M9.5 8h5M9.5 12h5M9.5 16h3"/></svg>',
+  prac:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7.5" opacity=".55"/></svg>'
 };
 const NAV=[["home","Кабинет","home"],["wizard","Разбор ситуации","wiz"],["color","Цветовой тест","color"],["diary","Дневник","diary"],["practices","Практики","prac"]];
 const NAVSHORT={home:"Кабинет",wizard:"Разбор",color:"Цвета",diary:"Дневник",practices:"Практики"};
 
-/* ---------- каркас ---------- */
+/* ---------- отрисовка и переходы ---------- */
 const root=document.getElementById("root");
-function go(view,param){S.view=view;S.param=param||null;render();window.scrollTo(0,0)}
-function navKey(){return S.view.startsWith("session")?"wizard":S.view.startsWith("test")?"color":S.view==="profile"?"home":S.view}
-function shell(inner){
+function navKey(){return S.view==="session"?"wizard":S.view==="test"?"color":S.view==="profile"?"home":S.view}
+function ava(size){const n=firstName();return `<span class="ava" style="${size?`width:${size}px;height:${size}px`:""}">${esc(n?n[0].toUpperCase():"•")}</span>`}
+function shell(inner,anim){
   const k=navKey();
   return `<div class="app">
   <aside class="side">
-    <button class="brand" data-go="home"><span class="mark">${STRIP.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</span><b>Точка опоры</b></button>
+    <button class="brand" data-go="home">${KEYHOLE(32)}<b>Точка опоры</b></button>
     <nav class="nav" aria-label="Разделы">${NAV.map(([v,l,i])=>`<button data-go="${v}" ${k===v?'aria-current="page"':""}>${IC[i]}${l}</button>`).join("")}</nav>
-    <div class="who">${esc(S.userName||"Мой профиль")}<br><button data-go="profile">Профиль и данные</button></div>
+    <button class="who" data-go="profile">${ava()}<span>${esc(S.userName||"Мой профиль")}<small>Профиль и данные</small></span></button>
   </aside>
-  <main><div class="wrap">${inner}</div></main>
+  <main><div class="wrap ${anim?"anim-"+anim:""}">${inner}</div></main>
   <nav class="tabbar" aria-label="Разделы">${NAV.map(([v,,i])=>`<button data-go="${v}" ${k===v?'aria-current="page"':""}>${IC[i]}${NAVSHORT[v]}</button>`).join("")}</nav>
 </div>`;
 }
-function render(){
-  if(!S.mode){root.innerHTML=S.mode===null&&S.booting?`<div class="auth">${strip(10)}<p class="muted">Загружаем…</p></div>`:authView();return}
+function render(anim){
+  const y=window.scrollY;
+  if(!S.mode){root.innerHTML=`<div class="wrap ${anim?"anim-"+anim:""}" style="height:100%">${authView()}</div>`;afterRender();return}
   const v=S.view;let html="";
   if(v==="home")html=homeView();
   else if(v==="wizard")html=wizView();
@@ -404,198 +546,248 @@ function render(){
   else if(v==="session")html=sessionView(S.param);
   else if(v==="test")html=testView(S.param);
   else if(v==="profile")html=profileView();
-  root.innerHTML=shell(html);
-  if(v==="practices"&&S.relax)tickRelax(true);
+  root.innerHTML=shell(html,anim);
+  if(!anim)window.scrollTo(0,y);
+  afterRender();
+}
+function afterRender(){
+  document.querySelectorAll('input[type=range]').forEach(setP);
+  const p=document.querySelector(".prog i");
+  if(p&&p.dataset.from){p.style.width=p.dataset.from;requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.width=p.dataset.to}))}
+  const f=document.querySelector("[data-autofocus]");
+  if(f&&window.innerWidth>820)setTimeout(()=>f.focus({preventScroll:true}),reduceMotion()?0:260);
+  if(S.view==="practices"&&S.relax)relaxLoop();
+}
+let busy=false;
+async function nav(fn,dir){
+  if(busy)return;busy=true;
+  const w=document.querySelector(".wrap"),rm=reduceMotion();
+  if(w&&!rm){w.classList.add("leave-"+dir);await wait(160)}
+  try{fn()}finally{window.scrollTo(0,0);render(rm?null:dir);busy=false}
+}
+function go(view,param,dir){nav(()=>{S.view=view;S.param=param||null},dir||"fade")}
+
+/* ---------- приветствие ---------- */
+function showWelcome(first){
+  if(SS.get("tochka:welcomed"))return;SS.set("tochka:welcomed","1");
+  const n=firstName();
+  const w=document.createElement("div");w.className="welcome";w.setAttribute("role","dialog");w.setAttribute("aria-label","Приветствие");
+  w.innerHTML=`<div><span class="mark">${KEYHOLE(76)}</span>
+  ${n?`<p class="g1">${greet()},</p><h1 class="g2">${esc(n)}</h1>`:`<h1 class="g2">${greet()}</h1>`}
+  <p class="g3">${first?"Добро пожаловать в «Точку опоры».":"Хорошо, что вы здесь."}</p></div>
+  <div class="tap">Коснитесь, чтобы продолжить</div>`;
+  let gone=false;const close=()=>{if(gone)return;gone=true;w.classList.add("out");setTimeout(()=>w.remove(),650)};
+  w.addEventListener("click",close);document.addEventListener("keydown",close,{once:true});
+  document.body.appendChild(w);setTimeout(close,reduceMotion()?1500:2800);
 }
 
 /* ---------- вход (локальный режим) ---------- */
 function authView(){
   const profs=LS.get("tochka:profiles",[]);
+  if(S.pinFor){
+    const p=S.pinFor;
+    return `<div class="auth"><span class="mark">${KEYHOLE(56)}</span>
+    <h1 class="greet">${greet()}, ${esc(p.name.split(" ")[0])}</h1>
+    <p class="lede">Введите PIN, чтобы открыть свои записи.</p>
+    <input id="a-pin" type="password" inputmode="numeric" maxlength="8" autocomplete="current-password" aria-label="PIN-код" data-autofocus>
+    <p class="hint" id="a-err" style="color:var(--accent);margin-top:10px;min-height:1.4em"></p>
+    <div class="row acts"><button class="btn" data-a="pinLogin">Войти</button><button class="btn link" data-a="otherProfile">Другой профиль</button></div></div>`;
+  }
   const reg=S.authReg||!profs.length;
-  return `<div class="auth">
-  ${strip(10)}
-  <h1>Точка опоры</h1>
-  <p class="lede">Помогает разобраться в трудной ситуации через тело и чувства: разбор с вопросами, цветовой тест, дневник самочувствия и практики саморегуляции.</p>
-  <div class="panel">
-  ${reg?`<h2>Создать профиль</h2>
-    <label class="f" for="a-name">Имя или псевдоним</label><input id="a-name" type="text" autocomplete="nickname" maxlength="40">
-    <label class="f" for="a-pin">PIN-код</label><p class="hint">От 4 до 8 цифр. Он защищает ваши записи на этом устройстве.</p>
+  return `<div class="auth"><span class="mark">${KEYHOLE(56)}</span>
+  ${reg?`<h1>Точка опоры</h1>
+    <p class="lede">Разбор трудных ситуаций через тело и чувства, цветовой тест, дневник самочувствия и практики саморегуляции.</p>
+    <label class="f" for="a-name">Как к вам обращаться?</label><input id="a-name" type="text" autocomplete="given-name" maxlength="40" data-autofocus>
+    <label class="f" for="a-pin">Придумайте PIN-код</label><p class="hint">4–8 цифр. Понадобится, если вы выйдете из профиля или включите вход по PIN.</p>
     <input id="a-pin" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password">
     <label class="f" for="a-pin2">PIN ещё раз</label><input id="a-pin2" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password">
-    <div class="row" style="margin-top:18px"><button class="btn" data-a="register">Создать и войти</button>${profs.length?`<button class="btn quiet" data-a="toLogin">У меня есть профиль</button>`:""}</div>`
-  :`<h2>Вход</h2>
+    <p class="hint" id="a-err" style="color:var(--accent);margin-top:10px;min-height:1.4em"></p>
+    <div class="row acts"><button class="btn" data-a="register">Начать</button>${profs.length?`<button class="btn link" data-a="toLogin">У меня уже есть профиль</button>`:""}</div>`
+  :`<h1>${greet()}</h1><p class="lede">Выберите свой профиль и введите PIN.</p>
     <label class="f" for="a-who">Профиль</label><select id="a-who">${profs.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("")}</select>
     <label class="f" for="a-pin">PIN-код</label><input id="a-pin" type="password" inputmode="numeric" maxlength="8" autocomplete="current-password">
-    <div class="row" style="margin-top:18px"><button class="btn" data-a="login">Войти</button><button class="btn quiet" data-a="toReg">Новый профиль</button></div>`}
-  <p class="hint" id="a-err" style="color:var(--warn);margin-top:12px"></p>
-  </div>
-  <p class="small muted">Данные хранятся только на этом устройстве, в этом браузере. Версия ${APP_VERSION}.</p>
-</div>`;
+    <p class="hint" id="a-err" style="color:var(--accent);margin-top:10px;min-height:1.4em"></p>
+    <div class="row acts"><button class="btn" data-a="login">Войти</button><button class="btn link" data-a="toReg">Новый профиль</button></div>`}
+  <p class="small muted" style="margin-top:26px">Записи хранятся только на этом устройстве.</p></div>`;
 }
+const authErr=t=>{const e=document.getElementById("a-err");if(e)e.textContent=t;buzz()};
 async function doRegister(){
-  const name=document.getElementById("a-name").value.trim();
-  const pin=document.getElementById("a-pin").value.trim(),pin2=document.getElementById("a-pin2").value.trim();
-  const err=document.getElementById("a-err");
-  if(!name){err.textContent="Введите имя.";return}
-  if(!/^\d{4,8}$/.test(pin)){err.textContent="PIN — от 4 до 8 цифр.";return}
-  if(pin!==pin2){err.textContent="PIN-коды не совпадают.";return}
-  const profs=LS.get("tochka:profiles",[]);
-  const salt=uid();const p={id:uid(),name,salt,hash:await sha(salt+pin)};
-  profs.push(p);if(!LS.set("tochka:profiles",profs)){err.textContent="Браузер не даёт сохранить данные. Проверьте настройки приватности.";return}
-  await enterLocal(p);
+  const name=document.getElementById("a-name").value.trim(),pin=document.getElementById("a-pin").value.trim(),pin2=document.getElementById("a-pin2").value.trim();
+  if(!name)return authErr("Напишите, как к вам обращаться.");
+  if(!/^\d{4,8}$/.test(pin))return authErr("PIN — от 4 до 8 цифр.");
+  if(pin!==pin2)return authErr("PIN-коды не совпадают.");
+  const profs=LS.get("tochka:profiles",[]);const salt=uid();
+  const p={id:uid(),name,salt,hash:await sha(salt+pin),askPin:false};
+  profs.push(p);if(!LS.set("tochka:profiles",profs))return authErr("Браузер не даёт сохранить данные. Проверьте настройки приватности.");
+  await enterLocal(p,true);
 }
+async function checkPin(p,pin){return p&&await sha(p.salt+pin)===p.hash}
 async function doLogin(){
   const id=document.getElementById("a-who").value,pin=document.getElementById("a-pin").value.trim();
-  const p=LS.get("tochka:profiles",[]).find(x=>x.id===id);const err=document.getElementById("a-err");
-  if(!p||await sha(p.salt+pin)!==p.hash){err.textContent="PIN не подходит.";return}
+  const p=LS.get("tochka:profiles",[]).find(x=>x.id===id);
+  if(!await checkPin(p,pin))return authErr("PIN не подходит.");
   await enterLocal(p);
 }
-async function enterLocal(p){
-  S.mode="local";S.pid=p.id;S.userName=p.name;
-  try{sessionStorage.setItem("tochka:active",p.id)}catch(e){}
-  await Store.load();go("home");
+async function doPinLogin(){
+  const pin=document.getElementById("a-pin").value.trim();
+  if(!await checkPin(S.pinFor,pin))return authErr("PIN не подходит.");
+  const p=S.pinFor;S.pinFor=null;await enterLocal(p);
 }
-function logout(){try{sessionStorage.removeItem("tochka:active")}catch(e){}S.mode=null;S.pid=null;S.authReg=false;render()}
+async function enterLocal(p,first){
+  S.mode="local";S.pid=p.id;S.userName=p.name;S.view="home";
+  LS.set("tochka:last",p.id);
+  await Store.load();
+  showWelcome(first);
+  render("fade");
+}
+function logout(){LS.del("tochka:last");SS.del("tochka:welcomed");S.mode=null;S.pid=null;S.authReg=false;S.wiz=null;S.pinFor=null;window.scrollTo(0,0);render("fade")}
 
 /* ---------- кабинет ---------- */
 function activeTask(){return S.data.sessions.find(s=>s.homework&&!s.homework.closed&&Date.now()-s.createdAt<15*DAY)}
 function homeView(){
-  const d=S.data,task=activeTask();
-  const name=S.userName?esc(S.userName.split(" ")[0]):"";
-  let h=`<div class="hello">${strip()}<h1>${name?`Здравствуйте, ${name}`:"Здравствуйте"}</h1>
-  <p class="lede">С чего начнём? Если что-то беспокоит — начните с разбора ситуации. Если хочется просто свериться с собой — пройдите цветовой тест.</p></div>`;
+  const d=S.data,task=activeTask(),n=firstName();
+  let h=`<header class="hero"><div><h1 class="greet">${greet()}${n?", "+esc(n):""}</h1>
+  <p class="lede">Как вы сегодня? Если что-то беспокоит — начните с разбора ситуации. Если хочется просто свериться с собой — пройдите цветовой тест.</p></div>
+  <button class="topava" data-go="profile" aria-label="Профиль и данные" style="background:none;padding:0">${ava(40)}</button></header><div class="stagger">`;
+  if(S.wiz&&S.wiz.step>0){
+    h+=`<section class="panel"><h3>Незавершённый разбор</h3><p class="muted">${esc(S.wiz.situation||"Без названия")} · шаг ${S.wiz.step+1} из ${WS.length}</p>
+    <div class="row acts"><button class="btn" data-go="wizard">Продолжить</button><button class="btn link" data-a="dropDraft">Начать заново</button></div></section>`;
+  }
   if(task){
     const day=Math.min(14,Math.floor((Date.now()-task.createdAt)/DAY)+1);
-    const eps=d.notes.filter(n=>n.type==="episode"&&n.sessionId===task.id);
-    const today=eps.filter(n=>new Date(n.createdAt).toDateString()===new Date().toDateString()).length;
-    h+=`<section class="panel task"><div class="stepname">Домашнее задание · день ${day} из 14</div>
+    const eps=d.notes.filter(x=>x.type==="episode"&&x.sessionId===task.id);
+    const today=eps.filter(x=>new Date(x.createdAt).toDateString()===new Date().toDateString()).length;
+    h+=`<section class="panel task"><p class="muted small" style="margin:0 0 4px">Домашнее задание · день ${day} из 14</p>
     <h3>${esc(task.title)}</h3>
-    <p class="muted small">Практика: ${esc(practiceName(task))}. Повторяйте утром и вечером и каждый раз, когда замечаете знакомый дискомфорт.</p>
-    <p>Сегодня отмечено ${today} ${plural(today,"эпизод","эпизода","эпизодов")}, всего — ${eps.length}.</p>
-    <div class="row"><button class="btn" data-a="quickEp" data-id="${task.id}">Отметить эпизод</button><button class="btn quiet" data-go="session" data-id="${task.id}">Открыть разбор</button></div></section>`;
+    <p class="muted small">Практика: ${esc(practiceName(task))}. Утром, вечером и каждый раз, когда замечаете знакомый дискомфорт.</p>
+    <p>Сегодня ${today} ${plural(today,"эпизод","эпизода","эпизодов")}, всего ${eps.length}.</p>
+    <div class="row acts"><button class="btn" data-a="quickEp" data-id="${task.id}">Отметить эпизод</button><button class="btn quiet" data-go="session" data-id="${task.id}">Открыть разбор</button></div></section>`;
   }
   h+=`<div class="stats">
     <div class="stat"><b>${d.sessions.length}</b><span>${plural(d.sessions.length,"разбор","разбора","разборов")}</span></div>
     <div class="stat"><b>${d.tests.length}</b><span>${plural(d.tests.length,"тест","теста","тестов")}</span></div>
-    <div class="stat"><b>${d.notes.length}</b><span>${plural(d.notes.length,"запись","записи","записей")} в дневнике</span></div></div>`;
-  h+=`<div class="grid2">
-    <section class="panel"><h3>Разбор ситуации</h3><p class="muted small">Восемь коротких шагов: что происходит, где это в теле, какое чувство, практика, прошлый опыт и взгляд со стороны.</p><button class="btn" data-go="wizard" data-a="newWiz">Начать разбор</button></section>
-    <section class="panel"><h3>Цветовой тест</h3><p class="muted small">Выбор восьми цветов по порядку. Быстрый вариант — минута, полный — семь проб о разных сферах жизни.</p><button class="btn ghost" data-go="color">Пройти тест</button></section></div>`;
-  const recent=[...d.sessions.map(x=>({k:"session",x,t:x.title,sub:"Разбор"})),...d.tests.map(x=>({k:"test",x,t:x.mode==="full"?"Полный цветовой тест":"Быстрый цветовой тест",sub:mini(x.probes[0].order)}))].sort((a,b)=>b.x.createdAt-a.x.createdAt).slice(0,6);
-  h+=`<section class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">Последнее</h3><button class="btn quiet small" data-go="profile">Профиль и данные</button></div><div style="height:10px"></div>${recent.length?`<ul class="list">${recent.map(r=>`<li><button data-go="${r.k}" data-id="${r.x.id}"><span class="t">${esc(r.t)} <span class="muted small">${r.k==="test"?r.sub:""}</span></span><span class="d">${fmtD(r.x.createdAt)}</span></button></li>`).join("")}</ul>`:`<div class="empty">Здесь появятся ваши разборы и тесты.</div>`}</section>`;
-  return h;
+    <div class="stat"><b>${d.notes.length}</b><span>${plural(d.notes.length,"запись","записи","записей")}</span></div></div>
+  <div class="grid2" style="margin-bottom:16px">
+    <section class="panel"><h3>Разбор ситуации</h3><p class="muted small">По одному вопросу на экране: что происходит, где это в теле, какое чувство, практика, прошлый опыт и взгляд со стороны.</p><button class="btn" data-a="newWiz">Начать разбор</button></section>
+    <section class="panel"><h3>Цветовой тест</h3><p class="muted small">Восемь цветов по порядку. Быстрый вариант — минута, полный — семь проб о разных сферах жизни.</p><button class="btn ghost" data-go="color">Пройти тест</button></section></div>`;
+  const recent=[...d.sessions.map(x=>({k:"session",x,t:x.title})),...d.tests.map(x=>({k:"test",x,t:(x.mode==="full"?"Полный":"Быстрый")+" цветовой тест",m:mini(x.probes[0].order)}))].sort((a,b)=>b.x.createdAt-a.x.createdAt).slice(0,5);
+  if(recent.length)h+=`<section class="panel"><h3>Последнее</h3><ul class="list">${recent.map(r=>`<li><button data-go="${r.k}" data-id="${r.x.id}"><span>${esc(r.t)} ${r.m||""}</span><span class="d">${fmtD(r.x.createdAt)}</span></button></li>`).join("")}</ul></section>`;
+  return h+`</div>`;
 }
 
-/* ---------- разбор ситуации ---------- */
-const WSTEPS=["Ситуация","Как это проявляется","Тело","Чувство","Практика","Прошлый опыт","Взгляд со стороны","Итог"];
-function newWiz(){S.wiz={step:0,sphere:"",situation:"",details:"",goal:"",zones:[],sens:[],before:5,emotion:"",route:"",mer:"",zone:"",after:null,past:"",age:"",adult:"",observer:"",mine:"",options:"",step3:"",image:""}}
-function practiceName(w){return w.route==="mer"&&w.mer?MER[w.mer].n+" (разрядка)":w.zone?"работа с зажимом: "+ZNAME[w.zone].toLowerCase():"практика"}
-function field(key,label,hint,rows){const w=S.wiz;return `<label class="f" for="w-${key}">${label}</label>${hint?`<p class="hint">${hint}</p>`:""}${rows?`<textarea id="w-${key}" data-bind="${key}">${esc(w[key])}</textarea>`:`<input id="w-${key}" type="text" data-bind="${key}" value="${esc(w[key])}">`}`}
+/* ---------- разбор ситуации: по одному вопросу на шаг ---------- */
+const CRISIS="Если сейчас очень тяжело или появляются мысли навредить себе — лучше сразу обратиться к специалисту или на линию психологической помощи.";
+const WS=[
+  {ch:"Ситуация",id:"sphere",type:"choice",q:"О какой сфере жизни пойдёт речь?",opts:SPHERES.map(s=>[s,s]),auto:1},
+  {ch:"Ситуация",id:"situation",type:"text",q:"Что сейчас происходит?",hint:"Опишите задачу, которую пока не получается решить, — ту, где важную роль играют эмоции или самочувствие. Подробности не обязательны.",ph:"Например: не могу сказать руководителю, что перегружена",req:"Опишите ситуацию хотя бы одной фразой.",foot:CRISIS},
+  {ch:"Ситуация",id:"details",type:"text",q:"Вспомните недавний конкретный случай",hint:"Где вы были, кто был рядом, что было сказано или сделано?"},
+  {ch:"Ситуация",id:"goal",type:"text",q:"Как бы вы хотели, чтобы было?",hint:"Опишите желаемое своими словами — так, будто это уже случилось."},
+  {ch:"Тело",id:"zones",type:"multi",q:"Где в теле появляется неприятное ощущение?",hint:"Вспомните ситуацию ярко, как будто она происходит сейчас. Если сначала кажется, что ничего нет, побудьте с ней чуть дольше — ощущение обычно находится.",opts:ZONES},
+  {ch:"Тело",id:"sens",type:"multi",q:"Какое это ощущение?",hint:"Можно выбрать несколько.",opts:SENS.map(s=>[s,s])},
+  {ch:"Тело",id:"before",type:"scale",q:"Насколько оно сильное?",lo:"почти незаметно",hi:"очень сильно"},
+  {ch:"Чувство",id:"emotion",type:"choice",q:"Какое чувство ближе всего?",hint:"Не подбирайте точное слово — выберите то, что откликается сильнее.",opts:EMO.map(e=>[e.id,e.l]),auto:1,req:"Выберите вариант, который ближе."},
+  {ch:"Практика",id:"practice",type:"practice"},
+  {ch:"Практика",id:"after",type:"scale",q:"Как ощущение теперь?",lo:"ушло",hi:"очень сильно"},
+  {ch:"Прошлый опыт",id:"past",type:"text",q:"Когда раньше вы чувствовали что-то похожее?",hint:"Снова заметьте ощущение в теле. Не ищите специально — позвольте воспоминанию прийти самому. Что тогда происходило?"},
+  {ch:"Прошлый опыт",id:"age",type:"line",q:"Сколько вам тогда было лет?",ph:"Например: лет семь"},
+  {ch:"Прошлый опыт",id:"adult",type:"text",q:"Что бы вы сказали себе тогдашней?",hint:"Сейчас вы взрослая, у вас есть опыт и силы, которых тогда не было. Что было нужно той, маленькой? Что вы можете дать ей сейчас?"},
+  {ch:"Взгляд со стороны",id:"observer",type:"text",q:"Что видно со стороны?",hint:"Сделайте несколько спокойных вдохов животом. Посмотрите на ситуацию как доброжелательный наблюдатель, немного издалека. Что делает каждый? Чего может хотеть или бояться другой человек?"},
+  {ch:"Взгляд со стороны",id:"mine",type:"text",q:"Что в этой ситуации зависит от меня?"},
+  {ch:"Взгляд со стороны",id:"options",type:"text",q:"Какие есть варианты?",hint:"Назовите хотя бы три, даже самые неожиданные."},
+  {ch:"Взгляд со стороны",id:"step3",type:"line",q:"Какой маленький шаг я сделаю в ближайшие три дня?"},
+  {ch:"Взгляд со стороны",id:"image",type:"line",q:"Пришёл ли образ?",hint:"Если, пока вы думали о ситуации, появился образ, цвет или картинка — запишите. Иногда подсказка приходит именно так."},
+  {ch:"Итог",id:"summary",type:"summary"}
+];
+function newWiz(){S.wiz={step:0,sphere:"",situation:"",details:"",goal:"",zones:[],sens:[],before:5,emotion:"",route:"",mer:"",zone:"",after:null,past:"",age:"",adult:"",observer:"",mine:"",options:"",step3:"",image:"",title:""};saveDraft()}
+function practiceName(w){return w.route==="mer"&&MER[w.mer]?MER[w.mer].n+" (разрядка)":w.zone?"работа с зажимом: "+ZNAME[w.zone].toLowerCase():"практика"}
+function isEmpty(v){return v==null||v===""||(Array.isArray(v)&&!v.length)}
 function wizView(){
   if(!S.wiz)newWiz();
-  const w=S.wiz,st=w.step;
-  let h=`<div class="steps" aria-hidden="true">${WSTEPS.map((_,i)=>`<i class="${i<=st?"on":""}"></i>`).join("")}</div>
-  <div class="stepname">Шаг ${st+1} из ${WSTEPS.length} · ${WSTEPS[st]}</div>`;
-  if(st===0){
-    h+=`<h1>Что сейчас происходит?</h1>
-    <p class="lede">Опишите задачу, которую пока не получается решить, — ту, где важную роль играют эмоции или самочувствие. Подробности не обязательны: достаточно того, что вы готовы назвать.</p>
-    <label class="f">Сфера</label><div class="chips">${SPHERES.map(s=>`<button class="chip" data-a="sphere" data-v="${esc(s)}" aria-pressed="${w.sphere===s}">${s}</button>`).join("")}</div>
-    ${field("situation","Ситуация","Например: «Не могу сказать руководителю, что перегружена».",1)}
-    <p class="small muted" style="margin-top:14px">Если сейчас очень тяжело или появляются мысли навредить себе — лучше сразу обратиться к специалисту или на линию психологической помощи.</p>`;
-  }else if(st===1){
-    h+=`<h1>Как это проявляется в жизни?</h1>
-    ${field("details","Вспомните недавний конкретный случай","Где вы были, кто был рядом, что было сказано или сделано?",1)}
-    ${field("goal","Как бы вы хотели, чтобы было?","Опишите желаемый результат своими словами — так, как если бы он уже наступил.",1)}`;
-  }else if(st===2){
-    h+=`<h1>Где это в теле?</h1>
-    <p class="lede">Вспомните ситуацию ярко, как будто она происходит сейчас. Прислушайтесь к телу: где появилось неприятное ощущение? Обычно оно находится, даже если сначала кажется, что его нет, — побудьте с ситуацией чуть дольше.</p>
-    <label class="f">Зоны</label><div class="chips">${ZONES.map(([k,l])=>`<button class="chip" data-a="zone" data-v="${k}" aria-pressed="${w.zones.includes(k)}">${l}</button>`).join("")}</div>
-    <label class="f">Какое это ощущение?</label><div class="chips">${SENS.map(s=>`<button class="chip" data-a="sens" data-v="${s}" aria-pressed="${w.sens.includes(s)}">${s}</button>`).join("")}</div>
-    <label class="f" for="w-before">Насколько оно сильное</label>
-    <div class="row" style="flex-wrap:nowrap"><input id="w-before" type="range" min="0" max="10" step="1" value="${w.before}" data-bind="before" data-num="1"><span class="val" id="v-before">${w.before}</span></div>
-    <div class="scale"><span>почти незаметно</span><span>очень сильно</span></div>`;
-  }else if(st===3){
-    h+=`<h1>Какое чувство ближе всего?</h1>
-    <p class="lede">Не нужно подбирать точное слово — выберите то, что откликается сильнее. От этого зависит, какую практику мы предложим.</p>
-    <div class="opts">${EMO.map(e=>`<button class="opt" data-a="emo" data-v="${e.id}" aria-pressed="${w.emotion===e.id}">${e.l}</button>`).join("")}</div>`;
-  }else if(st===4){
-    h+=practiceStep();
-  }else if(st===5){
-    h+=`<h1>Когда это было раньше?</h1>
-    <p class="lede">Снова заметьте ощущение в теле. Когда раньше в жизни вы чувствовали что-то похожее? Не ищите специально — позвольте воспоминанию прийти самому.</p>
-    ${field("past","Что тогда происходило?","",1)}
-    ${field("age","Сколько вам было лет?","",0)}
-    ${field("adult","Что бы вы сказали себе тогдашней?","Вы сегодняшняя — взрослая, у вас есть опыт и силы, которых тогда не было. Что было нужно той, маленькой? Что вы можете ей дать сейчас?",1)}`;
-  }else if(st===6){
-    h+=`<h1>Посмотрите со стороны</h1>
-    <p class="lede">Сделайте несколько спокойных вдохов и выдохов животом. Представьте, что смотрите на ситуацию как внимательный доброжелательный наблюдатель — немного издалека, без спешки.</p>
-    ${field("observer","Что видно со стороны?","Что делает каждый участник? Чего, возможно, хочет или боится другой человек?",1)}
-    ${field("mine","Что в этой ситуации зависит от меня?","",1)}
-    ${field("options","Какие есть варианты?","Назовите хотя бы три, даже самые неожиданные.",1)}
-    ${field("step3","Какой маленький шаг я сделаю в ближайшие три дня?","",0)}
-    ${field("image","Образ","Если, пока вы думали о ситуации, пришёл образ, цвет или картинка — запишите. Иногда подсказка приходит именно так.",0)}`;
-  }else{
-    h+=summaryStep();
-  }
-  h+=`<div class="nextbar">${st>0?`<button class="btn quiet" data-a="wprev">Назад</button>`:`<span></span>`}${st<7?`<button class="btn" data-a="wnext">${st===6?"К итогу":"Дальше"}</button>`:`<button class="btn" data-a="wsave">Сохранить и начать задание</button>`}</div>`;
+  const w=S.wiz;if(w.step>=WS.length)w.step=WS.length-1;
+  const st=WS[w.step],n=WS.length;
+  const pct=(w.step+1)/n*100,prev=S.progPrev==null?pct:S.progPrev;S.progPrev=pct;
+  let h=`<div class="wtop"><button class="btn link" data-a="wprev" ${w.step===0?"disabled":""}>Назад</button><span class="wch">${st.ch}</span><span class="wch">${w.step+1} из ${n}</span></div>
+  <div class="prog" aria-hidden="true"><i data-from="${prev}%" data-to="${pct}%" style="width:${pct}%"></i></div>`;
+  if(st.type==="choice"){
+    h+=`<h1 class="q">${st.q}</h1>${st.hint?`<p class="lede">${st.hint}</p>`:""}
+    <div class="opts" role="radiogroup" style="margin-top:18px">${st.opts.map(([v,l])=>`<button class="opt" role="radio" data-a="pick" data-k="${st.id}" data-v="${esc(v)}" aria-pressed="${w[st.id]===v}" aria-checked="${w[st.id]===v}">${esc(l)}</button>`).join("")}</div>`;
+  }else if(st.type==="multi"){
+    h+=`<h1 class="q">${st.q}</h1>${st.hint?`<p class="lede">${st.hint}</p>`:""}
+    <div class="chips" style="margin-top:18px">${st.opts.map(([v,l])=>`<button class="chip" data-a="multi" data-k="${st.id}" data-v="${esc(v)}" aria-pressed="${w[st.id].includes(v)}">${esc(l)}</button>`).join("")}</div>`;
+  }else if(st.type==="text"||st.type==="line"){
+    h+=`<h1 class="q"><label for="w-${st.id}">${st.q}</label></h1>${st.hint?`<p class="lede">${st.hint}</p>`:""}
+    <div style="margin-top:18px">${st.type==="text"?`<textarea id="w-${st.id}" data-bind="${st.id}" placeholder="${esc(st.ph||"")}" data-autofocus>${esc(w[st.id])}</textarea>`:`<input id="w-${st.id}" type="text" data-bind="${st.id}" value="${esc(w[st.id])}" placeholder="${esc(st.ph||"")}" data-autofocus>`}</div>
+    ${st.foot?`<p class="crisis">${st.foot}</p>`:""}`;
+  }else if(st.type==="scale"){
+    if(st.id==="after"&&w.after==null)w.after=w.before;
+    h+=`<h1 class="q"><label for="w-${st.id}">${st.q}</label></h1>${st.id==="after"?`<p class="lede">До практики было ${w.before} из 10.</p>`:""}
+    <div class="bignum"><span class="bn"><span id="v-${st.id}">${w[st.id]}</span><small>из 10</small></span></div>
+    <input id="w-${st.id}" type="range" min="0" max="10" step="1" value="${w[st.id]}" data-bind="${st.id}" data-num="1">
+    <div class="scale"><span>${st.lo}</span><span>${st.hi}</span></div>`;
+  }else if(st.type==="practice")h+=practiceStep();
+  else h+=summaryStep();
+  const empty=isEmpty(w[st.id])&&!st.req&&["text","line","multi","choice"].includes(st.type);
+  h+=`<div class="wnext">${st.type==="summary"?`<button class="btn" data-a="wsave">Сохранить и начать задание</button>`:`<button class="btn ${empty?"quiet":""}" data-a="wnext" id="wnextbtn">${empty?"Пропустить":"Дальше"}</button>`}</div>`;
   return h;
 }
 function practiceStep(){
   const w=S.wiz;
-  if(!w.route){const e=EMO.find(x=>x.id===w.emotion);if(e&&e.m){w.route="mer";w.mer=e.m}else{w.route="ampir"}}
+  if(!w.route){const e=EMO.find(x=>x.id===w.emotion);if(e&&e.m){w.route="mer";w.mer=e.m}else w.route="ampir"}
   if(!w.zone)w.zone=w.zones[0]||"neck";
-  const alt=[...new Set(w.zones.flatMap(z=>ZONE_MER[z]||[]))].filter(m=>m!==w.mer).slice(0,3);
-  let h=`<h1>Практика</h1>
-  <div class="tabs" role="group" aria-label="Тип практики"><button class="chip" data-a="route" data-v="mer" aria-pressed="${w.route==="mer"}">Разрядка через движение</button><button class="chip" data-a="route" data-v="ampir" aria-pressed="${w.route==="ampir"}">Работа с зажимом</button></div>`;
+  let h=`<h1 class="q">Практика</h1>
+  <div class="seg" role="group" aria-label="Тип практики"><button data-a="route" data-v="mer" aria-pressed="${w.route==="mer"}">Разрядка</button><button data-a="route" data-v="ampir" aria-pressed="${w.route==="ampir"}">Зажим</button></div>`;
   if(w.route==="mer"){
+    const alt=[...new Set(w.zones.flatMap(z=>ZONE_MER[z]||[]))].filter(m=>m!==w.mer).slice(0,3);
     if(!w.mer)w.mer=alt[0]||"GI";
     const m=MER[w.mer];
-    h+=`<p class="lede">Меридиональная эмоциональная разрядка: чувство, которое когда-то не нашло выхода, завершается простым движением. Это не гимнастика — важно держать в голове конкретного человека или ситуацию.</p>
+    h+=`<p class="lede">Меридиональная разрядка: чувство, которое когда-то не нашло выхода, завершается простым движением. Это не гимнастика: держите в голове конкретного человека или ситуацию.</p>
     <div class="practice"><h3>${m.n}</h3><p class="small muted">${esc(m.feel)}</p><p><b>Движение.</b> ${esc(m.move)}</p>
-    <ol><li>Сядьте удобно. Представьте человека или ситуацию, о которой вы писали, — как можно живее.</li>
-    <li>На вдохе напрягите мышцы, как будто что-то мешает движению: удерживайте себя сами, до пяти счётов.</li>
+    <ol><li>Сядьте удобно. Представьте человека или ситуацию — как можно живее.</li>
+    <li>На вдохе напрягите мышцы, будто движению что-то мешает: удерживайте себя сами, до пяти счётов.</li>
     <li>На выдохе сделайте движение. Если хочется — добавьте слово шёпотом.</li>
-    <li>Повторите 3–5 раз. Между повторами замечайте, что происходит с ощущением в теле.</li></ol></div>
-    ${alt.length?`<p class="small muted">По телесным зонам также подходят: ${alt.map(a=>`<button class="chip" data-a="mer" data-v="${a}">${MER[a].n}</button>`).join(" ")}</p>`:""}`;
+    <li>Повторите 3–5 раз, замечая, что происходит с ощущением в теле.</li></ol></div>
+    ${alt.length?`<p class="small muted" style="margin-bottom:8px">По зонам тела также подходят:</p><div class="chips">${alt.map(a=>`<button class="chip" data-a="mer" data-v="${a}">${MER[a].n}</button>`).join("")}</div>`:""}`;
   }else{
-    h+=`<p class="lede">Работа с мышечным зажимом по принципу АМПИР: вы сами создаёте напряжение и сами ему сопротивляетесь, а затем отпускаете. Лучшее расслабление мышцы наступает после напряжения.</p>
-    <label class="f">Зона</label><div class="chips">${(w.zones.length?w.zones:ZONES.map(z=>z[0])).map(k=>`<button class="chip" data-a="azone" data-v="${k}" aria-pressed="${w.zone===k}">${ZNAME[k]}</button>`).join("")}</div>
+    h+=`<p class="lede">Работа с мышечным зажимом: вы сами создаёте напряжение и сами ему сопротивляетесь, а потом отпускаете. Глубже всего мышца расслабляется после напряжения.</p>
+    <div class="chips" style="margin:14px 0 4px">${(w.zones.length?w.zones:ZONES.map(z=>z[0])).map(k=>`<button class="chip" data-a="azone" data-v="${k}" aria-pressed="${w.zone===k}">${ZNAME[k]}</button>`).join("")}</div>
     <div class="practice"><h3>${ZNAME[w.zone]}</h3><p>${esc(AMPIR[w.zone])}</p>
-    <ol><li>На вдохе — напряжение с сопротивлением, до пяти счётов.</li><li>На выдохе — отпустить, дать напряжению растаять.</li><li>Повторите несколько раз, до приятной усталости мышц.</li><li>Между повторами наблюдайте ощущения.</li></ol></div>`;
+    <ol><li>На вдохе — напряжение с сопротивлением, до пяти счётов.</li><li>На выдохе — отпустить, дать напряжению растаять.</li><li>Несколько повторов, до приятной усталости мышц.</li><li>Между повторами — наблюдайте ощущения.</li></ol></div>`;
   }
-  const a=w.after==null?w.before:w.after;
-  h+=`<label class="f" for="w-after">Как ощущение теперь?</label><p class="hint">Было: ${w.before} из 10.</p>
-  <div class="row" style="flex-wrap:nowrap"><input id="w-after" type="range" min="0" max="10" value="${a}" data-bind="after" data-num="1"><span class="val" id="v-after">${a}</span></div>
-  <div class="scale"><span>ушло</span><span>очень сильно</span></div>`;
   return h;
 }
 function summaryStep(){
-  const w=S.wiz;const after=w.after==null?w.before:w.after;
-  return `<h1>Итог</h1>
+  const w=S.wiz,after=w.after==null?w.before:w.after;
+  return `<h1 class="q">Итог</h1>
   <div class="panel"><p><b>Ситуация.</b> ${esc(w.situation)||"—"}</p>
   ${w.goal?`<p><b>Желаемое.</b> ${esc(w.goal)}</p>`:""}
   <p><b>В теле.</b> ${w.zones.map(z=>ZNAME[z].toLowerCase()).join(", ")||"—"}${w.sens.length?` (${w.sens.join(", ")})`:""}. Интенсивность: ${w.before} → ${after}.</p>
-  <p><b>Практика.</b> ${esc(practiceName(w))}</p>
-  ${w.step3?`<p><b>Шаг на три дня.</b> ${esc(w.step3)}</p>`:""}</div>
+  <p style="margin:0"><b>Практика.</b> ${esc(practiceName(w))}${w.step3?`<br><b>Шаг на три дня.</b> ${esc(w.step3)}`:""}</p></div>
   <div class="panel task"><h3>Домашнее задание на 1–2 недели</h3>
-  <ol><li>Выполняйте практику утром и вечером, вспоминая ощущения.</li>
-  <li>Замечайте, в каких ситуациях дня появляется знакомый дискомфорт. Каждый раз делайте практику 2–3 минуты и отмечайте эпизод в дневнике.</li>
-  <li>По вечерам можно слушать релаксацию из раздела «Практики».</li>
-  <li>Через неделю-две вернитесь к разбору: что изменилось, пришло ли новое понимание. И пройдите цветовой тест ещё раз, чтобы сравнить.</li></ol></div>
-  ${field("title","Короткое название разбора","Чтобы легко найти его потом.",0)}`;
+  <ol style="margin:0;padding-left:1.2em"><li>Выполняйте практику утром и вечером, вспоминая ощущения.</li>
+  <li>Замечайте, в каких ситуациях появляется знакомый дискомфорт. Каждый раз делайте практику 2–3 минуты и отмечайте эпизод в дневнике.</li>
+  <li>По вечерам можно делать релаксацию из раздела «Практики».</li>
+  <li>Через неделю-две вернитесь к разбору и пройдите цветовой тест ещё раз, чтобы сравнить.</li></ol></div>
+  <label class="f" for="w-title">Короткое название разбора</label><input id="w-title" type="text" data-bind="title" value="${esc(w.title)}" placeholder="${esc((w.situation||"").slice(0,60))}">`;
 }
+function wnext(){
+  const w=S.wiz,st=WS[w.step];
+  if(st.req&&isEmpty(w[st.id])){toast(st.req);buzz();return}
+  if(w.step<WS.length-1)nav(()=>{w.step++;saveDraft()},"fwd");
+}
+function wprev(){const w=S.wiz;if(w.step>0)nav(()=>{w.step--;saveDraft()},"back")}
+function refreshNextLabel(){const st=WS[S.wiz.step],b=document.getElementById("wnextbtn");if(b&&!st.req&&["text","line","multi","choice"].includes(st.type)){const e=isEmpty(S.wiz[st.id]);b.textContent=e?"Пропустить":"Дальше";b.classList.toggle("quiet",e)}}
 async function saveWiz(){
   const w=S.wiz;
   const obj=Object.assign({},w,{id:uid(),createdAt:Date.now(),title:(w.title||w.situation||"Разбор").slice(0,80),after:w.after==null?w.before:w.after,homework:{closed:false}});
   delete obj.step;
-  await Store.put("sessions",obj);S.wiz=null;toast("Разбор сохранён. Задание — в кабинете.");go("home");
+  await Store.put("sessions",obj);S.wiz=null;S.progPrev=null;saveDraft();toast("Разбор сохранён. Задание — в кабинете.");go("home");
 }
 function sessionView(id){
   const s=S.data.sessions.find(x=>x.id===id);if(!s)return `<div class="empty">Разбор не найден.</div>`;
   const eps=S.data.notes.filter(n=>n.type==="episode"&&n.sessionId===id);
   const row=(l,v)=>v?`<dt>${l}</dt><dd>${esc(v)}</dd>`:"";
-  return `<button class="btn quiet small" data-go="home">Назад</button>
-  <h1 style="margin-top:16px">${esc(s.title)}</h1><p class="muted">${fmtDT(s.createdAt)}${s.sphere?" · "+esc(s.sphere):""}</p>
+  return `<button class="btn link" data-go="home" data-dir="back">Назад</button>
+  <h1 style="margin-top:12px">${esc(s.title)}</h1><p class="muted">${fmtDT(s.createdAt)}${s.sphere?" · "+esc(s.sphere):""}</p>
   <div class="panel"><dl class="kv">
   ${row("Ситуация",s.situation)}${row("Пример",s.details)}${row("Желаемое",s.goal)}
   ${row("В теле",s.zones.map(z=>ZNAME[z]).join(", ")+(s.sens.length?" — "+s.sens.join(", "):""))}
@@ -606,8 +798,8 @@ function sessionView(id){
   </dl></div>
   ${s.route==="mer"&&MER[s.mer]?`<div class="practice"><b>${MER[s.mer].n}.</b> ${esc(MER[s.mer].move)}</div>`:s.zone?`<div class="practice"><b>${ZNAME[s.zone]}.</b> ${esc(AMPIR[s.zone])}</div>`:""}
   <section class="panel"><h3>Эпизоды дискомфорта</h3>${eps.length?epChart(eps):`<p class="muted">Пока нет отмеченных эпизодов.</p>`}
-  <div class="row" style="margin-top:12px">${!s.homework.closed?`<button class="btn" data-a="quickEp" data-id="${s.id}">Отметить эпизод</button><button class="btn quiet" data-a="closeTask" data-id="${s.id}">Завершить задание</button>`:`<span class="muted small">Задание завершено${s.homework.reflection?": "+esc(s.homework.reflection):""}</span>`}</div></section>
-  <button class="btn danger small" data-a="delSession" data-id="${s.id}">Удалить разбор</button>`;
+  <div class="row acts" style="margin-top:12px">${!s.homework.closed?`<button class="btn" data-a="quickEp" data-id="${s.id}">Отметить эпизод</button><button class="btn quiet" data-a="closeTask" data-id="${s.id}">Завершить задание</button>`:`<span class="muted small">Задание завершено${s.homework.reflection?": "+esc(s.homework.reflection):""}</span>`}</div></section>
+  <button class="btn danger" data-a="delSession" data-id="${s.id}">Удалить разбор</button>`;
 }
 
 /* ---------- цветовой тест ---------- */
@@ -616,68 +808,66 @@ function colorView(){
   const ct=S.ct;
   if(!ct){
     const hist=S.data.tests;
-    return `${strip()}<h1>Цветовой тест</h1>
-    <p class="lede">Восемь цветов нужно выбрать по одному, начиная с того, что кажется самым приятным сейчас. Не связывайте цвет с одеждой или интерьером — просто «нравится — не нравится». Результат показывает эмоциональный фон и то, как он меняется, когда вы думаете о разных сферах жизни.</p>
-    <div class="grid2">
+    return `<h1>Цветовой тест</h1>
+    <p class="lede">Выбирайте цвета по одному, начиная с того, что кажется самым приятным сейчас. Не связывайте цвет с одеждой или интерьером — просто «нравится — не нравится».</p>
+    <div class="grid2 stagger" style="margin:22px 0 16px">
       <section class="panel"><h3>Быстрый</h3><p class="muted small">Одна проба: состояние прямо сейчас. Около минуты.</p><button class="btn" data-a="ctStart" data-v="quick">Начать</button></section>
-      <section class="panel"><h3>Полный</h3><p class="muted small">Семь проб: самочувствие, здоровье, семья, среда, работа, общественный фон, поддержка. 5–7 минут.</p><button class="btn ghost" data-a="ctStart" data-v="full">Начать</button></section>
+      <section class="panel"><h3>Полный</h3><p class="muted small">Семь проб: самочувствие, здоровье, семья, среда, работа, общественный фон, поддержка.</p><button class="btn ghost" data-a="ctStart" data-v="full">Начать</button></section>
     </div>
-    <section class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">История</h3>${hist.length?`<button class="btn quiet small" data-a="exportTests">Скачать для Excel (CSV)</button>`:""}</div>
-    ${hist.length?`<ul class="list">${hist.map(t=>{const a=t.probes[0].res;return `<li><button data-go="test" data-id="${t.id}"><span class="t">${mini(t.probes[0].order)} <span class="small">${t.mode==="full"?"полный":"быстрый"} · СО ${a.so}</span></span><span class="d">${fmtDT(t.createdAt)}</span></button></li>`}).join("")}</ul>`:`<div class="empty">Пройдите первый тест — он появится здесь.</div>`}</section>
+    ${hist.length?`<section class="panel"><div class="row" style="justify-content:space-between;margin-bottom:6px"><h3 style="margin:0">История</h3><button class="btn quiet small" data-a="exportTests">Скачать для Excel</button></div>
+    <ul class="list">${hist.map(t=>`<li><button data-go="test" data-id="${t.id}"><span>${mini(t.probes[0].order)} <span class="small">${t.mode==="full"?"полный":"быстрый"} · СО ${t.probes[0].res.so}</span></span><span class="d">${fmtDT(t.createdAt)}</span></button></li>`).join("")}</ul></section>`:""}
     <p class="small muted">Экспресс-оценка по методике цветовых выборов М. Люшера. Это не диагноз, а повод внимательнее посмотреть на своё состояние.</p>`;
   }
-  const pr=PROBES[ct.mode][ct.idx];
+  const pr=PROBES[ct.mode][ct.idx],n=PROBES[ct.mode].length;
   if(!ct.started){
-    return `<div class="probe-count">Проба ${ct.idx+1} из ${PROBES[ct.mode].length}</div><h1 style="text-align:center;margin-top:8px">${pr.t}</h1>
-    <p class="lede" style="margin:0 auto 20px;text-align:center">${pr.i}</p>
-    <div class="row" style="justify-content:center"><button class="btn" data-a="ctGo">Выбирать цвета</button><button class="btn quiet" data-a="ctCancel">Отменить тест</button></div>`;
+    return `<div class="probe-count" style="margin-top:6vh">${n>1?`Проба ${ct.idx+1} из ${n}`:"Одна проба"}</div><h1 class="q" style="text-align:center;margin-top:10px">${pr.t}</h1>
+    <p class="lede" style="margin:0 auto 26px;text-align:center">${pr.i}</p>
+    <div class="row acts" style="justify-content:center"><button class="btn" data-a="ctGo">Выбирать цвета</button><button class="btn link" data-a="ctCancel">Отменить тест</button></div>`;
   }
-  return `<div class="probe-count">Проба ${ct.idx+1} из ${PROBES[ct.mode].length} · ${pr.t}</div>
-  <p style="text-align:center;margin:6px 0 0">Выберите самый приятный из оставшихся цветов</p>
+  return `<div class="probe-count">${n>1?`Проба ${ct.idx+1} из ${n} · `:""}${pr.t}</div>
+  <p style="text-align:center;margin:8px 0 0">${ct.cur.length?"Теперь самый приятный из оставшихся":"Какой цвет сейчас самый приятный?"}</p>
   <div class="swatches">${ct.deck.map(c=>`<button class="sw ${ct.cur.includes(c)?"gone":""}" style="background:${LUSCHER[c].hex}" data-a="ctPick" data-v="${c}" aria-label="${LUSCHER[c].name}" ${ct.cur.includes(c)?'tabindex="-1" disabled':""}></button>`).join("")}</div>
   <div class="picked" aria-label="Выбрано">${ct.cur.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</div>
-  <div class="row" style="justify-content:center;margin-top:16px">${ct.cur.length?`<button class="btn quiet small" data-a="ctUndo">Отменить последний</button>`:""}</div>`;
+  <div class="row" style="justify-content:center;margin-top:14px;min-height:40px">${ct.cur.length?`<button class="btn link small" data-a="ctUndo">Вернуть последний</button>`:""}</div>`;
 }
-async function ctPick(c){
-  const ct=S.ct;if(ct.cur.includes(c))return;ct.cur.push(c);
-  if(ct.cur.length===8){
-    ct.results.push({title:PROBES[ct.mode][ct.idx].t,order:[...ct.cur],res:analyze(ct.cur)});
-    if(ct.idx+1<PROBES[ct.mode].length){ct.idx++;ct.started=false;ct.cur=[];ct.deck=shuffle([0,1,2,3,4,5,6,7])}
-    else{
-      const t={id:uid(),createdAt:Date.now(),mode:ct.mode,code:S.profile.code||"",probes:ct.results};
-      await Store.put("tests",t);S.ct=null;go("test",t.id);return;
-    }
-  }
-  render();
+let picking=false;
+async function ctPick(c,el){
+  const ct=S.ct;if(picking||ct.cur.includes(c))return;picking=true;buzz();
+  if(el&&!reduceMotion()){el.classList.add("pop");await wait(190)}
+  ct.cur.push(c);picking=false;
+  if(ct.cur.length<8)return render();
+  ct.results.push({title:PROBES[ct.mode][ct.idx].t,order:[...ct.cur],res:analyze(ct.cur)});
+  if(ct.idx+1<PROBES[ct.mode].length){nav(()=>{ct.idx++;ct.started=false;ct.cur=[];ct.deck=shuffle([0,1,2,3,4,5,6,7])},"fwd");return}
+  const t={id:uid(),createdAt:Date.now(),mode:ct.mode,code:S.profile.code||"",probes:ct.results};
+  await Store.put("tests",t);S.ct=null;go("test",t.id);
 }
 function orderRow(order){return `<div class="order">${order.map((c,i)=>`<div><i style="background:${LUSCHER[c].hex}"></i>${i+1}</div>`).join("")}</div>`}
 function testView(id){
   const t=S.data.tests.find(x=>x.id===id);if(!t)return `<div class="empty">Тест не найден.</div>`;
-  const p0=t.probes[0],r=p0.res;
-  const plus=p0.order.slice(0,2),minus=p0.order.slice(6);
-  let h=`<button class="btn quiet small" data-go="color">Назад</button>
-  <h1 style="margin-top:16px">${t.mode==="full"?"Полный":"Быстрый"} цветовой тест</h1><p class="muted">${fmtDT(t.createdAt)}</p>
-  <section class="panel"><h3>${esc(p0.title)}</h3>${orderRow(p0.order)}
-  <div class="grid2" style="margin-top:14px">
-   <div><div class="small muted">Суммарное отклонение от нормы</div><div class="val">${r.so} <span class="small muted">из 32</span></div><div class="meter"><i style="width:${Math.min(100,r.so/32*100)}%"></i></div><p class="small">${soText(r.so)}</p></div>
-   <div><div class="small muted">Тревожность</div><div class="val">${r.anx} <span class="small muted">из 12</span></div><div class="meter"><i style="width:${r.anx/12*100}%"></i></div><p class="small">${anxText(r.anx)}</p></div>
+  const p0=t.probes[0],r=p0.res,plus=p0.order.slice(0,2),minus=p0.order.slice(6);
+  let h=`<button class="btn link" data-go="color" data-dir="back">Назад</button>
+  <h1 style="margin-top:12px">${t.mode==="full"?"Полный":"Быстрый"} цветовой тест</h1><p class="muted">${fmtDT(t.createdAt)}</p>
+  <div class="stagger"><section class="panel"><h3>${esc(p0.title)}</h3>${orderRow(p0.order)}
+  <div class="grid2" style="margin-top:16px">
+   <div><div class="small muted">Отклонение от нормы</div><div class="val">${r.so} <span class="small muted">из 32</span></div><div class="meter"><i style="width:${Math.min(100,r.so/32*100)}%"></i></div><p class="small" style="margin-top:6px">${soText(r.so)}</p></div>
+   <div><div class="small muted">Тревожность</div><div class="val">${r.anx} <span class="small muted">из 12</span></div><div class="meter"><i style="width:${r.anx/12*100}%"></i></div><p class="small" style="margin-top:6px">${anxText(r.anx)}</p></div>
   </div>
   <p class="small"><b>Вегетативный коэффициент ${r.vk}:</b> ${vkText(r.vk)}.</p>
   <hr><p><b>На первом плане:</b> ${plus.map(c=>PLUS[c]).join("; ")}.</p>
-  <p><b>Отодвигается:</b> ${minus.map(c=>MINUS[c]).join("; ")}.</p></section>`;
+  <p style="margin:0"><b>Отодвигается:</b> ${minus.map(c=>MINUS[c]).join("; ")}.</p></section>`;
   if(t.probes.length>1){
     const max=Math.max(...t.probes.slice(1).map(p=>p.res.so));
     const worst=t.probes.slice(1).filter(p=>p.res.so===max).map(p=>"«"+p.title+"»");
     h+=`<section class="panel"><h3>Как меняется состояние по сферам</h3>
     <p class="small muted">Чем длиннее полоса, тем сильнее выбор отклоняется от спокойного состояния, когда вы думаете об этой сфере.</p>
-    <div class="bars">${t.probes.map(p=>`<div class="b ${p.res.so===max&&p!==p0?"max":""}"><span>${esc(p.title)}</span><div class="meter"><i style="width:${Math.min(100,p.res.so/32*100)}%"></i></div><span>${p.res.so}</span></div>`).join("")}</div>
-    <p style="margin-top:12px">Сильнее всего состояние меняется, когда вы думаете ${worst.length>1?"о сферах":"о сфере"} ${esc(worst.join(", "))}. С неё, возможно, стоит начать разбор ситуации.</p>
+    <div class="bars">${t.probes.map((p,i)=>`<div class="b ${i>0&&p.res.so===max?"max":""}"><span>${esc(p.title)}</span><div class="meter"><i style="width:${Math.min(100,p.res.so/32*100)}%"></i></div><span>${p.res.so}</span></div>`).join("")}</div>
+    <p style="margin-top:14px">Сильнее всего состояние меняется, когда вы думаете ${worst.length>1?"о сферах":"о сфере"} ${esc(worst.join(", "))}. С неё, возможно, стоит начать разбор.</p>
     <div class="scroll"><table class="t"><tr><th>Проба</th><th>Порядок</th><th>СО</th><th>Трев.</th><th>ВК</th></tr>
     ${t.probes.map(p=>`<tr><td>${esc(p.title)}</td><td>${mini(p.order)}</td><td>${p.res.so}</td><td>${p.res.anx}</td><td>${p.res.vk}</td></tr>`).join("")}</table></div></section>`;
   }
   const prev=S.data.tests.filter(x=>x.createdAt<t.createdAt)[0];
   if(prev){const d=r.so-prev.probes[0].res.so;h+=`<p class="muted">По сравнению с тестом от ${fmtD(prev.createdAt)}: отклонение ${d<0?"уменьшилось на "+(-d):d>0?"выросло на "+d:"не изменилось"}.</p>`}
-  h+=`<div class="row"><button class="btn" data-go="wizard" data-a="newWiz">Разобрать ситуацию</button><button class="btn danger small" data-a="delTest" data-id="${t.id}">Удалить</button></div>`;
+  h+=`<div class="row acts"><button class="btn" data-a="newWiz">Разобрать ситуацию</button><button class="btn danger" data-a="delTest" data-id="${t.id}">Удалить</button></div></div>`;
   return h;
 }
 function testsCSV(){
@@ -686,6 +876,7 @@ function testsCSV(){
   [...S.data.tests].reverse().forEach(t=>t.probes.forEach(p=>rows.push([t.code||S.profile.code||"",new Date(t.createdAt).toLocaleString("ru-RU"),t.mode==="full"?"полный":"быстрый",p.title,...p.order,p.res.so,p.res.anx,String(p.res.vk).replace(".",",")])));
   return "\uFEFF"+rows.map(r=>r.map(v=>{v=String(v);return /[;"\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v}).join(";")).join("\r\n");
 }
+
 async function download(name,data){
   if(window.claude&&window.claude.use){
     const dl=await window.claude.use("downloads");
@@ -697,192 +888,218 @@ async function download(name,data){
 }
 
 /* ---------- дневник ---------- */
+function dayIdx(t,now,days){const d=new Date(t);d.setHours(0,0,0,0);return days-1-Math.round((now-d)/DAY)}
 function epChart(eps){
-  const days=14,now=new Date();now.setHours(0,0,0,0);
-  const cnt=Array(days).fill(0);
-  eps.forEach(e=>{const d=new Date(e.createdAt);d.setHours(0,0,0,0);const i=days-1-Math.round((now-d)/DAY);if(i>=0&&i<days)cnt[i]++});
+  const days=14,now=new Date();now.setHours(0,0,0,0);const cnt=Array(days).fill(0);
+  eps.forEach(e=>{const i=dayIdx(e.createdAt,now,days);if(i>=0&&i<days)cnt[i]++});
   const mx=Math.max(3,...cnt),W=680,H=130,bw=W/days;
-  return `<div class="scroll"><svg viewBox="0 0 ${W} ${H+20}" width="100%" role="img" aria-label="Эпизоды за 14 дней">
-  ${cnt.map((c,i)=>`<rect x="${i*bw+4}" y="${H-c/mx*H}" width="${bw-8}" height="${c/mx*H}" rx="3" fill="var(--sage)"/>${c?`<text x="${i*bw+bw/2}" y="${H-c/mx*H-4}" font-size="13" text-anchor="middle" fill="var(--muted)">${c}</text>`:""}`).join("")}
+  return `<div class="scroll"><svg viewBox="0 0 ${W} ${H+22}" width="100%" role="img" aria-label="Эпизоды за 14 дней">
+  ${cnt.map((c,i)=>`<rect x="${i*bw+6}" y="${H-c/mx*H}" width="${bw-12}" height="${c/mx*H}" rx="6" fill="var(--accent)"/>${c?`<text x="${i*bw+bw/2}" y="${H-c/mx*H-6}" font-size="13" text-anchor="middle" fill="var(--muted)">${c}</text>`:""}`).join("")}
   <line x1="0" x2="${W}" y1="${H}" y2="${H}" stroke="var(--line)"/>
-  <text x="2" y="${H+15}" font-size="13" fill="var(--muted)">14 дней назад</text><text x="${W-2}" y="${H+15}" font-size="13" fill="var(--muted)" text-anchor="end">сегодня</text></svg></div>`;
+  <text x="2" y="${H+18}" font-size="13" fill="var(--muted)">14 дней назад</text><text x="${W-2}" y="${H+18}" font-size="13" fill="var(--muted)" text-anchor="end">сегодня</text></svg></div>`;
 }
 function wbChart(notes){
-  const days=14,now=new Date();now.setHours(0,0,0,0);
-  const sum=Array(days).fill(0),n=Array(days).fill(0);
-  notes.forEach(e=>{if(e.wellbeing==null)return;const d=new Date(e.createdAt);d.setHours(0,0,0,0);const i=days-1-Math.round((now-d)/DAY);if(i>=0&&i<days){sum[i]+=e.wellbeing;n[i]++}});
+  const days=14,now=new Date();now.setHours(0,0,0,0);const sum=Array(days).fill(0),n=Array(days).fill(0);
+  notes.forEach(e=>{if(e.wellbeing==null)return;const i=dayIdx(e.createdAt,now,days);if(i>=0&&i<days){sum[i]+=e.wellbeing;n[i]++}});
   const W=680,H=130,bw=W/days;
   const pts=sum.map((s,i)=>n[i]?[i*bw+bw/2,H-(s/n[i])/10*H]:null);
   const path=pts.filter(Boolean).map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
-  return `<div class="scroll"><svg viewBox="0 0 ${W} ${H+20}" width="100%" role="img" aria-label="Самочувствие за 14 дней">
-  <line x1="0" x2="${W}" y1="${H/2}" y2="${H/2}" stroke="var(--line)" stroke-dasharray="3 4"/><line x1="0" x2="${W}" y1="${H}" y2="${H}" stroke="var(--line)"/>
-  ${path?`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2"/>`:""}
-  ${pts.map(p=>p?`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--accent)"/>`:"").join("")}
-  <text x="2" y="${H+15}" font-size="13" fill="var(--muted)">14 дней назад</text><text x="${W-2}" y="${H+15}" font-size="13" fill="var(--muted)" text-anchor="end">сегодня</text></svg></div>`;
+  return `<div class="scroll"><svg viewBox="0 0 ${W} ${H+22}" width="100%" role="img" aria-label="Самочувствие за 14 дней">
+  <line x1="0" x2="${W}" y1="${H/2}" y2="${H/2}" stroke="var(--line)" stroke-dasharray="3 5"/><line x1="0" x2="${W}" y1="${H}" y2="${H}" stroke="var(--line)"/>
+  ${path?`<path d="${path}" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`:""}
+  ${pts.map(p=>p?`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2.5"/>`:"").join("")}
+  <text x="2" y="${H+18}" font-size="13" fill="var(--muted)">14 дней назад</text><text x="${W-2}" y="${H+18}" font-size="13" fill="var(--muted)" text-anchor="end">сегодня</text></svg></div>`;
 }
 function diaryView(){
   const t=S.diaryType,task=activeTask(),notes=S.data.notes;
   const df=S.df||(S.df={zones:[],wellbeing:6,before:5,after:3,done:true});
-  let h=`${strip()}<h1>Дневник самочувствия</h1>
+  let h=`<h1>Дневник самочувствия</h1>
   <p class="lede">Отмечайте, как вы себя чувствуете, и каждый эпизод знакомого дискомфорта. Через неделю-две станет видно, как часто он появляется и что помогает.</p>
-  <section class="panel">
-  <div class="tabs" role="group" aria-label="Тип записи"><button class="chip" data-a="dtype" data-v="episode" aria-pressed="${t==="episode"}">Эпизод дискомфорта</button><button class="chip" data-a="dtype" data-v="day" aria-pressed="${t==="day"}">Самочувствие</button></div>`;
+  <section class="panel" style="margin-top:20px">
+  <div class="seg" role="group" aria-label="Тип записи" style="margin-top:0"><button data-a="dtype" data-v="episode" aria-pressed="${t==="episode"}">Эпизод</button><button data-a="dtype" data-v="day" aria-pressed="${t==="day"}">Самочувствие</button></div>`;
+  const zchips=`<div class="chips">${ZONES.map(([k,l])=>`<button class="chip" data-a="dzone" data-v="${k}" aria-pressed="${df.zones.includes(k)}">${l}</button>`).join("")}</div>`;
   if(t==="episode"){
-    h+=`${task?`<p class="small muted">Привяжется к заданию «${esc(task.title)}».</p>`:""}
-    <label class="f">Где в теле</label><div class="chips">${ZONES.map(([k,l])=>`<button class="chip" data-a="dzone" data-v="${k}" aria-pressed="${df.zones.includes(k)}">${l}</button>`).join("")}</div>
+    h+=`${task?`<p class="small muted" style="margin-top:10px">Запись привяжется к заданию «${esc(task.title)}».</p>`:""}
+    <label class="f">Где в теле</label>${zchips}
     <label class="f" for="d-sit">В какой ситуации</label><input id="d-sit" type="text" placeholder="Например: разговор с начальником">
     <div class="grid2"><div><label class="f" for="d-before">Сила до практики: <span id="v-dbefore">${df.before}</span></label><input id="d-before" type="range" min="0" max="10" value="${df.before}" data-dbind="before"></div>
     <div><label class="f" for="d-after">После: <span id="v-dafter">${df.after}</span></label><input id="d-after" type="range" min="0" max="10" value="${df.after}" data-dbind="after"></div></div>
-    <label class="row" style="margin-top:12px;gap:8px"><input type="checkbox" id="d-done" ${df.done?"checked":""}> Сделала практику</label>`;
+    <label class="switchrow" style="margin-top:14px"><span>Сделала практику</span><input type="checkbox" class="toggle" id="d-done" ${df.done?"checked":""}></label>`;
   }else{
     h+=`<label class="f" for="d-wb">Общее самочувствие: <span id="v-dwb">${df.wellbeing}</span> из 10</label><input id="d-wb" type="range" min="1" max="10" value="${df.wellbeing}" data-dbind="wellbeing">
     <div class="scale"><span>очень плохо</span><span>отлично</span></div>
-    <label class="f">Что беспокоит в теле</label><div class="chips">${ZONES.map(([k,l])=>`<button class="chip" data-a="dzone" data-v="${k}" aria-pressed="${df.zones.includes(k)}">${l}</button>`).join("")}</div>
+    <label class="f">Что беспокоит в теле</label>${zchips}
     <label class="f" for="d-sleep">Сон, питание, нагрузка</label><input id="d-sleep" type="text" placeholder="Например: спала 6 часов, много встреч">`;
   }
-  h+=`<label class="f" for="d-text">Заметка</label><textarea id="d-text" placeholder="Что заметили, что помогло, какие мысли пришли"></textarea>
-  <div class="row" style="margin-top:14px"><button class="btn" data-a="saveNote">Сохранить запись</button></div></section>`;
+  h+=`<label class="f" for="d-text">Заметка</label><textarea id="d-text" style="min-height:96px" placeholder="Что заметили, что помогло, какие мысли пришли"></textarea>
+  <div class="row acts" style="margin-top:16px"><button class="btn" data-a="saveNote">Сохранить запись</button></div></section>`;
   const eps=notes.filter(n=>n.type==="episode");
-  h+=`<div><section class="panel"><h3>Эпизоды за 14 дней</h3>${eps.length?epChart(eps):`<p class="muted small">Пока нет данных.</p>`}</section>
-  <section class="panel"><h3>Самочувствие</h3>${notes.some(n=>n.wellbeing!=null)?wbChart(notes):`<p class="muted small">Пока нет данных.</p>`}</section></div>`;
-  h+=`<section class="panel"><h3>Записи</h3>${notes.length?`<ul class="list">${notes.slice(0,60).map(n=>`<li><div style="display:flex;justify-content:space-between;gap:12px;padding:12px 2px"><div><b>${n.type==="episode"?`Эпизод ${n.before}→${n.after}`:`Самочувствие ${n.wellbeing}/10`}</b>${n.zones&&n.zones.length?` <span class="muted small">· ${n.zones.map(z=>ZNAME[z].toLowerCase()).join(", ")}</span>`:""}
+  if(eps.length)h+=`<section class="panel"><h3>Эпизоды за 14 дней</h3>${epChart(eps)}</section>`;
+  if(notes.some(n=>n.wellbeing!=null))h+=`<section class="panel"><h3>Самочувствие</h3>${wbChart(notes)}</section>`;
+  if(notes.length)h+=`<section class="panel"><h3>Записи</h3><ul class="list">${notes.slice(0,60).map(n=>`<li><div style="display:flex;justify-content:space-between;gap:12px;padding:13px 2px"><div><b>${n.type==="episode"?`Эпизод ${n.before} → ${n.after}`:`Самочувствие ${n.wellbeing} из 10`}</b>${n.zones&&n.zones.length?` <span class="muted small">· ${n.zones.map(z=>ZNAME[z].toLowerCase()).join(", ")}</span>`:""}
     ${n.situation||n.sleep?`<div class="small">${esc(n.situation||n.sleep)}</div>`:""}${n.text?`<div class="small muted">${esc(n.text)}</div>`:""}</div>
-    <div style="text-align:right"><div class="d muted small">${fmtDT(n.createdAt)}</div><button class="btn quiet small" style="margin-top:6px" data-a="delNote" data-id="${n.id}" aria-label="Удалить запись">Удалить</button></div></div></li>`).join("")}</ul>`:`<div class="empty">Первая запись появится здесь.</div>`}
-  <p class="small muted" style="margin-top:12px">Дневник не заменяет врача. Если симптом новый, острый или усиливается — сначала обратитесь за медицинской помощью.</p></section>`;
+    <div style="text-align:right;flex:none"><div class="muted small">${fmtDT(n.createdAt)}</div><button class="btn link small" data-a="delNote" data-id="${n.id}">Удалить</button></div></div></li>`).join("")}</ul></section>`;
+  h+=`<p class="small muted">Дневник не заменяет врача. Если симптом новый, острый или усиливается — сначала обратитесь за медицинской помощью.</p>`;
   return h;
 }
 async function saveNote(){
   const df=S.df,t=S.diaryType,task=activeTask();
   const v=id=>{const el=document.getElementById(id);return el?el.value.trim():""};
   const n={id:uid(),createdAt:Date.now(),type:t,zones:[...df.zones],text:v("d-text")};
-  if(t==="episode"){Object.assign(n,{situation:v("d-sit"),before:+df.before,after:+df.after,done:document.getElementById("d-done").checked,sessionId:task?task.id:null})}
+  if(t==="episode")Object.assign(n,{situation:v("d-sit"),before:+df.before,after:+df.after,done:document.getElementById("d-done").checked,sessionId:task?task.id:null});
   else Object.assign(n,{wellbeing:+df.wellbeing,sleep:v("d-sleep")});
-  await Store.put("notes",n);S.df=null;toast("Запись сохранена.");render();
+  await Store.put("notes",n);S.df=null;buzz();toast("Запись сохранена.");render();
 }
 
 /* ---------- практики ---------- */
 function practicesView(){
   const r=S.relax;
-  let h=`${strip()}<h1>Практики</h1>
-  <p class="lede">Короткие упражнения для самостоятельной работы. Их можно делать каждый день и в моменты, когда накрывает.</p>
-  <section class="panel"><h3>Прогрессивная релаксация</h3>
-  <p class="muted small">Последовательно напрягайте и отпускайте группы мышц. Тело вспоминает, что такое «расслаблено». 14 групп, около пяти минут.</p>`;
+  let h=`<h1>Практики</h1>
+  <p class="lede">Короткие упражнения для самостоятельной работы — каждый день и в моменты, когда накрывает.</p>
+  <div class="stagger" style="margin-top:20px"><section class="panel"><h3>Прогрессивная релаксация</h3>`;
   if(r){
-    const g=RELAX[r.i];
-    h+=`<div class="practice" aria-live="polite"><div class="stepname">${r.i+1} из ${RELAX.length}</div><h3>${g}</h3><p id="rx-phase">${r.phase==="tense"?"Вдох. Напрягите мышцы, удерживайте…":"Выдох. Отпустите. Заметьте, как уходит напряжение."}</p><div class="timer" id="rx-t">${r.left}</div></div>
-    <button class="btn quiet" data-a="relaxStop">Остановить</button>`;
-  }else h+=`<button class="btn" data-a="relaxStart">Начать</button>`;
+    h+=`<div class="breath"><div class="ball" id="rx-ball"></div></div>
+    <p class="muted small" style="text-align:center;margin:0" id="rx-n">${r.i+1} из ${RELAX.length}</p>
+    <h3 style="text-align:center;margin:4px 0" id="rx-name">${RELAX[r.i]}</h3>
+    <p style="text-align:center" id="rx-phase" aria-live="polite"></p><div class="rx-t" id="rx-t">${r.left}</div>
+    <div class="row" style="justify-content:center;margin-top:10px"><button class="btn quiet" data-a="relaxStop">Остановить</button></div>`;
+  }else h+=`<p class="muted small">Последовательно напрягайте и отпускайте 14 групп мышц — тело вспоминает, что такое «расслаблено». Около пяти минут. Следите за шаром: растёт — вдох и напряжение, сжимается — выдох и расслабление.</p><button class="btn" data-a="relaxStart">Начать</button>`;
   h+=`</section>
-  <section class="panel"><h3>Брюшное дыхание</h3><p>Положите ладонь на живот. На вдохе живот мягко поднимается навстречу ладони, на выдохе опускается. Выдох чуть длиннее вдоха. 3–5 минут. Помогает при тревоге и перед сложным разговором.</p></section>
-  <section class="panel"><h3>Спонтанный цвет</h3><p>Закройте глаза и расслабьтесь. Представьте, что закрытые глаза — тёмный экран. Подождите, пока на нём появится цветное пятно, и дайте ему заполнить весь экран. Какой это цвет? Что при этом чувствует тело? Заметьте, как дыхание меняет яркость. Затем «сотрите» цвет, как влажной тканью, до чистого экрана. Приятный цвет можно запомнить и вызывать потом для саморегуляции.</p></section>
-  <section class="panel"><h3>Взгляд со стороны</h3><p>Войдите в спокойное состояние через дыхание. Подумайте о волнующей ситуации так, будто наблюдаете её издалека, без спешки и без привязки к результату. Подождите: из глубины может прийти образ — неожиданный, даже непонятный. Запомните его и подумайте о нём потом, уже в обычном состоянии.</p></section>
+  <section class="panel"><h3>Брюшное дыхание</h3><p style="margin:0">Положите ладонь на живот. На вдохе живот мягко поднимается навстречу ладони, на выдохе опускается. Выдох чуть длиннее вдоха. 3–5 минут — при тревоге и перед сложным разговором.</p></section>
+  <section class="panel"><h3>Спонтанный цвет</h3><p style="margin:0">Закройте глаза и расслабьтесь. Закрытые глаза — тёмный экран. Подождите, пока на нём появится цветное пятно, и дайте ему заполнить весь экран. Какой это цвет? Что при этом чувствует тело? Заметьте, как дыхание меняет яркость. Затем «сотрите» цвет, как влажной тканью, до чистого экрана. Приятный цвет можно запомнить и вызывать потом для саморегуляции.</p></section>
+  <section class="panel"><h3>Взгляд со стороны</h3><p style="margin:0">Войдите в спокойное состояние через дыхание. Подумайте о волнующей ситуации так, будто наблюдаете её издалека, без спешки. Подождите: может прийти образ — неожиданный, даже непонятный. Запомните его и подумайте о нём потом.</p></section>
   <section class="panel"><h3>Меридиональная эмоциональная разрядка</h3>
-  <p class="muted small">Каждое движение связано с определённым чувством и зоной тела. Представьте конкретного человека или ситуацию; на вдохе — напряжение, будто движению что-то мешает; на выдохе — движение. 3–5 повторов.</p>
-  ${MER_ORDER.map(k=>{const m=MER[k];return `<details class="m"><summary><span>${m.n}</span><span class="code">${k} · ${m.time}</span></summary><dl class="kv"><dt>Чувства</dt><dd>${esc(m.feel)}</dd><dt>Тело</dt><dd>${esc(m.body)}</dd><dt>Движение</dt><dd>${esc(m.move)}</dd></dl></details>`}).join("")}
+  <p class="muted small">Представьте конкретного человека или ситуацию. На вдохе — напряжение, будто движению что-то мешает; на выдохе — движение. 3–5 повторов.</p>
+  ${MER_ORDER.map(k=>{const m=MER[k];return `<details class="m"><summary><span>${m.n}</span><span class="code">${m.time}</span></summary><dl class="kv"><dt>Чувства</dt><dd>${esc(m.feel)}</dd><dt>Тело</dt><dd>${esc(m.body)}</dd><dt>Движение</dt><dd>${esc(m.move)}</dd></dl></details>`}).join("")}
   </section>
-  <section class="panel"><h3>Работа с мышечными зажимами (АМПИР)</h3>
-  <p class="muted small">На вдохе — напряжение с собственным сопротивлением до пяти счётов, на выдохе — отпустить. Несколько повторов. Между ними спросите себя: когда раньше были похожие ощущения? Сколько мне было лет? Что происходило?</p>
-  ${ZONES.map(([k,l])=>`<details class="m"><summary><span>${l}</span></summary><p>${esc(AMPIR[k])}</p></details>`).join("")}
+  <section class="panel"><h3>Работа с мышечными зажимами</h3>
+  <p class="muted small">На вдохе — напряжение с собственным сопротивлением до пяти счётов, на выдохе — отпустить. Между повторами спросите себя: когда раньше были похожие ощущения? Сколько мне было лет? Что происходило?</p>
+  ${ZONES.map(([k,l])=>`<details class="m"><summary><span>${l}</span></summary><p style="margin:0">${esc(AMPIR[k])}</p></details>`).join("")}
   </section>
-  <p class="small muted">Методическая основа: М. Е. Сандомирский — «Психосоматика и телесная психотерапия. Практическое руководство», «Психокоррекция и личностный рост: телесно-интегративный подход», «Интегративный психосоматический коучинг». Практики не заменяют медицинскую помощь.</p>`;
+  <p class="small muted">Методическая основа: М. Е. Сандомирский — «Психосоматика и телесная психотерапия. Практическое руководство», «Психокоррекция и личностный рост: телесно-интегративный подход», «Интегративный психосоматический коучинг». Практики не заменяют медицинскую помощь.</p></div>`;
   return h;
 }
 let rxTimer=null;
 function relaxStart(){S.relax={i:0,phase:"tense",left:5};render()}
 function relaxStop(){clearInterval(rxTimer);rxTimer=null;S.relax=null;render()}
-function tickRelax(fresh){
-  if(rxTimer&&fresh)return;clearInterval(rxTimer);
+function relaxPaint(){
+  const r=S.relax;if(!r)return;
+  const ball=document.getElementById("rx-ball"),ph=document.getElementById("rx-phase");
+  const $=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t};
+  $("rx-n",`${r.i+1} из ${RELAX.length}`);$("rx-name",RELAX[r.i]);$("rx-t",r.left);
+  if(ph)ph.textContent=r.phase==="tense"?"Вдох. Напрягите мышцы и удерживайте…":"Выдох. Отпустите и почувствуйте, как уходит напряжение.";
+  if(ball&&ball.dataset.p!==r.phase){ball.dataset.p=r.phase;const d=r.phase==="tense"?5:12;ball.style.transition=`transform ${d}s cubic-bezier(.45,.05,.35,1)`;requestAnimationFrame(()=>{ball.style.transform=r.phase==="tense"?"scale(1)":"scale(.55)"})}
+}
+function relaxLoop(){
+  clearInterval(rxTimer);relaxPaint();
   rxTimer=setInterval(()=>{
     const r=S.relax;if(!r||S.view!=="practices"){clearInterval(rxTimer);rxTimer=null;return}
     r.left--;
     if(r.left<=0){
       if(r.phase==="tense"){r.phase="relax";r.left=12}
-      else if(r.i+1<RELAX.length){r.i++;r.phase="tense";r.left=5}
+      else if(r.i+1<RELAX.length){r.i++;r.phase="tense";r.left=5;buzz()}
       else{clearInterval(rxTimer);rxTimer=null;S.relax=null;toast("Релаксация завершена. Побудьте в этом состоянии ещё немного.");render();return}
-      clearInterval(rxTimer);rxTimer=null;render();return;
     }
-    const el=document.getElementById("rx-t");if(el)el.textContent=r.left;
+    relaxPaint();
   },1000);
 }
 
 /* ---------- профиль ---------- */
 function profileView(){
-  return `${strip()}<h1>Профиль и данные</h1>
-  <section class="panel"><h3>${esc(S.userName||"Ваш профиль")}</h3>
-  <p class="muted small">${S.mode==="cloud"?"Вы вошли через аккаунт Claude. Ваши записи видны только вам — даже владелец приложения их не видит.":"Локальный профиль: данные хранятся только в этом браузере."}</p>
-  ${S.mode==="local"?`<button class="btn quiet" data-a="logout">Выйти</button>`:""}</section>
+  const p=S.mode==="local"&&LS.get("tochka:profiles",[]).find(x=>x.id===S.pid);
+  return `<div class="hero" style="align-items:center;margin-bottom:22px"><div style="display:flex;align-items:center;gap:16px">${ava(56)}<div><h1 style="margin:0">${esc(S.userName||"Ваш профиль")}</h1><p class="muted small" style="margin:0">${S.mode==="cloud"?"Вход через аккаунт Claude":"Профиль на этом устройстве"}</p></div></div></div>
+  <div class="stagger">
+  ${p?`<section class="panel"><label class="switchrow"><span><b>Спрашивать PIN при входе</b><br><span class="muted small">Если выключено, приложение сразу откроет ваш профиль.</span></span><input type="checkbox" class="toggle" id="p-askpin" ${p.askPin?"checked":""}></label></section>`:""}
+  ${S.mode==="cloud"?`<section class="panel"><p class="muted small" style="margin:0">Ваши записи видны только вам — даже владелец приложения их не видит.</p></section>`:""}
   <section class="panel"><h3>Код участника</h3><p class="muted small">Если вы проходите тесты в рамках исследования, введите выданный код. Он попадёт в выгрузку вместо имени.</p>
   <div class="row" style="flex-wrap:nowrap"><input type="text" id="p-code" value="${esc(S.profile.code)}" maxlength="30"><button class="btn" data-a="saveCode">Сохранить</button></div></section>
   <section class="panel"><h3>Мои данные</h3>
-  <div class="row"><button class="btn quiet" data-a="exportAll">Скачать всё (JSON)</button><button class="btn quiet" data-a="exportTests" ${S.data.tests.length?"":"disabled"}>Тесты для Excel (CSV)</button></div>
-  <hr><button class="btn danger" data-a="wipe">Удалить все мои записи</button></section>
+  <div class="row acts"><button class="btn quiet" data-a="exportAll">Скачать всё</button><button class="btn quiet" data-a="exportTests" ${S.data.tests.length?"":"disabled"}>Тесты для Excel</button></div>
+  <hr><div class="row acts"><button class="btn danger" data-a="wipe">Удалить все записи</button>${S.mode==="local"?`<button class="btn link" data-a="logout">Выйти из профиля</button>`:""}</div></section>
   <section class="panel flat"><h3>О приложении</h3><p class="small">«Точка опоры» помогает посмотреть на трудную ситуацию с другой стороны, опираясь на психосоматический и коучинговый подход: связь чувства и телесного ощущения, работа с зажимами, меридиональная эмоциональная разрядка, обращение к раннему опыту и взгляд взрослой части личности.</p>
-  <p class="small muted">Версия ${APP_VERSION}.</p><p class="small muted">Приложение — инструмент самопомощи, а не медицинская услуга. При острых или новых симптомах обратитесь к врачу. Если тяжело справиться самостоятельно — к психологу или психотерапевту.</p></section>`;
+  <p class="small muted">Приложение — инструмент самопомощи, а не медицинская услуга. При острых или новых симптомах обратитесь к врачу. Если тяжело справиться самостоятельно — к психологу или психотерапевту. Версия ${APP_VERSION}.</p></section></div>`;
 }
 
 /* ---------- события ---------- */
+function toggleIn(arr,v){return arr.includes(v)?arr.filter(x=>x!==v):[...arr,v]}
 document.addEventListener("click",async e=>{
-  if(e.target.closest(".modal"))return;
-  const b=e.target.closest("[data-go],[data-a]");if(!b)return;
+  if(e.target.closest(".modal,.welcome"))return;
+  const b=e.target.closest("[data-go],[data-a]");if(!b||b.disabled)return;
   const a=b.dataset.a,v=b.dataset.v,id=b.dataset.id;
-  if(a==="newWiz")newWiz();
-  if(b.dataset.go){go(b.dataset.go,id);return}
+  if(b.dataset.go){go(b.dataset.go,id,b.dataset.dir);return}
   const w=S.wiz;
   switch(a){
     case "register":return doRegister();
     case "login":return doLogin();
-    case "toLogin":S.authReg=false;return render();
-    case "toReg":S.authReg=true;return render();
+    case "pinLogin":return doPinLogin();
+    case "otherProfile":S.pinFor=null;LS.del("tochka:last");return render("fade");
+    case "toLogin":S.authReg=false;return render("fade");
+    case "toReg":S.authReg=true;return render("fade");
     case "logout":return logout();
-    case "sphere":w.sphere=w.sphere===v?"":v;return render();
-    case "zone":w.zones=w.zones.includes(v)?w.zones.filter(x=>x!==v):[...w.zones,v];w.zone="";return render();
-    case "sens":w.sens=w.sens.includes(v)?w.sens.filter(x=>x!==v):[...w.sens,v];return render();
-    case "emo":w.emotion=v;w.route="";w.mer="";return render();
-    case "route":w.route=v;return render();
-    case "mer":w.mer=v;w.route="mer";return render();
-    case "azone":w.zone=v;return render();
-    case "wnext":
-      if(w.step===0&&!w.situation.trim()){toast("Опишите ситуацию хотя бы одной фразой.");return}
-      if(w.step===3&&!w.emotion){toast("Выберите вариант, который ближе.");return}
-      w.step++;render();window.scrollTo(0,0);return;
-    case "wprev":w.step--;render();window.scrollTo(0,0);return;
+    case "newWiz":newWiz();S.progPrev=null;return go("wizard");
+    case "dropDraft":S.wiz=null;saveDraft();return render();
+    case "pick":{
+      w[b.dataset.k]=v;buzz();
+      if(b.dataset.k==="emotion"){w.route="";w.mer=""}
+      b.parentElement.querySelectorAll(".opt").forEach(o=>{const on=o===b;o.setAttribute("aria-pressed",on);o.setAttribute("aria-checked",on)});
+      refreshNextLabel();saveDraft();
+      const st=WS[w.step];if(st.auto){const s0=w.step;setTimeout(()=>{if(S.wiz&&S.wiz.step===s0&&S.view==="wizard")wnext()},reduceMotion()?0:320)}
+      return;
+    }
+    case "multi":{const k=b.dataset.k;w[k]=toggleIn(w[k],v);if(k==="zones")w.zone="";b.setAttribute("aria-pressed",w[k].includes(v));buzz();refreshNextLabel();saveDraft();return}
+    case "route":w.route=v;saveDraft();return render();
+    case "mer":w.mer=v;w.route="mer";saveDraft();return render();
+    case "azone":w.zone=v;saveDraft();return render();
+    case "wnext":return wnext();
+    case "wprev":return wprev();
     case "wsave":return saveWiz();
-    case "ctStart":S.ct={mode:v,idx:0,started:false,cur:[],deck:shuffle([0,1,2,3,4,5,6,7]),results:[]};return render();
-    case "ctGo":S.ct.started=true;return render();
-    case "ctCancel":S.ct=null;return render();
-    case "ctPick":return ctPick(+v);
+    case "ctStart":S.ct={mode:v,idx:0,started:false,cur:[],deck:shuffle([0,1,2,3,4,5,6,7]),results:[]};return nav(()=>{},"fwd");
+    case "ctGo":return nav(()=>{S.ct.started=true},"fade");
+    case "ctCancel":return nav(()=>{S.ct=null},"back");
+    case "ctPick":return ctPick(+v,b);
     case "ctUndo":S.ct.cur.pop();return render();
     case "exportTests":return download(`tochka-tests-${new Date().toISOString().slice(0,10)}.csv`,testsCSV());
     case "exportAll":return download(`tochka-data-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify({profile:S.profile,...S.data},null,2));
-    case "delTest":if(await ask("Удалить этот тест?",{ok:"Удалить",danger:1})){await Store.del("tests",id);go("color")}return;
-    case "delSession":if(await ask("Удалить разбор? Отмеченные эпизоды останутся в дневнике.",{ok:"Удалить",danger:1})){await Store.del("sessions",id);go("home")}return;
+    case "delTest":if(await ask("Удалить этот тест?",{ok:"Удалить"})){await Store.del("tests",id);go("color",null,"back")}return;
+    case "delSession":if(await ask("Удалить разбор? Отмеченные эпизоды останутся в дневнике.",{ok:"Удалить"})){await Store.del("sessions",id);go("home",null,"back")}return;
     case "closeTask":{const s=S.data.sessions.find(x=>x.id===id);const refl=await ask("Что изменилось за это время? Пришло ли новое понимание?",{input:1,ok:"Завершить задание",placeholder:"Например: дискомфорт стал реже, поняла, что…"});if(refl===null)return;s.homework={closed:true,closedAt:Date.now(),reflection:refl.trim()};await Store.put("sessions",s);toast("Задание завершено. Пройдите цветовой тест ещё раз, чтобы сравнить.");return go("color")}
-    case "quickEp":S.diaryType="episode";{const s=S.data.sessions.find(x=>x.id===id);S.df={zones:s?[...s.zones]:[],wellbeing:6,before:s?s.before:5,after:3,done:true}}return go("diary");
-    case "dtype":S.diaryType=v;return render();
-    case "dzone":{const df=S.df;df.zones=df.zones.includes(v)?df.zones.filter(x=>x!==v):[...df.zones,v];const keep=captureDiary();render();restoreDiary(keep);return}
+    case "quickEp":{S.diaryType="episode";const s=S.data.sessions.find(x=>x.id===id);S.df={zones:s?[...s.zones]:[],wellbeing:6,before:s?s.before:5,after:3,done:true};return go("diary")}
+    case "dtype":if(S.diaryType===v)return;S.diaryType=v;{const keep=captureDiary();render();restoreDiary(keep)}return;
+    case "dzone":S.df.zones=toggleIn(S.df.zones,v);b.setAttribute("aria-pressed",S.df.zones.includes(v));buzz();return;
     case "saveNote":return saveNote();
-    case "delNote":if(await ask("Удалить запись?",{ok:"Удалить",danger:1})){await Store.del("notes",id);render()}return;
+    case "delNote":if(await ask("Удалить запись?",{ok:"Удалить"})){await Store.del("notes",id);render()}return;
     case "relaxStart":return relaxStart();
     case "relaxStop":return relaxStop();
     case "saveCode":S.profile.code=document.getElementById("p-code").value.trim();await Store.saveProfile();return toast("Код сохранён.");
-    case "wipe":if(await ask("Удалить все разборы, тесты и записи дневника? Это действие нельзя отменить.",{ok:"Удалить всё",danger:1})){await Store.wipe();toast("Все записи удалены.");go("home")}return;
+    case "wipe":if(await ask("Удалить все разборы, тесты и записи дневника? Это действие нельзя отменить.",{ok:"Удалить всё"})){await Store.wipe();toast("Все записи удалены.");go("home")}return;
   }
 });
-function captureDiary(){const o={};["d-sit","d-text","d-sleep"].forEach(k=>{const el=document.getElementById(k);if(el)o[k]=el.value});const c=document.getElementById("d-done");if(c)o.done=c.checked;return o}
-function restoreDiary(o){for(const k in o){const el=document.getElementById(k);if(!el)continue;if(k==="done")el.checked=o[k];else el.value=o[k]}}
+function captureDiary(){const o={};["d-text"].forEach(k=>{const el=document.getElementById(k);if(el)o[k]=el.value});return o}
+function restoreDiary(o){for(const k in o){const el=document.getElementById(k);if(el)el.value=o[k]}}
 document.addEventListener("input",e=>{
   const el=e.target;
-  if(el.dataset.bind&&S.wiz){const k=el.dataset.bind;S.wiz[k]=el.dataset.num?+el.value:el.value;const o=document.getElementById("v-"+k);if(o)o.textContent=el.value}
+  if(el.type==="range")setP(el);
+  if(el.dataset.bind&&S.wiz){const k=el.dataset.bind;S.wiz[k]=el.dataset.num?+el.value:el.value;const o=document.getElementById("v-"+k);if(o)o.textContent=el.value;refreshNextLabel();saveDraft()}
   if(el.dataset.dbind&&S.df){const k=el.dataset.dbind;S.df[k]=+el.value;const o=document.getElementById({before:"v-dbefore",after:"v-dafter",wellbeing:"v-dwb"}[k]);if(o)o.textContent=el.value}
-  if(el.id==="d-done"&&S.df)S.df.done=el.checked;
+});
+document.addEventListener("change",e=>{
+  const el=e.target;
+  if(el.id==="d-done"&&S.df){S.df.done=el.checked;buzz()}
+  if(el.id==="p-askpin"){const profs=LS.get("tochka:profiles",[]);const p=profs.find(x=>x.id===S.pid);if(p){p.askPin=el.checked;LS.set("tochka:profiles",profs);buzz();toast(el.checked?"Теперь при входе будет нужен PIN.":"Профиль будет открываться сразу.")}}
 });
 document.addEventListener("keydown",e=>{
-  if(e.key==="Enter"&&!S.mode&&e.target.tagName==="INPUT"){const b=document.querySelector('[data-a="login"],[data-a="register"]');if(b)b.click()}
+  if(e.key!=="Enter"||e.target.closest(".modal"))return;
+  const t=e.target;
+  if(!S.mode&&t.tagName==="INPUT"){e.preventDefault();const b=document.querySelector('[data-a="pinLogin"],[data-a="login"],[data-a="register"]');if(b)b.click();return}
+  if(S.view==="wizard"&&S.wiz){
+    if(t.tagName==="INPUT"&&t.type==="text"){e.preventDefault();WS[S.wiz.step].type==="summary"?saveWiz():wnext()}
+    else if(t.tagName==="TEXTAREA"&&(e.metaKey||e.ctrlKey)){e.preventDefault();wnext()}
+  }
 });
 
 /* ---------- запуск ---------- */
 async function boot(){
-  S.booting=true;render();
+  root.innerHTML=`<div class="boot">${KEYHOLE(64)}</div>`;
   let db=null,user=null;
   if(window.claude&&typeof window.claude.use==="function"){
     try{[db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")])}catch(e){}
@@ -892,14 +1109,13 @@ async function boot(){
     if(me&&me.id){
       S.mode="cloud";S.db=db;S.uid=me.id;S.userName=me.name||"";
       try{await Store.load()}catch(e){toast("Не удалось загрузить записи. Обновите страницу.")}
-      S.booting=false;render();return;
+      showWelcome();render("fade");return;
     }
   }
-  S.booting=false;
-  let act=null;try{act=sessionStorage.getItem("tochka:active")}catch(e){}
-  const p=act&&LS.get("tochka:profiles",[]).find(x=>x.id===act);
-  if(p){await enterLocal(p);return}
-  render();
+  const last=LS.get("tochka:last",null);
+  const p=last&&LS.get("tochka:profiles",[]).find(x=>x.id===last);
+  if(p){if(p.askPin){S.pinFor=p;render("fade")}else await enterLocal(p)}
+  else render("fade");
 }
 boot();
 </script>
