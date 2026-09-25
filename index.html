@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Точка опоры — самопомощь в трудных ситуациях: разбор с вопросами, цветовой тест, дневник самочувствия и практики саморегуляции.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1E4A6D">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Точка опоры">
+<title>Точка опоры</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1F2; --surface:#FFFFFF; --ink:#1B2631; --muted:#5A6672; --line:#D3D9DE;
+  --accent:#1E4A6D; --accent-ink:#FFFFFF; --sage:#2E6A5A; --soft:#E2E9EE; --warn:#9A3B22;
+  --serif:"Literata", Georgia, "Times New Roman", serif;
+  --sans:"Golos Text", "Segoe UI", Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#11161B; --surface:#182028; --ink:#E4E9ED; --muted:#99A5B0; --line:#2A343E;
+    --accent:#86B4DA; --accent-ink:#0E1A24; --sage:#7DBBA7; --soft:#1F2A34; --warn:#E59A7F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11161B; --surface:#182028; --ink:#E4E9ED; --muted:#99A5B0; --line:#2A343E;
+  --accent:#86B4DA; --accent-ink:#0E1A24; --sage:#7DBBA7; --soft:#1F2A34; --warn:#E59A7F;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.2;margin:0 0 .5em}
+h1{font-size:2rem} h2{font-size:1.45rem} h3{font-size:1.12rem}
+p{margin:0 0 .8em}
+a{color:var(--accent)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+img{max-width:100%}
+
+/* shell */
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;border-right:1px solid var(--line);padding:28px 18px;display:flex;flex-direction:column;gap:6px;background:var(--surface)}
+.brand{display:flex;align-items:center;gap:10px;margin:0 6px 26px;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+.brand b{font-family:var(--serif);font-weight:600;font-size:1.2rem;letter-spacing:.01em}
+.mark{display:grid;grid-template-columns:repeat(4,7px);grid-template-rows:repeat(2,7px);gap:2px}
+.mark i{display:block;border-radius:1.5px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{all:unset;cursor:pointer;padding:10px 12px;border-radius:8px;color:var(--muted);display:flex;align-items:center;gap:10px}
+.nav button:hover{color:var(--ink);background:var(--soft)}
+.nav button[aria-current="page"]{color:var(--ink);background:var(--soft);font-weight:500}
+.nav svg{width:18px;height:18px;flex:none}
+.side .who{margin-top:auto;font-size:.88rem;color:var(--muted);padding:0 8px}
+.side .who button{all:unset;cursor:pointer;color:var(--accent);margin-top:4px}
+main{padding:40px 40px 80px;min-width:0}
+.wrap{max-width:760px;margin:0 auto}
+.tabbar{display:none}
+
+@media (max-width:820px){
+  .app{grid-template-columns:1fr}
+  .side{display:none}
+  main{padding:22px 18px 110px}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:20;justify-content:space-around}
+  .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.7rem;color:var(--muted);padding:4px 6px;min-width:56px}
+  .tabbar button[aria-current="page"]{color:var(--accent)}
+  .tabbar svg{width:22px;height:22px}
+  h1{font-size:1.6rem}
+}
+
+/* elements */
+.lede{color:var(--muted);font-size:1.02rem;max-width:62ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;margin:0 0 16px}
+.panel.flat{background:transparent}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:620px){.grid2{grid-template-columns:1fr}}
+.btn{cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:10px 18px;border-radius:9px;font-weight:500}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.quiet{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn.small{padding:6px 12px;font-size:.9rem}
+.btn.danger{background:transparent;border-color:var(--warn);color:var(--warn)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+label.f{display:block;font-weight:500;margin:14px 0 6px}
+.hint{color:var(--muted);font-size:.9rem;margin:-2px 0 8px}
+input[type=text],input[type=password],input[type=date],input[type=time],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--paper)}
+textarea{min-height:92px;resize:vertical;line-height:1.5}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:.93rem}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{cursor:pointer;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px 14px}
+.opt[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.scale{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted)}
+.val{font-family:var(--serif);font-size:1.6rem}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:9px;font-size:.92rem;z-index:50;max-width:90vw}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:22px;color:var(--muted);text-align:center}
+
+/* signature strip */
+.strip{display:flex;height:6px;border-radius:3px;overflow:hidden;margin:0 0 22px}
+.strip i{flex:1}
+
+/* home */
+.hello{margin-bottom:26px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font-family:var(--serif);font-size:1.7rem;font-weight:500}
+.stat span{color:var(--muted);font-size:.86rem}
+.task{border-left:4px solid var(--sage)}
+.list{list-style:none;margin:0;padding:0}
+.list li{border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list button{all:unset;cursor:pointer;display:flex;justify-content:space-between;gap:12px;width:100%;padding:12px 2px;box-sizing:border-box}
+.list button:hover .t{color:var(--accent)}
+.list .d{color:var(--muted);font-size:.86rem;white-space:nowrap}
+.mini{display:inline-flex;gap:2px;vertical-align:middle}
+.mini i{width:10px;height:14px;border-radius:2px;display:block}
+
+/* wizard */
+.steps{display:flex;gap:4px;margin:0 0 18px}
+.steps i{flex:1;height:4px;border-radius:2px;background:var(--line)}
+.steps i.on{background:var(--accent)}
+.stepname{color:var(--muted);font-size:.9rem;margin-bottom:4px}
+.nextbar{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.practice{background:var(--soft);border-radius:12px;padding:18px;margin:12px 0}
+.practice ol{margin:.4em 0 0;padding-left:1.2em}
+.practice li{margin:.3em 0}
+.tabs{display:flex;gap:6px;margin:10px 0}
+
+/* colour test */
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:520px;margin:18px auto}
+.sw{aspect-ratio:1;border-radius:14px;border:0;cursor:pointer;transition:transform .12s}
+.sw:hover{transform:scale(1.03)}
+.sw.gone{visibility:hidden}
+.picked{display:flex;gap:6px;justify-content:center;min-height:30px;margin-top:6px}
+.picked i{width:26px;height:26px;border-radius:6px;display:block}
+.probe-count{text-align:center;color:var(--muted);font-size:.9rem}
+.order{display:flex;gap:4px;margin:8px 0}
+.order div{flex:1;text-align:center;font-size:.72rem;color:var(--muted)}
+.order div i{display:block;height:34px;border-radius:6px;margin-bottom:3px}
+.meter{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent)}
+.bars .b{display:grid;grid-template-columns:170px 1fr 36px;gap:10px;align-items:center;margin:7px 0;font-size:.92rem}
+@media (max-width:620px){.bars .b{grid-template-columns:110px 1fr 30px}}
+.bars .b.max .meter i{background:var(--warn)}
+table.t{width:100%;border-collapse:collapse;font-size:.92rem}
+table.t td,table.t th{padding:8px 6px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.scroll{overflow-x:auto}
+
+/* practices */
+details.m{border-top:1px solid var(--line);padding:12px 0}
+details.m summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.m summary::-webkit-details-marker{display:none}
+details.m summary .code{color:var(--muted);font-size:.86rem;white-space:nowrap}
+details.m[open] summary{margin-bottom:8px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;font-size:.94rem}
+@media (max-width:620px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+.timer{font-family:var(--serif);font-size:2.4rem;text-align:center;margin:8px 0}
+
+/* auth */
+.auth{max-width:440px;margin:8vh auto;padding:0 18px}
+.auth .strip{height:10px}
+.modal{position:fixed;inset:0;background:rgba(10,16,22,.45);display:flex;align-items:center;justify-content:center;z-index:60;padding:18px}
+.modal .panel{max-width:440px;width:100%;margin:0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+"use strict";
+const APP_VERSION="1.0";
+/* ---------- справочные данные (по материалам М. Е. Сандомирского) ---------- */
+const LUSCHER = {
+  0:{name:"Серый",hex:"#8B8B8B"},
+  1:{name:"Тёмно-синий",hex:"#1D3F8F"},
+  2:{name:"Сине-зелёный",hex:"#1F6B5A"},
+  3:{name:"Оранжево-красный",hex:"#E0442A"},
+  4:{name:"Жёлтый",hex:"#F2CC1B"},
+  5:{name:"Фиолетовый",hex:"#8B2F83"},
+  6:{name:"Коричневый",hex:"#7A4A22"},
+  7:{name:"Чёрный",hex:"#1A1A1A"}
+};
+const STRIP=[3,4,2,5,1,6,0,7];
+const NORM=[3,4,2,5,1,6,0,7]; // аутогенная норма
+const PLUS={
+  0:"желание отгородиться, взять паузу и ни во что не вовлекаться",
+  1:"потребность в покое, отдыхе и тёплой близости",
+  2:"стремление утвердиться, удержать ситуацию под контролем, получить признание",
+  3:"желание действовать и добиваться результата",
+  4:"надежда на перемены и поиск нового выхода",
+  5:"потребность в понимании, повышенная эмоциональная чувствительность",
+  6:"потребность в телесном комфорте, безопасности и отдыхе",
+  7:"протест против обстоятельств, желание что-то резко поменять"
+};
+const MINUS={
+  0:"готовность включаться в жизнь, не отгораживаться (это обычная позиция)",
+  1:"не хватает покоя и опоры в близких отношениях, отдохнуть не получается",
+  2:"усталость от необходимости постоянно доказывать и держать всё под контролем",
+  3:"сил на борьбу и напряжение сейчас мало, хочется его избегать",
+  4:"надежда ослабла, перемены кажутся недоступными",
+  5:"чувства сдерживаются, человек держится закрыто",
+  6:"телесные потребности отодвинуты на второй план",
+  7:"отказ от протеста и крайних решений (это обычная позиция)"
+};
+const PROBES={
+  quick:[
+    {t:"Состояние прямо сейчас",i:"Не думайте ни о чём конкретном. Просто заметьте, как вы себя чувствуете в эту минуту, и выбирайте цвета по одному — от самого приятного к наименее приятному."}
+  ],
+  full:[
+    {t:"Состояние прямо сейчас",i:"Не думайте ни о чём конкретном. Просто заметьте, как вы себя чувствуете в эту минуту, и выбирайте цвета по одному — от самого приятного к наименее приятному."},
+    {t:"Здоровье",i:"Подумайте о своём здоровье. Если есть телесный дискомфорт — где он, как ощущается? Побудьте с этим несколько секунд и из этого состояния снова выберите цвета."},
+    {t:"Семья и близкие",i:"Подумайте о том, что сейчас непросто в семье и близких отношениях. Можно проговорить это про себя или шёпотом. Когда состояние изменится, выбирайте цвета."},
+    {t:"Среда вокруг",i:"Подумайте обо всём, что влияет на вас снаружи: экология, дорога, быт, шум, пространство, в котором вы живёте и работаете. Затем выберите цвета."},
+    {t:"Работа и деловое взаимодействие",i:"Подумайте о работе: коллеги, партнёры, клиенты, организации и инстанции, с которыми приходится иметь дело. Затем выберите цвета."},
+    {t:"Общественный фон",i:"Подумайте о том, что происходит в обществе и новостях, и о том, как это отражается на ваших делах и планах. Затем выберите цвета."},
+    {t:"Опора и поддержка",i:"Подумайте, насколько вы чувствуете поддержку — от людей, сообщества, организаций. Есть ли, на кого опереться? Затем выберите цвета."}
+  ]
+};
+const MER={
+  P:{n:"Меридиан лёгких",time:"3:00–5:00",feel:"Сдержанная агрессия, напряжение, которому некуда деться; тревога с ощущением нехватки воздуха.",body:"Грудь и дыхание, горло, надключичная ямка, плечо; ночные пробуждения, потливость, кожные проявления.",move:"Рука вытянута вперёд. Поднимайте локоть вверх."},
+  GI:{n:"Меридиан толстого кишечника",time:"5:00–7:00",feel:"Желание избежать ситуации, увернуться от человека или обстоятельств.",body:"Сжатые челюсти, зубы, горло, напряжение шеи и затылка, суставы рук, кишечник, вздутие.",move:"Сидя на стуле с прямой спиной, уведите корпус в сторону — «увернуться». Дополнительно можно массировать точку «пасть льва» между большим и указательным пальцами."},
+  E:{n:"Меридиан желудка",time:"7:00–9:00",feel:"Гнев, злость, «не перевариваю» — человека или ситуацию.",body:"Верх живота, желудок, челюсти, лицо, голова, горло, межрёберье, колени.",move:"Прямая рука вытянута вперёд. Резкое движение по диагонали вверх — как «пощёчина»."},
+  RP:{n:"Меридиан селезёнки и поджелудочной железы",time:"9:00–11:00",feel:"Накопившееся раздражение, которое хочется выплеснуть: «Вот вам!»",body:"Область под ложечкой, подреберье, аппетит, сон, отёчность ног, внутренняя сторона ноги.",move:"Рука согнута в локте, локоть смотрит вперёд. Резко выпрямите руку — «Вот вам!»"},
+  C:{n:"Меридиан сердца",time:"11:00–13:00",feel:"«Глаза бы на это не смотрели», хочется махнуть рукой; тревога, гнев.",body:"Область сердца, ритм, головная боль, внутренняя сторона руки, беспокойство, память.",move:"Прямая рука перед собой ладонью вниз. Отмашка назад, за спину: «Прошло — и ладно»."},
+  IG:{n:"Меридиан тонкого кишечника",time:"13:00–15:00",feel:"Страх и тревога, от которых хочется убежать, уклониться, защититься.",body:"Низ живота и область пупка, лопатка, шея, затылок, лицо, слух.",move:"Сидя на стуле, увернитесь: наклон с поворотом, плечом к колену по диагонали."},
+  V:{n:"Меридиан мочевого пузыря",time:"15:00–17:00",feel:"Давление со стороны людей или обстоятельств.",body:"Поясница, позвоночник, таз, задняя поверхность ног, пятка, темя.",move:"Стоя спиной к стене, толкайте стену, как будто отодвигаете давление. Мягкий вариант — «кошка-корова»."},
+  R:{n:"Меридиан почек",time:"17:00–19:00",feel:"Ситуация давит и наваливается, хочется от неё уклониться; усталость, страхи.",body:"Поясница, отёки, давление, мочевыделение, уши, стопы; упадок сил.",move:"Уворачивайтесь, поднимая плечо к уху, — как будто уходите от того, что давит."},
+  MC:{n:"Меридиан перикарда",time:"19:00–21:00",feel:"Напряжение в близости и сексуальности, сердцебиение «на нервах», тревога.",body:"Грудная клетка, сердце, сосуды, малый таз, цикл.",move:"Сидя, нога на ногу («поза американца»). Поднимайте колено к животу."},
+  TR:{n:"Меридиан тройного обогревателя",time:"21:00–23:00",feel:"Готовность защищаться от любой агрессии.",body:"Вегетативные реакции, терморегуляция, шея, затылок, плечевой пояс, шум в ушах, приступы паники.",move:"Отбив рукой, как в боксе: кулак от центра наружу."},
+  VB:{n:"Меридиан желчного пузыря",time:"23:00–1:00",feel:"Агрессия и сопротивление агрессии, «едкое» раздражение.",body:"Висок, затылок, задняя часть шеи, мигрени, правый бок, горечь во рту.",move:"Прямая рука «семафором»: из положения вперёд — вверх."},
+  F:{n:"Меридиан печени",time:"1:00–3:00",feel:"Злость на себя, самокритика, нехватка любви к себе — в том числе в виде вредных привычек.",body:"Правое подреберье, глаза, голова, поясница, раздражительность.",move:"Представьте, что вас взяли под локоть («Гражданин, пройдёмте!»). Освободите руку, уводя её к корпусу и прочь от удерживающего."}
+};
+const MER_ORDER=["P","GI","E","RP","C","IG","V","R","MC","TR","VB","F"];
+const ZONES=[
+  ["head","Голова, лоб"],["eyes","Глаза"],["jaw","Челюсть, лицо"],["throat","Горло"],["neck","Шея, затылок"],
+  ["shoulders","Плечи"],["arms","Руки"],["chest","Грудь"],["upperback","Верх спины, лопатки"],["diaphragm","Диафрагма, верх живота"],
+  ["belly","Живот"],["lowback","Поясница"],["pelvis","Таз"],["legs","Ноги"],["feet","Стопы"]
+];
+const ZNAME=Object.fromEntries(ZONES);
+const ZONE_MER={head:["VB","E"],eyes:["F","VB"],jaw:["E","GI"],throat:["P","E"],neck:["GI","TR"],shoulders:["TR","IG"],arms:["GI","C"],chest:["P","C","MC"],upperback:["IG","V"],diaphragm:["E","RP"],belly:["GI","IG"],lowback:["V","R"],pelvis:["MC","V"],legs:["RP","V"],feet:["R"]};
+const AMPIR={
+  head:"Положите ладони на лоб. На вдохе поднимайте брови, ладони мягко мешают движению.",
+  eyes:"Закройте глаза. На вдохе поднимите взгляд вверх и слегка зажмурьтесь. На выдохе отпустите, дайте глазам опуститься и расслабиться.",
+  jaw:"Упритесь кулаком под подбородок. На вдохе пытайтесь открыть рот — кулак не даёт. На выдохе отпустите челюсть.",
+  throat:"Ладонь на лоб. На вдохе мягко давите головой вперёд, в ладонь, ладонь сопротивляется.",
+  neck:"Сцепите ладони на затылке. На вдохе давите головой назад, руки удерживают.",
+  shoulders:"Сидя, возьмитесь руками за сиденье стула. На вдохе тяните плечи к ушам — руки не пускают.",
+  arms:"Сцепите пальцы в замок перед грудью. На вдохе тяните руки в стороны, не расцепляя замок.",
+  chest:"Сложите ладони перед грудью. На вдохе давите ладонью в ладонь.",
+  upperback:"Сцепите руки в замок перед собой и тяните вперёд, округляя спину. Во втором подходе — наоборот, сводите лопатки.",
+  diaphragm:"Ладони на верхнюю часть живота. На вдохе надувайте живот навстречу лёгкому давлению ладоней. На выдохе мягко отпустите.",
+  belly:"Сидя, ладонь на колено. На вдохе поднимайте колено к животу, рука мешает.",
+  lowback:"Стоя спиной к стене, на вдохе прижимайте поясницу к стене. На выдохе отпустите.",
+  pelvis:"Сядьте нога на ногу. На вдохе тяните колено вверх, руками создавайте встречное сопротивление. Дополнительно — ритмично втягивать и отпускать мышцы тазового дна на счёт.",
+  legs:"«Крест-на-крест»: одна нога пытается разогнуться, другая ей мешает. Или сжимайте коленями подушку.",
+  feet:"Поднимайте большой палец стопы вверх, другой ногой слегка мешайте. Во втором подходе — давите пальцем вниз."
+};
+const SENS=["сжатие","тяжесть","ком","давление","жжение","холод","дрожь","пустота","боль","покалывание","скованность"];
+const EMO=[
+  {id:"anger",l:"Злость, «не перевариваю»",m:"E"},
+  {id:"burst",l:"Хочется выплеснуть, ответить: «Вот вам!»",m:"RP"},
+  {id:"avoid",l:"Хочется избежать, увернуться от человека или ситуации",m:"GI"},
+  {id:"fear",l:"Страх, тревога, хочется убежать",m:"IG"},
+  {id:"press",l:"На меня давят люди или обстоятельства",m:"V"},
+  {id:"burden",l:"Ситуация наваливается, хочется уклониться",m:"R"},
+  {id:"wave",l:"«Глаза бы не смотрели», хочется махнуть рукой",m:"C"},
+  {id:"defend",l:"Нужно защищаться, жду нападения",m:"TR"},
+  {id:"resist",l:"Раздражение, едкость, внутреннее сопротивление",m:"VB"},
+  {id:"self",l:"Злость на себя, самокритика",m:"F"},
+  {id:"breath",l:"Не хватает воздуха, сдерживаю агрессию",m:"P"},
+  {id:"close",l:"Напряжение в близости, сердце колотится",m:"MC"},
+  {id:"clamp",l:"Яркого чувства нет — скорее зажим, скованность",m:null}
+];
+const SPHERES=["Работа, лидерство","Семья","Отношения","Здоровье","Деньги","Самореализация","Другое"];
+const RELAX=["Кисти","Предплечья","Плечи","Стопы","Голени","Бёдра","Спина","Живот","Грудь","Шея","Лицо","Челюсть","Глаза","Язык"];
+
+/* ---------- утилиты ---------- */
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const DAY=864e5;
+const fmtD=t=>new Date(t).toLocaleDateString("ru-RU",{day:"numeric",month:"long"});
+const fmtDT=t=>new Date(t).toLocaleString("ru-RU",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
+const plural=(n,a,b,c)=>{const m=n%10,h=n%100;return (m===1&&h!==11)?a:(m>=2&&m<=4&&(h<10||h>=20))?b:c};
+function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.setAttribute("role","status");t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2600)}
+function mini(order){return `<span class="mini" aria-hidden="true">${order.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</span>`}
+function strip(h){return `<div class="strip" aria-hidden="true"${h?` style="height:${h}px"`:""}>${STRIP.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</div>`}
+async function sha(s){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))|0;return "x"+h}}
+function ask(msg,opts){opts=opts||{};return new Promise(res=>{
+  const m=document.createElement("div");m.className="modal";m.setAttribute("role","dialog");m.setAttribute("aria-modal","true");
+  m.innerHTML=`<div class="panel"><p>${esc(msg)}</p>${opts.input?`<textarea id="ask-in" placeholder="${esc(opts.placeholder||"")}"></textarea>`:""}<div class="row" style="margin-top:14px;justify-content:flex-end"><button class="btn quiet" data-k="no">Отмена</button><button class="btn ${opts.danger?"danger":""}" data-k="yes">${esc(opts.ok||"Да")}</button></div></div>`;
+  const done=v=>{m.remove();res(v)};
+  m.addEventListener("click",e=>{e.stopPropagation();const k=e.target.dataset&&e.target.dataset.k;if(k==="yes")done(opts.input?(m.querySelector("#ask-in").value||""):true);else if(k==="no"||e.target===m)done(opts.input?null:false)});
+  m.addEventListener("keydown",e=>{if(e.key==="Escape")done(opts.input?null:false)});
+  document.body.appendChild(m);(m.querySelector("#ask-in")||m.querySelector('[data-k="yes"]')).focus();
+})}
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
+
+/* ---------- анализ цветового выбора ---------- */
+function analyze(order){
+  const pos={};order.forEach((c,i)=>pos[c]=i+1);
+  let so=0;for(const c of order)so+=Math.abs(pos[c]-(NORM.indexOf(c)+1));
+  let anx=0;
+  for(const c of [1,2,3,4]){const p=pos[c];if(p===6)anx+=1;if(p===7)anx+=2;if(p===8)anx+=3}
+  for(const c of [0,6,7]){const p=pos[c];if(p===3)anx+=1;if(p===2)anx+=2;if(p===1)anx+=3}
+  const vk=(18-pos[3]-pos[4])/(18-pos[1]-pos[2]);
+  return {so,anx,vk:Math.round(vk*100)/100};
+}
+const soText=so=>so<=10?"эмоциональный фон ровный, благоприятный":so<=18?"умеренное напряжение":"выраженное напряжение";
+const anxText=a=>a===0?"тревога не выражена":a<=3?"небольшая тревога":a<=5?"заметная тревога":"выраженная тревога";
+const vkText=v=>v<0.9?"организм просит восстановления и покоя":v<=1.1?"баланс между активностью и отдыхом":"мобилизация, возбуждение, установка на действие";
+
+/* ---------- хранилище ---------- */
+const KINDS=["sessions","tests","notes"];
+const S={mode:null,userName:"",pid:null,db:null,uid:null,data:{sessions:[],tests:[],notes:[]},profile:{code:""},view:"home",param:null,wiz:null,ct:null,relax:null,diaryType:"episode"};
+
+const Store={
+  async load(){
+    if(S.mode==="cloud"){
+      const base=S.db.doc(`data/users/${S.uid}/profile`);
+      const [p,...cols]=await Promise.all([base.get(),...KINDS.map(k=>base.collection(k).get())]);
+      if(p.exists)S.profile=Object.assign({code:""},p.data());
+      KINDS.forEach((k,i)=>S.data[k]=cols[i].docs.map(d=>d.data()));
+    }else{
+      KINDS.forEach(k=>S.data[k]=LS.get(`tochka:${S.pid}:${k}`,[]));
+      S.profile=LS.get(`tochka:${S.pid}:profile`,{code:""});
+    }
+    KINDS.forEach(k=>S.data[k].sort((a,b)=>b.createdAt-a.createdAt));
+  },
+  async put(kind,obj){
+    const arr=S.data[kind];const i=arr.findIndex(x=>x.id===obj.id);
+    if(i>=0)arr[i]=obj;else arr.unshift(obj);
+    arr.sort((a,b)=>b.createdAt-a.createdAt);
+    try{
+      if(S.mode==="cloud")await S.db.doc(`data/users/${S.uid}/profile`).collection(kind).doc(obj.id).set(obj);
+      else if(!LS.set(`tochka:${S.pid}:${kind}`,arr))throw new Error("ls");
+    }catch(e){toast("Не удалось сохранить. Проверьте соединение и попробуйте ещё раз.")}
+  },
+  async del(kind,id){
+    S.data[kind]=S.data[kind].filter(x=>x.id!==id);
+    try{
+      if(S.mode==="cloud")await S.db.doc(`data/users/${S.uid}/profile`).collection(kind).doc(id).delete();
+      else LS.set(`tochka:${S.pid}:${kind}`,S.data[kind]);
+    }catch(e){toast("Не удалось удалить запись.")}
+  },
+  async saveProfile(){
+    try{
+      if(S.mode==="cloud")await S.db.doc(`data/users/${S.uid}/profile`).set(S.profile);
+      else LS.set(`tochka:${S.pid}:profile`,S.profile);
+    }catch(e){toast("Не удалось сохранить профиль.")}
+  },
+  async wipe(){
+    for(const k of KINDS)for(const x of [...S.data[k]])await Store.del(k,x.id);
+  }
+};
+
+/* ---------- иконки ---------- */
+const IC={
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg>',
+  wiz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>',
+  color:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
+  diary:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h11a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+  prac:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="5" r="2"/><path d="M12 7v7m0 0l-4 6m4-6l4 6M6 10l6-1 6 1"/></svg>'
+};
+const NAV=[["home","Кабинет","home"],["wizard","Разбор ситуации","wiz"],["color","Цветовой тест","color"],["diary","Дневник","diary"],["practices","Практики","prac"]];
+const NAVSHORT={home:"Кабинет",wizard:"Разбор",color:"Цвета",diary:"Дневник",practices:"Практики"};
+
+/* ---------- каркас ---------- */
+const root=document.getElementById("root");
+function go(view,param){S.view=view;S.param=param||null;render();window.scrollTo(0,0)}
+function navKey(){return S.view.startsWith("session")?"wizard":S.view.startsWith("test")?"color":S.view==="profile"?"home":S.view}
+function shell(inner){
+  const k=navKey();
+  return `<div class="app">
+  <aside class="side">
+    <button class="brand" data-go="home"><span class="mark">${STRIP.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</span><b>Точка опоры</b></button>
+    <nav class="nav" aria-label="Разделы">${NAV.map(([v,l,i])=>`<button data-go="${v}" ${k===v?'aria-current="page"':""}>${IC[i]}${l}</button>`).join("")}</nav>
+    <div class="who">${esc(S.userName||"Мой профиль")}<br><button data-go="profile">Профиль и данные</button></div>
+  </aside>
+  <main><div class="wrap">${inner}</div></main>
+  <nav class="tabbar" aria-label="Разделы">${NAV.map(([v,,i])=>`<button data-go="${v}" ${k===v?'aria-current="page"':""}>${IC[i]}${NAVSHORT[v]}</button>`).join("")}</nav>
+</div>`;
+}
+function render(){
+  if(!S.mode){root.innerHTML=S.mode===null&&S.booting?`<div class="auth">${strip(10)}<p class="muted">Загружаем…</p></div>`:authView();return}
+  const v=S.view;let html="";
+  if(v==="home")html=homeView();
+  else if(v==="wizard")html=wizView();
+  else if(v==="color")html=colorView();
+  else if(v==="diary")html=diaryView();
+  else if(v==="practices")html=practicesView();
+  else if(v==="session")html=sessionView(S.param);
+  else if(v==="test")html=testView(S.param);
+  else if(v==="profile")html=profileView();
+  root.innerHTML=shell(html);
+  if(v==="practices"&&S.relax)tickRelax(true);
+}
+
+/* ---------- вход (локальный режим) ---------- */
+function authView(){
+  const profs=LS.get("tochka:profiles",[]);
+  const reg=S.authReg||!profs.length;
+  return `<div class="auth">
+  ${strip(10)}
+  <h1>Точка опоры</h1>
+  <p class="lede">Помогает разобраться в трудной ситуации через тело и чувства: разбор с вопросами, цветовой тест, дневник самочувствия и практики саморегуляции.</p>
+  <div class="panel">
+  ${reg?`<h2>Создать профиль</h2>
+    <label class="f" for="a-name">Имя или псевдоним</label><input id="a-name" type="text" autocomplete="nickname" maxlength="40">
+    <label class="f" for="a-pin">PIN-код</label><p class="hint">От 4 до 8 цифр. Он защищает ваши записи на этом устройстве.</p>
+    <input id="a-pin" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password">
+    <label class="f" for="a-pin2">PIN ещё раз</label><input id="a-pin2" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password">
+    <div class="row" style="margin-top:18px"><button class="btn" data-a="register">Создать и войти</button>${profs.length?`<button class="btn quiet" data-a="toLogin">У меня есть профиль</button>`:""}</div>`
+  :`<h2>Вход</h2>
+    <label class="f" for="a-who">Профиль</label><select id="a-who">${profs.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("")}</select>
+    <label class="f" for="a-pin">PIN-код</label><input id="a-pin" type="password" inputmode="numeric" maxlength="8" autocomplete="current-password">
+    <div class="row" style="margin-top:18px"><button class="btn" data-a="login">Войти</button><button class="btn quiet" data-a="toReg">Новый профиль</button></div>`}
+  <p class="hint" id="a-err" style="color:var(--warn);margin-top:12px"></p>
+  </div>
+  <p class="small muted">Данные хранятся только на этом устройстве, в этом браузере. Версия ${APP_VERSION}.</p>
+</div>`;
+}
+async function doRegister(){
+  const name=document.getElementById("a-name").value.trim();
+  const pin=document.getElementById("a-pin").value.trim(),pin2=document.getElementById("a-pin2").value.trim();
+  const err=document.getElementById("a-err");
+  if(!name){err.textContent="Введите имя.";return}
+  if(!/^\d{4,8}$/.test(pin)){err.textContent="PIN — от 4 до 8 цифр.";return}
+  if(pin!==pin2){err.textContent="PIN-коды не совпадают.";return}
+  const profs=LS.get("tochka:profiles",[]);
+  const salt=uid();const p={id:uid(),name,salt,hash:await sha(salt+pin)};
+  profs.push(p);if(!LS.set("tochka:profiles",profs)){err.textContent="Браузер не даёт сохранить данные. Проверьте настройки приватности.";return}
+  await enterLocal(p);
+}
+async function doLogin(){
+  const id=document.getElementById("a-who").value,pin=document.getElementById("a-pin").value.trim();
+  const p=LS.get("tochka:profiles",[]).find(x=>x.id===id);const err=document.getElementById("a-err");
+  if(!p||await sha(p.salt+pin)!==p.hash){err.textContent="PIN не подходит.";return}
+  await enterLocal(p);
+}
+async function enterLocal(p){
+  S.mode="local";S.pid=p.id;S.userName=p.name;
+  try{sessionStorage.setItem("tochka:active",p.id)}catch(e){}
+  await Store.load();go("home");
+}
+function logout(){try{sessionStorage.removeItem("tochka:active")}catch(e){}S.mode=null;S.pid=null;S.authReg=false;render()}
+
+/* ---------- кабинет ---------- */
+function activeTask(){return S.data.sessions.find(s=>s.homework&&!s.homework.closed&&Date.now()-s.createdAt<15*DAY)}
+function homeView(){
+  const d=S.data,task=activeTask();
+  const name=S.userName?esc(S.userName.split(" ")[0]):"";
+  let h=`<div class="hello">${strip()}<h1>${name?`Здравствуйте, ${name}`:"Здравствуйте"}</h1>
+  <p class="lede">С чего начнём? Если что-то беспокоит — начните с разбора ситуации. Если хочется просто свериться с собой — пройдите цветовой тест.</p></div>`;
+  if(task){
+    const day=Math.min(14,Math.floor((Date.now()-task.createdAt)/DAY)+1);
+    const eps=d.notes.filter(n=>n.type==="episode"&&n.sessionId===task.id);
+    const today=eps.filter(n=>new Date(n.createdAt).toDateString()===new Date().toDateString()).length;
+    h+=`<section class="panel task"><div class="stepname">Домашнее задание · день ${day} из 14</div>
+    <h3>${esc(task.title)}</h3>
+    <p class="muted small">Практика: ${esc(practiceName(task))}. Повторяйте утром и вечером и каждый раз, когда замечаете знакомый дискомфорт.</p>
+    <p>Сегодня отмечено ${today} ${plural(today,"эпизод","эпизода","эпизодов")}, всего — ${eps.length}.</p>
+    <div class="row"><button class="btn" data-a="quickEp" data-id="${task.id}">Отметить эпизод</button><button class="btn quiet" data-go="session" data-id="${task.id}">Открыть разбор</button></div></section>`;
+  }
+  h+=`<div class="stats">
+    <div class="stat"><b>${d.sessions.length}</b><span>${plural(d.sessions.length,"разбор","разбора","разборов")}</span></div>
+    <div class="stat"><b>${d.tests.length}</b><span>${plural(d.tests.length,"тест","теста","тестов")}</span></div>
+    <div class="stat"><b>${d.notes.length}</b><span>${plural(d.notes.length,"запись","записи","записей")} в дневнике</span></div></div>`;
+  h+=`<div class="grid2">
+    <section class="panel"><h3>Разбор ситуации</h3><p class="muted small">Восемь коротких шагов: что происходит, где это в теле, какое чувство, практика, прошлый опыт и взгляд со стороны.</p><button class="btn" data-go="wizard" data-a="newWiz">Начать разбор</button></section>
+    <section class="panel"><h3>Цветовой тест</h3><p class="muted small">Выбор восьми цветов по порядку. Быстрый вариант — минута, полный — семь проб о разных сферах жизни.</p><button class="btn ghost" data-go="color">Пройти тест</button></section></div>`;
+  const recent=[...d.sessions.map(x=>({k:"session",x,t:x.title,sub:"Разбор"})),...d.tests.map(x=>({k:"test",x,t:x.mode==="full"?"Полный цветовой тест":"Быстрый цветовой тест",sub:mini(x.probes[0].order)}))].sort((a,b)=>b.x.createdAt-a.x.createdAt).slice(0,6);
+  h+=`<section class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">Последнее</h3><button class="btn quiet small" data-go="profile">Профиль и данные</button></div><div style="height:10px"></div>${recent.length?`<ul class="list">${recent.map(r=>`<li><button data-go="${r.k}" data-id="${r.x.id}"><span class="t">${esc(r.t)} <span class="muted small">${r.k==="test"?r.sub:""}</span></span><span class="d">${fmtD(r.x.createdAt)}</span></button></li>`).join("")}</ul>`:`<div class="empty">Здесь появятся ваши разборы и тесты.</div>`}</section>`;
+  return h;
+}
+
+/* ---------- разбор ситуации ---------- */
+const WSTEPS=["Ситуация","Как это проявляется","Тело","Чувство","Практика","Прошлый опыт","Взгляд со стороны","Итог"];
+function newWiz(){S.wiz={step:0,sphere:"",situation:"",details:"",goal:"",zones:[],sens:[],before:5,emotion:"",route:"",mer:"",zone:"",after:null,past:"",age:"",adult:"",observer:"",mine:"",options:"",step3:"",image:""}}
+function practiceName(w){return w.route==="mer"&&w.mer?MER[w.mer].n+" (разрядка)":w.zone?"работа с зажимом: "+ZNAME[w.zone].toLowerCase():"практика"}
+function field(key,label,hint,rows){const w=S.wiz;return `<label class="f" for="w-${key}">${label}</label>${hint?`<p class="hint">${hint}</p>`:""}${rows?`<textarea id="w-${key}" data-bind="${key}">${esc(w[key])}</textarea>`:`<input id="w-${key}" type="text" data-bind="${key}" value="${esc(w[key])}">`}`}
+function wizView(){
+  if(!S.wiz)newWiz();
+  const w=S.wiz,st=w.step;
+  let h=`<div class="steps" aria-hidden="true">${WSTEPS.map((_,i)=>`<i class="${i<=st?"on":""}"></i>`).join("")}</div>
+  <div class="stepname">Шаг ${st+1} из ${WSTEPS.length} · ${WSTEPS[st]}</div>`;
+  if(st===0){
+    h+=`<h1>Что сейчас происходит?</h1>
+    <p class="lede">Опишите задачу, которую пока не получается решить, — ту, где важную роль играют эмоции или самочувствие. Подробности не обязательны: достаточно того, что вы готовы назвать.</p>
+    <label class="f">Сфера</label><div class="chips">${SPHERES.map(s=>`<button class="chip" data-a="sphere" data-v="${esc(s)}" aria-pressed="${w.sphere===s}">${s}</button>`).join("")}</div>
+    ${field("situation","Ситуация","Например: «Не могу сказать руководителю, что перегружена».",1)}
+    <p class="small muted" style="margin-top:14px">Если сейчас очень тяжело или появляются мысли навредить себе — лучше сразу обратиться к специалисту или на линию психологической помощи.</p>`;
+  }else if(st===1){
+    h+=`<h1>Как это проявляется в жизни?</h1>
+    ${field("details","Вспомните недавний конкретный случай","Где вы были, кто был рядом, что было сказано или сделано?",1)}
+    ${field("goal","Как бы вы хотели, чтобы было?","Опишите желаемый результат своими словами — так, как если бы он уже наступил.",1)}`;
+  }else if(st===2){
+    h+=`<h1>Где это в теле?</h1>
+    <p class="lede">Вспомните ситуацию ярко, как будто она происходит сейчас. Прислушайтесь к телу: где появилось неприятное ощущение? Обычно оно находится, даже если сначала кажется, что его нет, — побудьте с ситуацией чуть дольше.</p>
+    <label class="f">Зоны</label><div class="chips">${ZONES.map(([k,l])=>`<button class="chip" data-a="zone" data-v="${k}" aria-pressed="${w.zones.includes(k)}">${l}</button>`).join("")}</div>
+    <label class="f">Какое это ощущение?</label><div class="chips">${SENS.map(s=>`<button class="chip" data-a="sens" data-v="${s}" aria-pressed="${w.sens.includes(s)}">${s}</button>`).join("")}</div>
+    <label class="f" for="w-before">Насколько оно сильное</label>
+    <div class="row" style="flex-wrap:nowrap"><input id="w-before" type="range" min="0" max="10" step="1" value="${w.before}" data-bind="before" data-num="1"><span class="val" id="v-before">${w.before}</span></div>
+    <div class="scale"><span>почти незаметно</span><span>очень сильно</span></div>`;
+  }else if(st===3){
+    h+=`<h1>Какое чувство ближе всего?</h1>
+    <p class="lede">Не нужно подбирать точное слово — выберите то, что откликается сильнее. От этого зависит, какую практику мы предложим.</p>
+    <div class="opts">${EMO.map(e=>`<button class="opt" data-a="emo" data-v="${e.id}" aria-pressed="${w.emotion===e.id}">${e.l}</button>`).join("")}</div>`;
+  }else if(st===4){
+    h+=practiceStep();
+  }else if(st===5){
+    h+=`<h1>Когда это было раньше?</h1>
+    <p class="lede">Снова заметьте ощущение в теле. Когда раньше в жизни вы чувствовали что-то похожее? Не ищите специально — позвольте воспоминанию прийти самому.</p>
+    ${field("past","Что тогда происходило?","",1)}
+    ${field("age","Сколько вам было лет?","",0)}
+    ${field("adult","Что бы вы сказали себе тогдашней?","Вы сегодняшняя — взрослая, у вас есть опыт и силы, которых тогда не было. Что было нужно той, маленькой? Что вы можете ей дать сейчас?",1)}`;
+  }else if(st===6){
+    h+=`<h1>Посмотрите со стороны</h1>
+    <p class="lede">Сделайте несколько спокойных вдохов и выдохов животом. Представьте, что смотрите на ситуацию как внимательный доброжелательный наблюдатель — немного издалека, без спешки.</p>
+    ${field("observer","Что видно со стороны?","Что делает каждый участник? Чего, возможно, хочет или боится другой человек?",1)}
+    ${field("mine","Что в этой ситуации зависит от меня?","",1)}
+    ${field("options","Какие есть варианты?","Назовите хотя бы три, даже самые неожиданные.",1)}
+    ${field("step3","Какой маленький шаг я сделаю в ближайшие три дня?","",0)}
+    ${field("image","Образ","Если, пока вы думали о ситуации, пришёл образ, цвет или картинка — запишите. Иногда подсказка приходит именно так.",0)}`;
+  }else{
+    h+=summaryStep();
+  }
+  h+=`<div class="nextbar">${st>0?`<button class="btn quiet" data-a="wprev">Назад</button>`:`<span></span>`}${st<7?`<button class="btn" data-a="wnext">${st===6?"К итогу":"Дальше"}</button>`:`<button class="btn" data-a="wsave">Сохранить и начать задание</button>`}</div>`;
+  return h;
+}
+function practiceStep(){
+  const w=S.wiz;
+  if(!w.route){const e=EMO.find(x=>x.id===w.emotion);if(e&&e.m){w.route="mer";w.mer=e.m}else{w.route="ampir"}}
+  if(!w.zone)w.zone=w.zones[0]||"neck";
+  const alt=[...new Set(w.zones.flatMap(z=>ZONE_MER[z]||[]))].filter(m=>m!==w.mer).slice(0,3);
+  let h=`<h1>Практика</h1>
+  <div class="tabs" role="group" aria-label="Тип практики"><button class="chip" data-a="route" data-v="mer" aria-pressed="${w.route==="mer"}">Разрядка через движение</button><button class="chip" data-a="route" data-v="ampir" aria-pressed="${w.route==="ampir"}">Работа с зажимом</button></div>`;
+  if(w.route==="mer"){
+    if(!w.mer)w.mer=alt[0]||"GI";
+    const m=MER[w.mer];
+    h+=`<p class="lede">Меридиональная эмоциональная разрядка: чувство, которое когда-то не нашло выхода, завершается простым движением. Это не гимнастика — важно держать в голове конкретного человека или ситуацию.</p>
+    <div class="practice"><h3>${m.n}</h3><p class="small muted">${esc(m.feel)}</p><p><b>Движение.</b> ${esc(m.move)}</p>
+    <ol><li>Сядьте удобно. Представьте человека или ситуацию, о которой вы писали, — как можно живее.</li>
+    <li>На вдохе напрягите мышцы, как будто что-то мешает движению: удерживайте себя сами, до пяти счётов.</li>
+    <li>На выдохе сделайте движение. Если хочется — добавьте слово шёпотом.</li>
+    <li>Повторите 3–5 раз. Между повторами замечайте, что происходит с ощущением в теле.</li></ol></div>
+    ${alt.length?`<p class="small muted">По телесным зонам также подходят: ${alt.map(a=>`<button class="chip" data-a="mer" data-v="${a}">${MER[a].n}</button>`).join(" ")}</p>`:""}`;
+  }else{
+    h+=`<p class="lede">Работа с мышечным зажимом по принципу АМПИР: вы сами создаёте напряжение и сами ему сопротивляетесь, а затем отпускаете. Лучшее расслабление мышцы наступает после напряжения.</p>
+    <label class="f">Зона</label><div class="chips">${(w.zones.length?w.zones:ZONES.map(z=>z[0])).map(k=>`<button class="chip" data-a="azone" data-v="${k}" aria-pressed="${w.zone===k}">${ZNAME[k]}</button>`).join("")}</div>
+    <div class="practice"><h3>${ZNAME[w.zone]}</h3><p>${esc(AMPIR[w.zone])}</p>
+    <ol><li>На вдохе — напряжение с сопротивлением, до пяти счётов.</li><li>На выдохе — отпустить, дать напряжению растаять.</li><li>Повторите несколько раз, до приятной усталости мышц.</li><li>Между повторами наблюдайте ощущения.</li></ol></div>`;
+  }
+  const a=w.after==null?w.before:w.after;
+  h+=`<label class="f" for="w-after">Как ощущение теперь?</label><p class="hint">Было: ${w.before} из 10.</p>
+  <div class="row" style="flex-wrap:nowrap"><input id="w-after" type="range" min="0" max="10" value="${a}" data-bind="after" data-num="1"><span class="val" id="v-after">${a}</span></div>
+  <div class="scale"><span>ушло</span><span>очень сильно</span></div>`;
+  return h;
+}
+function summaryStep(){
+  const w=S.wiz;const after=w.after==null?w.before:w.after;
+  return `<h1>Итог</h1>
+  <div class="panel"><p><b>Ситуация.</b> ${esc(w.situation)||"—"}</p>
+  ${w.goal?`<p><b>Желаемое.</b> ${esc(w.goal)}</p>`:""}
+  <p><b>В теле.</b> ${w.zones.map(z=>ZNAME[z].toLowerCase()).join(", ")||"—"}${w.sens.length?` (${w.sens.join(", ")})`:""}. Интенсивность: ${w.before} → ${after}.</p>
+  <p><b>Практика.</b> ${esc(practiceName(w))}</p>
+  ${w.step3?`<p><b>Шаг на три дня.</b> ${esc(w.step3)}</p>`:""}</div>
+  <div class="panel task"><h3>Домашнее задание на 1–2 недели</h3>
+  <ol><li>Выполняйте практику утром и вечером, вспоминая ощущения.</li>
+  <li>Замечайте, в каких ситуациях дня появляется знакомый дискомфорт. Каждый раз делайте практику 2–3 минуты и отмечайте эпизод в дневнике.</li>
+  <li>По вечерам можно слушать релаксацию из раздела «Практики».</li>
+  <li>Через неделю-две вернитесь к разбору: что изменилось, пришло ли новое понимание. И пройдите цветовой тест ещё раз, чтобы сравнить.</li></ol></div>
+  ${field("title","Короткое название разбора","Чтобы легко найти его потом.",0)}`;
+}
+async function saveWiz(){
+  const w=S.wiz;
+  const obj=Object.assign({},w,{id:uid(),createdAt:Date.now(),title:(w.title||w.situation||"Разбор").slice(0,80),after:w.after==null?w.before:w.after,homework:{closed:false}});
+  delete obj.step;
+  await Store.put("sessions",obj);S.wiz=null;toast("Разбор сохранён. Задание — в кабинете.");go("home");
+}
+function sessionView(id){
+  const s=S.data.sessions.find(x=>x.id===id);if(!s)return `<div class="empty">Разбор не найден.</div>`;
+  const eps=S.data.notes.filter(n=>n.type==="episode"&&n.sessionId===id);
+  const row=(l,v)=>v?`<dt>${l}</dt><dd>${esc(v)}</dd>`:"";
+  return `<button class="btn quiet small" data-go="home">Назад</button>
+  <h1 style="margin-top:16px">${esc(s.title)}</h1><p class="muted">${fmtDT(s.createdAt)}${s.sphere?" · "+esc(s.sphere):""}</p>
+  <div class="panel"><dl class="kv">
+  ${row("Ситуация",s.situation)}${row("Пример",s.details)}${row("Желаемое",s.goal)}
+  ${row("В теле",s.zones.map(z=>ZNAME[z]).join(", ")+(s.sens.length?" — "+s.sens.join(", "):""))}
+  ${row("Интенсивность",`${s.before} → ${s.after}`)}
+  ${row("Чувство",(EMO.find(e=>e.id===s.emotion)||{}).l)}${row("Практика",practiceName(s))}
+  ${row("Раньше",s.past)}${row("Возраст",s.age)}${row("Себе тогдашней",s.adult)}
+  ${row("Со стороны",s.observer)}${row("Зависит от меня",s.mine)}${row("Варианты",s.options)}${row("Шаг",s.step3)}${row("Образ",s.image)}
+  </dl></div>
+  ${s.route==="mer"&&MER[s.mer]?`<div class="practice"><b>${MER[s.mer].n}.</b> ${esc(MER[s.mer].move)}</div>`:s.zone?`<div class="practice"><b>${ZNAME[s.zone]}.</b> ${esc(AMPIR[s.zone])}</div>`:""}
+  <section class="panel"><h3>Эпизоды дискомфорта</h3>${eps.length?epChart(eps):`<p class="muted">Пока нет отмеченных эпизодов.</p>`}
+  <div class="row" style="margin-top:12px">${!s.homework.closed?`<button class="btn" data-a="quickEp" data-id="${s.id}">Отметить эпизод</button><button class="btn quiet" data-a="closeTask" data-id="${s.id}">Завершить задание</button>`:`<span class="muted small">Задание завершено${s.homework.reflection?": "+esc(s.homework.reflection):""}</span>`}</div></section>
+  <button class="btn danger small" data-a="delSession" data-id="${s.id}">Удалить разбор</button>`;
+}
+
+/* ---------- цветовой тест ---------- */
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function colorView(){
+  const ct=S.ct;
+  if(!ct){
+    const hist=S.data.tests;
+    return `${strip()}<h1>Цветовой тест</h1>
+    <p class="lede">Восемь цветов нужно выбрать по одному, начиная с того, что кажется самым приятным сейчас. Не связывайте цвет с одеждой или интерьером — просто «нравится — не нравится». Результат показывает эмоциональный фон и то, как он меняется, когда вы думаете о разных сферах жизни.</p>
+    <div class="grid2">
+      <section class="panel"><h3>Быстрый</h3><p class="muted small">Одна проба: состояние прямо сейчас. Около минуты.</p><button class="btn" data-a="ctStart" data-v="quick">Начать</button></section>
+      <section class="panel"><h3>Полный</h3><p class="muted small">Семь проб: самочувствие, здоровье, семья, среда, работа, общественный фон, поддержка. 5–7 минут.</p><button class="btn ghost" data-a="ctStart" data-v="full">Начать</button></section>
+    </div>
+    <section class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">История</h3>${hist.length?`<button class="btn quiet small" data-a="exportTests">Скачать для Excel (CSV)</button>`:""}</div>
+    ${hist.length?`<ul class="list">${hist.map(t=>{const a=t.probes[0].res;return `<li><button data-go="test" data-id="${t.id}"><span class="t">${mini(t.probes[0].order)} <span class="small">${t.mode==="full"?"полный":"быстрый"} · СО ${a.so}</span></span><span class="d">${fmtDT(t.createdAt)}</span></button></li>`}).join("")}</ul>`:`<div class="empty">Пройдите первый тест — он появится здесь.</div>`}</section>
+    <p class="small muted">Экспресс-оценка по методике цветовых выборов М. Люшера. Это не диагноз, а повод внимательнее посмотреть на своё состояние.</p>`;
+  }
+  const pr=PROBES[ct.mode][ct.idx];
+  if(!ct.started){
+    return `<div class="probe-count">Проба ${ct.idx+1} из ${PROBES[ct.mode].length}</div><h1 style="text-align:center;margin-top:8px">${pr.t}</h1>
+    <p class="lede" style="margin:0 auto 20px;text-align:center">${pr.i}</p>
+    <div class="row" style="justify-content:center"><button class="btn" data-a="ctGo">Выбирать цвета</button><button class="btn quiet" data-a="ctCancel">Отменить тест</button></div>`;
+  }
+  return `<div class="probe-count">Проба ${ct.idx+1} из ${PROBES[ct.mode].length} · ${pr.t}</div>
+  <p style="text-align:center;margin:6px 0 0">Выберите самый приятный из оставшихся цветов</p>
+  <div class="swatches">${ct.deck.map(c=>`<button class="sw ${ct.cur.includes(c)?"gone":""}" style="background:${LUSCHER[c].hex}" data-a="ctPick" data-v="${c}" aria-label="${LUSCHER[c].name}" ${ct.cur.includes(c)?'tabindex="-1" disabled':""}></button>`).join("")}</div>
+  <div class="picked" aria-label="Выбрано">${ct.cur.map(c=>`<i style="background:${LUSCHER[c].hex}"></i>`).join("")}</div>
+  <div class="row" style="justify-content:center;margin-top:16px">${ct.cur.length?`<button class="btn quiet small" data-a="ctUndo">Отменить последний</button>`:""}</div>`;
+}
+async function ctPick(c){
+  const ct=S.ct;if(ct.cur.includes(c))return;ct.cur.push(c);
+  if(ct.cur.length===8){
+    ct.results.push({title:PROBES[ct.mode][ct.idx].t,order:[...ct.cur],res:analyze(ct.cur)});
+    if(ct.idx+1<PROBES[ct.mode].length){ct.idx++;ct.started=false;ct.cur=[];ct.deck=shuffle([0,1,2,3,4,5,6,7])}
+    else{
+      const t={id:uid(),createdAt:Date.now(),mode:ct.mode,code:S.profile.code||"",probes:ct.results};
+      await Store.put("tests",t);S.ct=null;go("test",t.id);return;
+    }
+  }
+  render();
+}
+function orderRow(order){return `<div class="order">${order.map((c,i)=>`<div><i style="background:${LUSCHER[c].hex}"></i>${i+1}</div>`).join("")}</div>`}
+function testView(id){
+  const t=S.data.tests.find(x=>x.id===id);if(!t)return `<div class="empty">Тест не найден.</div>`;
+  const p0=t.probes[0],r=p0.res;
+  const plus=p0.order.slice(0,2),minus=p0.order.slice(6);
+  let h=`<button class="btn quiet small" data-go="color">Назад</button>
+  <h1 style="margin-top:16px">${t.mode==="full"?"Полный":"Быстрый"} цветовой тест</h1><p class="muted">${fmtDT(t.createdAt)}</p>
+  <section class="panel"><h3>${esc(p0.title)}</h3>${orderRow(p0.order)}
+  <div class="grid2" style="margin-top:14px">
+   <div><div class="small muted">Суммарное отклонение от нормы</div><div class="val">${r.so} <span class="small muted">из 32</span></div><div class="meter"><i style="width:${Math.min(100,r.so/32*100)}%"></i></div><p class="small">${soText(r.so)}</p></div>
+   <div><div class="small muted">Тревожность</div><div class="val">${r.anx} <span class="small muted">из 12</span></div><div class="meter"><i style="width:${r.anx/12*100}%"></i></div><p class="small">${anxText(r.anx)}</p></div>
+  </div>
+  <p class="small"><b>Вегетативный коэффициент ${r.vk}:</b> ${vkText(r.vk)}.</p>
+  <hr><p><b>На первом плане:</b> ${plus.map(c=>PLUS[c]).join("; ")}.</p>
+  <p><b>Отодвигается:</b> ${minus.map(c=>MINUS[c]).join("; ")}.</p></section>`;
+  if(t.probes.length>1){
+    const max=Math.max(...t.probes.slice(1).map(p=>p.res.so));
+    const worst=t.probes.slice(1).filter(p=>p.res.so===max).map(p=>"«"+p.title+"»");
+    h+=`<section class="panel"><h3>Как меняется состояние по сферам</h3>
+    <p class="small muted">Чем длиннее полоса, тем сильнее выбор отклоняется от спокойного состояния, когда вы думаете об этой сфере.</p>
+    <div class="bars">${t.probes.map(p=>`<div class="b ${p.res.so===max&&p!==p0?"max":""}"><span>${esc(p.title)}</span><div class="meter"><i style="width:${Math.min(100,p.res.so/32*100)}%"></i></div><span>${p.res.so}</span></div>`).join("")}</div>
+    <p style="margin-top:12px">Сильнее всего состояние меняется, когда вы думаете ${worst.length>1?"о сферах":"о сфере"} ${esc(worst.join(", "))}. С неё, возможно, стоит начать разбор ситуации.</p>
+    <div class="scroll"><table class="t"><tr><th>Проба</th><th>Порядок</th><th>СО</th><th>Трев.</th><th>ВК</th></tr>
+    ${t.probes.map(p=>`<tr><td>${esc(p.title)}</td><td>${mini(p.order)}</td><td>${p.res.so}</td><td>${p.res.anx}</td><td>${p.res.vk}</td></tr>`).join("")}</table></div></section>`;
+  }
+  const prev=S.data.tests.filter(x=>x.createdAt<t.createdAt)[0];
+  if(prev){const d=r.so-prev.probes[0].res.so;h+=`<p class="muted">По сравнению с тестом от ${fmtD(prev.createdAt)}: отклонение ${d<0?"уменьшилось на "+(-d):d>0?"выросло на "+d:"не изменилось"}.</p>`}
+  h+=`<div class="row"><button class="btn" data-go="wizard" data-a="newWiz">Разобрать ситуацию</button><button class="btn danger small" data-a="delTest" data-id="${t.id}">Удалить</button></div>`;
+  return h;
+}
+function testsCSV(){
+  const head=["Код","Дата","Тип","Проба","П1","П2","П3","П4","П5","П6","П7","П8","СО","Тревожность","ВК"];
+  const rows=[head];
+  [...S.data.tests].reverse().forEach(t=>t.probes.forEach(p=>rows.push([t.code||S.profile.code||"",new Date(t.createdAt).toLocaleString("ru-RU"),t.mode==="full"?"полный":"быстрый",p.title,...p.order,p.res.so,p.res.anx,String(p.res.vk).replace(".",",")])));
+  return "\uFEFF"+rows.map(r=>r.map(v=>{v=String(v);return /[;"\n]/.test(v)?`"${v.replace(/"/g,'""')}"`:v}).join(";")).join("\r\n");
+}
+async function download(name,data){
+  if(window.claude&&window.claude.use){
+    const dl=await window.claude.use("downloads");
+    if(!dl){toast("Скачивание недоступно в этом окне.");return}
+    try{await dl.save({filename:name,data})}catch(e){if(e&&e.code!=="declined")toast("Не удалось сохранить файл.")}
+    return;
+  }
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"text/plain;charset=utf-8"}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);
+}
+
+/* ---------- дневник ---------- */
+function epChart(eps){
+  const days=14,now=new Date();now.setHours(0,0,0,0);
+  const cnt=Array(days).fill(0);
+  eps.forEach(e=>{const d=new Date(e.createdAt);d.setHours(0,0,0,0);const i=days-1-Math.round((now-d)/DAY);if(i>=0&&i<days)cnt[i]++});
+  const mx=Math.max(3,...cnt),W=680,H=130,bw=W/days;
+  return `<div class="scroll"><svg viewBox="0 0 ${W} ${H+20}" width="100%" role="img" aria-label="Эпизоды за 14 дней">
+  ${cnt.map((c,i)=>`<rect x="${i*bw+4}" y="${H-c/mx*H}" width="${bw-8}" height="${c/mx*H}" rx="3" fill="var(--sage)"/>${c?`<text x="${i*bw+bw/2}" y="${H-c/mx*H-4}" font-size="13" text-anchor="middle" fill="var(--muted)">${c}</text>`:""}`).join("")}
+  <line x1="0" x2="${W}" y1="${H}" y2="${H}" stroke="var(--line)"/>
+  <text x="2" y="${H+15}" font-size="13" fill="var(--muted)">14 дней назад</text><text x="${W-2}" y="${H+15}" font-size="13" fill="var(--muted)" text-anchor="end">сегодня</text></svg></div>`;
+}
+function wbChart(notes){
+  const days=14,now=new Date();now.setHours(0,0,0,0);
+  const sum=Array(days).fill(0),n=Array(days).fill(0);
+  notes.forEach(e=>{if(e.wellbeing==null)return;const d=new Date(e.createdAt);d.setHours(0,0,0,0);const i=days-1-Math.round((now-d)/DAY);if(i>=0&&i<days){sum[i]+=e.wellbeing;n[i]++}});
+  const W=680,H=130,bw=W/days;
+  const pts=sum.map((s,i)=>n[i]?[i*bw+bw/2,H-(s/n[i])/10*H]:null);
+  const path=pts.filter(Boolean).map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+  return `<div class="scroll"><svg viewBox="0 0 ${W} ${H+20}" width="100%" role="img" aria-label="Самочувствие за 14 дней">
+  <line x1="0" x2="${W}" y1="${H/2}" y2="${H/2}" stroke="var(--line)" stroke-dasharray="3 4"/><line x1="0" x2="${W}" y1="${H}" y2="${H}" stroke="var(--line)"/>
+  ${path?`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2"/>`:""}
+  ${pts.map(p=>p?`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--accent)"/>`:"").join("")}
+  <text x="2" y="${H+15}" font-size="13" fill="var(--muted)">14 дней назад</text><text x="${W-2}" y="${H+15}" font-size="13" fill="var(--muted)" text-anchor="end">сегодня</text></svg></div>`;
+}
+function diaryView(){
+  const t=S.diaryType,task=activeTask(),notes=S.data.notes;
+  const df=S.df||(S.df={zones:[],wellbeing:6,before:5,after:3,done:true});
+  let h=`${strip()}<h1>Дневник самочувствия</h1>
+  <p class="lede">Отмечайте, как вы себя чувствуете, и каждый эпизод знакомого дискомфорта. Через неделю-две станет видно, как часто он появляется и что помогает.</p>
+  <section class="panel">
+  <div class="tabs" role="group" aria-label="Тип записи"><button class="chip" data-a="dtype" data-v="episode" aria-pressed="${t==="episode"}">Эпизод дискомфорта</button><button class="chip" data-a="dtype" data-v="day" aria-pressed="${t==="day"}">Самочувствие</button></div>`;
+  if(t==="episode"){
+    h+=`${task?`<p class="small muted">Привяжется к заданию «${esc(task.title)}».</p>`:""}
+    <label class="f">Где в теле</label><div class="chips">${ZONES.map(([k,l])=>`<button class="chip" data-a="dzone" data-v="${k}" aria-pressed="${df.zones.includes(k)}">${l}</button>`).join("")}</div>
+    <label class="f" for="d-sit">В какой ситуации</label><input id="d-sit" type="text" placeholder="Например: разговор с начальником">
+    <div class="grid2"><div><label class="f" for="d-before">Сила до практики: <span id="v-dbefore">${df.before}</span></label><input id="d-before" type="range" min="0" max="10" value="${df.before}" data-dbind="before"></div>
+    <div><label class="f" for="d-after">После: <span id="v-dafter">${df.after}</span></label><input id="d-after" type="range" min="0" max="10" value="${df.after}" data-dbind="after"></div></div>
+    <label class="row" style="margin-top:12px;gap:8px"><input type="checkbox" id="d-done" ${df.done?"checked":""}> Сделала практику</label>`;
+  }else{
+    h+=`<label class="f" for="d-wb">Общее самочувствие: <span id="v-dwb">${df.wellbeing}</span> из 10</label><input id="d-wb" type="range" min="1" max="10" value="${df.wellbeing}" data-dbind="wellbeing">
+    <div class="scale"><span>очень плохо</span><span>отлично</span></div>
+    <label class="f">Что беспокоит в теле</label><div class="chips">${ZONES.map(([k,l])=>`<button class="chip" data-a="dzone" data-v="${k}" aria-pressed="${df.zones.includes(k)}">${l}</button>`).join("")}</div>
+    <label class="f" for="d-sleep">Сон, питание, нагрузка</label><input id="d-sleep" type="text" placeholder="Например: спала 6 часов, много встреч">`;
+  }
+  h+=`<label class="f" for="d-text">Заметка</label><textarea id="d-text" placeholder="Что заметили, что помогло, какие мысли пришли"></textarea>
+  <div class="row" style="margin-top:14px"><button class="btn" data-a="saveNote">Сохранить запись</button></div></section>`;
+  const eps=notes.filter(n=>n.type==="episode");
+  h+=`<div><section class="panel"><h3>Эпизоды за 14 дней</h3>${eps.length?epChart(eps):`<p class="muted small">Пока нет данных.</p>`}</section>
+  <section class="panel"><h3>Самочувствие</h3>${notes.some(n=>n.wellbeing!=null)?wbChart(notes):`<p class="muted small">Пока нет данных.</p>`}</section></div>`;
+  h+=`<section class="panel"><h3>Записи</h3>${notes.length?`<ul class="list">${notes.slice(0,60).map(n=>`<li><div style="display:flex;justify-content:space-between;gap:12px;padding:12px 2px"><div><b>${n.type==="episode"?`Эпизод ${n.before}→${n.after}`:`Самочувствие ${n.wellbeing}/10`}</b>${n.zones&&n.zones.length?` <span class="muted small">· ${n.zones.map(z=>ZNAME[z].toLowerCase()).join(", ")}</span>`:""}
+    ${n.situation||n.sleep?`<div class="small">${esc(n.situation||n.sleep)}</div>`:""}${n.text?`<div class="small muted">${esc(n.text)}</div>`:""}</div>
+    <div style="text-align:right"><div class="d muted small">${fmtDT(n.createdAt)}</div><button class="btn quiet small" style="margin-top:6px" data-a="delNote" data-id="${n.id}" aria-label="Удалить запись">Удалить</button></div></div></li>`).join("")}</ul>`:`<div class="empty">Первая запись появится здесь.</div>`}
+  <p class="small muted" style="margin-top:12px">Дневник не заменяет врача. Если симптом новый, острый или усиливается — сначала обратитесь за медицинской помощью.</p></section>`;
+  return h;
+}
+async function saveNote(){
+  const df=S.df,t=S.diaryType,task=activeTask();
+  const v=id=>{const el=document.getElementById(id);return el?el.value.trim():""};
+  const n={id:uid(),createdAt:Date.now(),type:t,zones:[...df.zones],text:v("d-text")};
+  if(t==="episode"){Object.assign(n,{situation:v("d-sit"),before:+df.before,after:+df.after,done:document.getElementById("d-done").checked,sessionId:task?task.id:null})}
+  else Object.assign(n,{wellbeing:+df.wellbeing,sleep:v("d-sleep")});
+  await Store.put("notes",n);S.df=null;toast("Запись сохранена.");render();
+}
+
+/* ---------- практики ---------- */
+function practicesView(){
+  const r=S.relax;
+  let h=`${strip()}<h1>Практики</h1>
+  <p class="lede">Короткие упражнения для самостоятельной работы. Их можно делать каждый день и в моменты, когда накрывает.</p>
+  <section class="panel"><h3>Прогрессивная релаксация</h3>
+  <p class="muted small">Последовательно напрягайте и отпускайте группы мышц. Тело вспоминает, что такое «расслаблено». 14 групп, около пяти минут.</p>`;
+  if(r){
+    const g=RELAX[r.i];
+    h+=`<div class="practice" aria-live="polite"><div class="stepname">${r.i+1} из ${RELAX.length}</div><h3>${g}</h3><p id="rx-phase">${r.phase==="tense"?"Вдох. Напрягите мышцы, удерживайте…":"Выдох. Отпустите. Заметьте, как уходит напряжение."}</p><div class="timer" id="rx-t">${r.left}</div></div>
+    <button class="btn quiet" data-a="relaxStop">Остановить</button>`;
+  }else h+=`<button class="btn" data-a="relaxStart">Начать</button>`;
+  h+=`</section>
+  <section class="panel"><h3>Брюшное дыхание</h3><p>Положите ладонь на живот. На вдохе живот мягко поднимается навстречу ладони, на выдохе опускается. Выдох чуть длиннее вдоха. 3–5 минут. Помогает при тревоге и перед сложным разговором.</p></section>
+  <section class="panel"><h3>Спонтанный цвет</h3><p>Закройте глаза и расслабьтесь. Представьте, что закрытые глаза — тёмный экран. Подождите, пока на нём появится цветное пятно, и дайте ему заполнить весь экран. Какой это цвет? Что при этом чувствует тело? Заметьте, как дыхание меняет яркость. Затем «сотрите» цвет, как влажной тканью, до чистого экрана. Приятный цвет можно запомнить и вызывать потом для саморегуляции.</p></section>
+  <section class="panel"><h3>Взгляд со стороны</h3><p>Войдите в спокойное состояние через дыхание. Подумайте о волнующей ситуации так, будто наблюдаете её издалека, без спешки и без привязки к результату. Подождите: из глубины может прийти образ — неожиданный, даже непонятный. Запомните его и подумайте о нём потом, уже в обычном состоянии.</p></section>
+  <section class="panel"><h3>Меридиональная эмоциональная разрядка</h3>
+  <p class="muted small">Каждое движение связано с определённым чувством и зоной тела. Представьте конкретного человека или ситуацию; на вдохе — напряжение, будто движению что-то мешает; на выдохе — движение. 3–5 повторов.</p>
+  ${MER_ORDER.map(k=>{const m=MER[k];return `<details class="m"><summary><span>${m.n}</span><span class="code">${k} · ${m.time}</span></summary><dl class="kv"><dt>Чувства</dt><dd>${esc(m.feel)}</dd><dt>Тело</dt><dd>${esc(m.body)}</dd><dt>Движение</dt><dd>${esc(m.move)}</dd></dl></details>`}).join("")}
+  </section>
+  <section class="panel"><h3>Работа с мышечными зажимами (АМПИР)</h3>
+  <p class="muted small">На вдохе — напряжение с собственным сопротивлением до пяти счётов, на выдохе — отпустить. Несколько повторов. Между ними спросите себя: когда раньше были похожие ощущения? Сколько мне было лет? Что происходило?</p>
+  ${ZONES.map(([k,l])=>`<details class="m"><summary><span>${l}</span></summary><p>${esc(AMPIR[k])}</p></details>`).join("")}
+  </section>
+  <p class="small muted">Методическая основа: М. Е. Сандомирский — «Психосоматика и телесная психотерапия. Практическое руководство», «Психокоррекция и личностный рост: телесно-интегративный подход», «Интегративный психосоматический коучинг». Практики не заменяют медицинскую помощь.</p>`;
+  return h;
+}
+let rxTimer=null;
+function relaxStart(){S.relax={i:0,phase:"tense",left:5};render()}
+function relaxStop(){clearInterval(rxTimer);rxTimer=null;S.relax=null;render()}
+function tickRelax(fresh){
+  if(rxTimer&&fresh)return;clearInterval(rxTimer);
+  rxTimer=setInterval(()=>{
+    const r=S.relax;if(!r||S.view!=="practices"){clearInterval(rxTimer);rxTimer=null;return}
+    r.left--;
+    if(r.left<=0){
+      if(r.phase==="tense"){r.phase="relax";r.left=12}
+      else if(r.i+1<RELAX.length){r.i++;r.phase="tense";r.left=5}
+      else{clearInterval(rxTimer);rxTimer=null;S.relax=null;toast("Релаксация завершена. Побудьте в этом состоянии ещё немного.");render();return}
+      clearInterval(rxTimer);rxTimer=null;render();return;
+    }
+    const el=document.getElementById("rx-t");if(el)el.textContent=r.left;
+  },1000);
+}
+
+/* ---------- профиль ---------- */
+function profileView(){
+  return `${strip()}<h1>Профиль и данные</h1>
+  <section class="panel"><h3>${esc(S.userName||"Ваш профиль")}</h3>
+  <p class="muted small">${S.mode==="cloud"?"Вы вошли через аккаунт Claude. Ваши записи видны только вам — даже владелец приложения их не видит.":"Локальный профиль: данные хранятся только в этом браузере."}</p>
+  ${S.mode==="local"?`<button class="btn quiet" data-a="logout">Выйти</button>`:""}</section>
+  <section class="panel"><h3>Код участника</h3><p class="muted small">Если вы проходите тесты в рамках исследования, введите выданный код. Он попадёт в выгрузку вместо имени.</p>
+  <div class="row" style="flex-wrap:nowrap"><input type="text" id="p-code" value="${esc(S.profile.code)}" maxlength="30"><button class="btn" data-a="saveCode">Сохранить</button></div></section>
+  <section class="panel"><h3>Мои данные</h3>
+  <div class="row"><button class="btn quiet" data-a="exportAll">Скачать всё (JSON)</button><button class="btn quiet" data-a="exportTests" ${S.data.tests.length?"":"disabled"}>Тесты для Excel (CSV)</button></div>
+  <hr><button class="btn danger" data-a="wipe">Удалить все мои записи</button></section>
+  <section class="panel flat"><h3>О приложении</h3><p class="small">«Точка опоры» помогает посмотреть на трудную ситуацию с другой стороны, опираясь на психосоматический и коучинговый подход: связь чувства и телесного ощущения, работа с зажимами, меридиональная эмоциональная разрядка, обращение к раннему опыту и взгляд взрослой части личности.</p>
+  <p class="small muted">Версия ${APP_VERSION}.</p><p class="small muted">Приложение — инструмент самопомощи, а не медицинская услуга. При острых или новых симптомах обратитесь к врачу. Если тяжело справиться самостоятельно — к психологу или психотерапевту.</p></section>`;
+}
+
+/* ---------- события ---------- */
+document.addEventListener("click",async e=>{
+  if(e.target.closest(".modal"))return;
+  const b=e.target.closest("[data-go],[data-a]");if(!b)return;
+  const a=b.dataset.a,v=b.dataset.v,id=b.dataset.id;
+  if(a==="newWiz")newWiz();
+  if(b.dataset.go){go(b.dataset.go,id);return}
+  const w=S.wiz;
+  switch(a){
+    case "register":return doRegister();
+    case "login":return doLogin();
+    case "toLogin":S.authReg=false;return render();
+    case "toReg":S.authReg=true;return render();
+    case "logout":return logout();
+    case "sphere":w.sphere=w.sphere===v?"":v;return render();
+    case "zone":w.zones=w.zones.includes(v)?w.zones.filter(x=>x!==v):[...w.zones,v];w.zone="";return render();
+    case "sens":w.sens=w.sens.includes(v)?w.sens.filter(x=>x!==v):[...w.sens,v];return render();
+    case "emo":w.emotion=v;w.route="";w.mer="";return render();
+    case "route":w.route=v;return render();
+    case "mer":w.mer=v;w.route="mer";return render();
+    case "azone":w.zone=v;return render();
+    case "wnext":
+      if(w.step===0&&!w.situation.trim()){toast("Опишите ситуацию хотя бы одной фразой.");return}
+      if(w.step===3&&!w.emotion){toast("Выберите вариант, который ближе.");return}
+      w.step++;render();window.scrollTo(0,0);return;
+    case "wprev":w.step--;render();window.scrollTo(0,0);return;
+    case "wsave":return saveWiz();
+    case "ctStart":S.ct={mode:v,idx:0,started:false,cur:[],deck:shuffle([0,1,2,3,4,5,6,7]),results:[]};return render();
+    case "ctGo":S.ct.started=true;return render();
+    case "ctCancel":S.ct=null;return render();
+    case "ctPick":return ctPick(+v);
+    case "ctUndo":S.ct.cur.pop();return render();
+    case "exportTests":return download(`tochka-tests-${new Date().toISOString().slice(0,10)}.csv`,testsCSV());
+    case "exportAll":return download(`tochka-data-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify({profile:S.profile,...S.data},null,2));
+    case "delTest":if(await ask("Удалить этот тест?",{ok:"Удалить",danger:1})){await Store.del("tests",id);go("color")}return;
+    case "delSession":if(await ask("Удалить разбор? Отмеченные эпизоды останутся в дневнике.",{ok:"Удалить",danger:1})){await Store.del("sessions",id);go("home")}return;
+    case "closeTask":{const s=S.data.sessions.find(x=>x.id===id);const refl=await ask("Что изменилось за это время? Пришло ли новое понимание?",{input:1,ok:"Завершить задание",placeholder:"Например: дискомфорт стал реже, поняла, что…"});if(refl===null)return;s.homework={closed:true,closedAt:Date.now(),reflection:refl.trim()};await Store.put("sessions",s);toast("Задание завершено. Пройдите цветовой тест ещё раз, чтобы сравнить.");return go("color")}
+    case "quickEp":S.diaryType="episode";{const s=S.data.sessions.find(x=>x.id===id);S.df={zones:s?[...s.zones]:[],wellbeing:6,before:s?s.before:5,after:3,done:true}}return go("diary");
+    case "dtype":S.diaryType=v;return render();
+    case "dzone":{const df=S.df;df.zones=df.zones.includes(v)?df.zones.filter(x=>x!==v):[...df.zones,v];const keep=captureDiary();render();restoreDiary(keep);return}
+    case "saveNote":return saveNote();
+    case "delNote":if(await ask("Удалить запись?",{ok:"Удалить",danger:1})){await Store.del("notes",id);render()}return;
+    case "relaxStart":return relaxStart();
+    case "relaxStop":return relaxStop();
+    case "saveCode":S.profile.code=document.getElementById("p-code").value.trim();await Store.saveProfile();return toast("Код сохранён.");
+    case "wipe":if(await ask("Удалить все разборы, тесты и записи дневника? Это действие нельзя отменить.",{ok:"Удалить всё",danger:1})){await Store.wipe();toast("Все записи удалены.");go("home")}return;
+  }
+});
+function captureDiary(){const o={};["d-sit","d-text","d-sleep"].forEach(k=>{const el=document.getElementById(k);if(el)o[k]=el.value});const c=document.getElementById("d-done");if(c)o.done=c.checked;return o}
+function restoreDiary(o){for(const k in o){const el=document.getElementById(k);if(!el)continue;if(k==="done")el.checked=o[k];else el.value=o[k]}}
+document.addEventListener("input",e=>{
+  const el=e.target;
+  if(el.dataset.bind&&S.wiz){const k=el.dataset.bind;S.wiz[k]=el.dataset.num?+el.value:el.value;const o=document.getElementById("v-"+k);if(o)o.textContent=el.value}
+  if(el.dataset.dbind&&S.df){const k=el.dataset.dbind;S.df[k]=+el.value;const o=document.getElementById({before:"v-dbefore",after:"v-dafter",wellbeing:"v-dwb"}[k]);if(o)o.textContent=el.value}
+  if(el.id==="d-done"&&S.df)S.df.done=el.checked;
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&!S.mode&&e.target.tagName==="INPUT"){const b=document.querySelector('[data-a="login"],[data-a="register"]');if(b)b.click()}
+});
+
+/* ---------- запуск ---------- */
+async function boot(){
+  S.booting=true;render();
+  let db=null,user=null;
+  if(window.claude&&typeof window.claude.use==="function"){
+    try{[db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")])}catch(e){}
+  }
+  if(db&&user){
+    const me=await user.me();
+    if(me&&me.id){
+      S.mode="cloud";S.db=db;S.uid=me.id;S.userName=me.name||"";
+      try{await Store.load()}catch(e){toast("Не удалось загрузить записи. Обновите страницу.")}
+      S.booting=false;render();return;
+    }
+  }
+  S.booting=false;
+  let act=null;try{act=sessionStorage.getItem("tochka:active")}catch(e){}
+  const p=act&&LS.get("tochka:profiles",[]).find(x=>x.id===act);
+  if(p){await enterLocal(p);return}
+  render();
+}
+boot();
+</script>
+</body>
+</html>
